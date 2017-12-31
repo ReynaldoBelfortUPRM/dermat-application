@@ -44,20 +44,54 @@ var ipmInput = null;
 class App extends Component {
 	constructor(props){
 		super(props);
+
 		this.state = {
-			imgInputPaths: []
+			currentScreenIdx: 2,
+			imgInputPaths: [],
 		};
 	}
 
+	showInProgressScreen(){
+
+	}
+
+	showResultsScreen(ipmOutputData){
+		//Image Processing Algorithm has finished. Show ResultsScreen
+		
+		//Change the screen
+	}
+
 	render (){
+
+		var currentScreen = null;
+
+		switch(this.state.currentScreenIdx){
+			case 0: //Image Input Screen
+				currentScreen = (<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} />);
+				break;
+			case 1: //In Progress Screen
+				currentScreen = (<InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} />);
+				break;
+			case 2: //Results Screen
+				currentScreen = (<ResultsScreen analysisData={ ipmOutputDummy } inputData = { ipmInputDummy } />)
+				break;
+		}
+
 		return (
-			// <ImageInputScreen onRef= { ref => this.inputScreenChild = ref} />
-			// <InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} />
-			 <ResultsScreen analysisData={ ipmOutputDummy } inputData = { ipmInputDummy } />
+			<div>
+				{currentScreen}
+			</div>
 		);
+
+		// return (
+		// 	<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} />
+		// 	// <InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} />
+		// 	 // <ResultsScreen analysisData={ ipmOutputDummy } inputData = { ipmInputDummy } />
+		// );
 	}
 
 }
+
 
 /******************************************
  	Inter-process communication listeners
