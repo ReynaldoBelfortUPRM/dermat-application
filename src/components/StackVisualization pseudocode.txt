@@ -1,0 +1,26 @@
+
+//Pseudocode:
+
+//Load data: 
+	//recieve ipmResults data from props
+//Format:
+	//Obtain yScale for the (position & height) data visualization channels
+		//Obtain max depth of the RCM stack (domain)
+		//Obtain screen height dimensions (range)
+		//Get scale
+//Define visualization rendering (via enter)
+	//Set-up SVG container
+	//For each element in ipmResults.layerInfo
+		//Define rectangle 
+		//Set-up rectangle position 
+			//X position
+			//Y position
+		//Set-up rectangle height
+		//Set-up width
+		//Set-up rectangle styles
+			//Border stroke
+			//Fill color - orange
+		//------
+		//Set-up thickness label
+		//Set-up layer name label
+		//Register onClick event handler

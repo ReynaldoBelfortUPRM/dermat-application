@@ -1,0 +1,25 @@
+<!--        Entry point for DermAT's ReactJS application      -->
+<!-- This page serves as the entry point for loading the necesarry JS scritps
+     to execute the ReactJS application and render all the screens  -->
+
+<!-- Author: Reynaldo Belfort Pierrilus -->
+<!-- University of Puerto Rico - Mayagüez -->
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+  </head>
+
+  <body>
+  	<!-- Entry point for rendering ReactJS screens -->
+    <div class="react-container"></div>
+  </body>
+
+  <!-- These scripts allows the ReactJS application to be rendered from bundle.js, the app's compiled code. -->
+  <script src="http://localhost:8080/webpack-dev-server.js"></script>
+  <script src="http://localhost:8080/built/bundle.js"></script>
+</html>

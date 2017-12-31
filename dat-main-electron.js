@@ -1,0 +1,145 @@
+			/******************************************
+			 		DermAT's Electron Main Process 
+			*******************************************/
+// Author: Reynaldo Belfort Pierrilus, Computer Engineering Undergraduate
+// University of Puerto Rico - Mayagüez
+
+//FIND ALL 'TODO' TAGS AND DELETE THEM IF NOT NEEDED
+
+//Terminology:
+//IPM - Image Processing Module
+//IPA - Image Processing Algorithm
+
+//Require necessary libraries and classes
+const {app, BrowserWindow, globalShortcut} = require('electron');
+const path = require('path');
+const url = require('url');
+
+//For interaction with the Renderer process
+const ipc = require('electron').ipcMain;
+const dialog = require('electron').dialog;
+
+//Define application window
+let win;
+
+/*********************************
+ 	Electron application events
+**********************************/
+
+//Executes when Electron has finished initializing and it's ready to create BrowserWindows
+app.on('ready', createWindows);
+
+
+// Quit application when all windows are closed.
+app.on('window-all-closed', () => {
+	if (process.platform !== 'darwin') {
+		app.quit();
+	}
+});
+
+//TODO Function used for debugging purposes
+app.on('browser-window-focus', (event, window) => {
+	console.log('APP-DEBUG: focused window ID:' + window.id); 
+});
+
+/******************************************
+ 	Inter-process communication listeners
+*******************************************/
+// These functions are defined for interaction with the app's renderer process
+
+//Executes the command for opening the OS's OpenFile dialog. Returns back an array of paths selected by the user
+ipc.on('open-file-dialog', (event) => {
+	 dialog.showOpenDialog({
+	    properties: ['openFile', 'multiSelections'],
+	    filters: [
+		    {name: 'RCM Images', extensions: ['png']},
+		  ]
+	  }, 
+	  function (filePaths) {
+		    if (filePaths){
+		    	event.sender.send('selected-images', filePaths);	
+		    }
+	  });
+});
+
+//Opens the OS's Save File dialog. Saves the recieved image path to the user's local machine
+ipc.on('open-save-dialog', function (event, message) {
+  console.log('DEBUG: About to save image'); //TODO
+
+  const options = {
+    title: 'Save Image',
+    filters: [
+      { name: 'Image', extensions: ['png'] }
+    ]
+  }
+  dialog.showSaveDialog(options, function (filename) {
+  	if(filename) {
+  		//TODO Implement saving the image to local machine
+    	console.log("DEBUG: Image saved!!");
+  	}
+  })
+})
+
+//Signals the IPM to start execution of the IPA
+ipc.on('execute-ipm', (event, ipmInputData) => {
+
+	if(ipmInputData){
+		//HERE WE EXECUTE THE IMAGE PROCESSING ALGORITHM
+		console.log("DEBUG: Image Processing Algorithm has been executed! IPM input object: ", inputObj); //TODO
+	}
+
+});
+
+//Signals the IPM to cancel IPA execution
+ipc.on('cancel-execution', (event) => {
+
+	//HERE WE SIGNAL THE IMAGE PROCESSING ALGORITHM TO STOP ALGORITHM EXECUTION
+	console.log("DEBUG: CANCELED EXECUTION!!" );
+	const statusMsg = "This is a dummy message that was sent form the Main Process!!";
+	event.sender.send('status-update', statusMsg);
+
+});
+
+/*************************************
+   Application Function Declarations  
+**************************************/
+
+function createWindows(){  	//Function called by the application. 'on-ready' event
+	displayAppInfo(); 		//Display applcation metadata information for debugging purposes TODO
+	createMainWindow();		//Create and display applcation's main window
+
+	//TODO Future Work: We can register keyboard shortcuts here
+}
+
+function displayAppInfo(){
+	console.log("DEBUG - App has been loaded.\n");
+	console.log("-----------Reynaldo's Example App-----------");
+	console.log("Application path: ", app.getAppPath());
+	console.log("Home path: ", app.getPath('home'));
+	console.log("App data path: ", app.getPath('appData'));
+	console.log("User's desktop path: ", app.getPath('desktop'));
+	console.log("\nApplication version: ", app.getVersion());
+	console.log("--------------------------------------------\n\n");
+}
+
+function createMainWindow(){
+	//Create a new windows with the corresponding screen specifications
+	win = new BrowserWindow({width: 1200, height: 600, minWidth: 1200, minHeight: 600, resizable: false});
+
+	//Load HTML file to render ReactJS app
+	win.loadURL(url.format(
+		{
+			pathname: path.join(__dirname, 'public/index.html'),
+			protocol:'file:',
+			slashes: true
+	}));
+
+	//TODO Open DevTools for this window. For debugging purposes
+	// win.webContents.openDevTools();
+
+	//--------------- Registration of  Window Events -------------
+	win.on('closed', () => {
+		//Close window by dereferencing the window object.
+		win = null; 
+	});
+}

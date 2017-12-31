@@ -1,0 +1,165 @@
+/*
+ CSS file for the Results screen
+ Author: Reynaldo Belfort Pierrilus
+ University of Puerto Rico - Mayagüez
+*/
+
+.results_mainContainer{
+    /*background-color: grey;*/
+    padding: 0;
+    box-sizing: border-box;
+    /*flex-wrap: wrap;*/
+   /* width:1200px;
+    height:600px;*/
+    /*height:100%;*/
+}
+
+.resultsWindow {
+    /*border: 1px solid #fff; for debugging purooses*/
+   /* width: 1200px;*/
+    /*height: 600px;*/
+    height: 95vh;
+    flex: 1;
+}
+
+.containerOne {
+    background-color: #4b4e51;
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.containerTwo {
+    background-color: #4b4e51;
+    display: flex;
+}
+
+/*Navitagion View*/
+.navigationView{
+    /*background-color: red;*/
+    width: 35px;
+    flex: initial;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /*flex: .05;*/
+}   
+
+.buttonNav{
+    width: 25px;
+    height: 25px;
+    margin-top: 15%;
+    margin-left: 10%;
+    font-size:12px;
+    padding: 6px 0;
+}
+
+.buttonContainer{
+    margin-top: 20%;    
+}
+
+
+/*Image View*/
+.imageView{
+    position: relative;
+    /*background-color: green;*/
+    /*background-color: #0a5423;*/ /*Dark green for DEBUG purposes*/
+    padding: 1px;
+    margin-right: 10px;
+
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+    flex: 1;
+}
+
+.imageElement{
+    width: 100%;
+    height: 100%;
+}
+
+.buttonSwitch {
+    position: absolute;
+    top: 2%;
+    left: 93%;
+    width: 30px;
+    height: 30px;
+    padding: 6px 0;
+    font-size:12px;
+    line-height: 1.42;
+    border-style: 15px;
+    text-align: center;
+}
+
+.buttonDownload {
+    position: absolute;
+    top: 91%;
+    left: 93%;
+    width: 30px;
+    height: 30px;
+    padding: 6px 0;
+    font-size:12px;
+    line-height: 1.42;
+    border-style: 15px;
+    text-align: center;
+}
+
+.tempText {
+    position: absolute;
+    top: 45%;
+    left: 25%;
+    font-size: 50px;
+    color: white;
+}
+
+/*Visualization view*/
+.visualizationView{
+    /*background-color: orange;*/
+    background-color: #4b4e51; /*Gray*/
+    display: flex;
+    flex-direction: row;
+    padding: 8px;
+
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+    flex: 1;
+}
+
+.vizItem {
+    flex:1;
+}
+
+.vizBox {
+    /*background-color:  #663300;*/
+    background-color:  #4b4e51;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.vizList {
+    /*background-color: purple;*/
+    border-style: solid;
+    border-width: 0 0 0 2px;
+    border-color: white;
+    padding: 5px;
+    overflow-y: scroll;
+}
+
+/*Image Metrics View*/
+
+.imageMetricsView{
+    /*border: 1px solid #fff;*/ /*for debugging purooses*/
+    /*background-color: yellow;*/
+    /*height: 25px;*/
+    color: white;
+    height: 5vh;
+    flex: 1;
+}
+
+.metricsStyle {
+    font-weight: bold;
+    margin-left: 40px;
+}

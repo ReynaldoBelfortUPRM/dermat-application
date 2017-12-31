@@ -1,0 +1,19 @@
+
+/*
+ CSS file for the Stack Visualization
+ Author: Reynaldo Belfort Pierrilus
+ University of Puerto Rico - Mayagüez
+*/
+
+
+.stackBin {
+	cursor: pointer;
+}
+
+.stackThicknessText {
+	font-size: 45;
+}
+
+.focusedBin {
+	stroke: #eef209;
+}
