@@ -28,7 +28,7 @@ const VisualizationView = (props) => {
 		const ipmData = props.currentState.ipmData;
 		
 		//Create the stack visualization list to be rendered on screen
-		const currentImageList = [];
+		var currentImageList = []; //TODO Remove if not neded
 		const currentLayerLabel = ipmData.layerData[props.currentState.selectedLayerIdx].LayerName;
 		const selectedLayerInfoObj = ipmData.layerData[props.currentState.selectedLayerIdx];
 		const rangeMinVal = selectedLayerInfoObj.LayerRange[0] - 1; 		//subtract by 1 so we consider index starting at 0
@@ -38,8 +38,9 @@ const VisualizationView = (props) => {
 		//Create the list of images that correspond to the selected layer
 		for(var i = rangeMinVal; i <= rangeMaxVal; i++ ){
 			const fileName = ipmData.originalImages[i].split('\\').pop();
-			currentImageList.push(<ListGroupItem key={"imgListItm_" + i} onClick={ (event) => { props.imageClicked(i - 1);  } }>{fileName}</ListGroupItem>)
-		} //TODO DEBUG FIX
+			const imageIdx = i; 	//For some reason, is important to save the index value in a separate var if we want the DOM element to preserve this value
+			currentImageList.push(<ListGroupItem key={"imgListItm_" + i} onClick={ (event) => { props.imageClicked(imageIdx);  } }>{fileName}</ListGroupItem>)
+		}
 
 		//Render the DOM elements to the screen
 		return (
