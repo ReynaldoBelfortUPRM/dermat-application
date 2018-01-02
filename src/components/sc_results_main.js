@@ -10,6 +10,7 @@
 
 //Import necessary libraries and classes
 import React, {Component} from 'react';
+const ipc = window.require('electron').ipcRenderer;		//Electron functions for interaction with Main Process
 
 //Import internal application components
 import ImageView from './sc_results_image_view';
@@ -23,8 +24,6 @@ import styles from '../styles/sc-results-main.css';
 //TODO Import debug tools
 import debug from '../debug/debugTools.js';
 
-//Import Electron functions for interaction with Main Process
-const ipc = window.require('electron').ipcRenderer;
 
 //Define the Results screen
 class ResultsScreen extends Component {
@@ -53,6 +52,27 @@ class ResultsScreen extends Component {
 			}
 		}
 	}
+
+	/****************************************
+	   ReactJS component life cycle methods
+	*****************************************/
+
+	componentDidMount() {
+    	//Send this 'ResultsScreen' object back to where it was called (App obj) so that 
+		//functions on this object can be accessed from App.js
+		this.props.onRef(this);
+	}
+
+	componentWillUnmount() {
+		//Free memory space by removing the reference previously set
+	    this.props.onRef(undefined);
+	}
+
+	//	-------------------------------------------------------
+
+	/**********************************
+	  NavigationView event handlers
+	***********************************/
 
 	//Change the current image that is being presented to the user according to the desired change direction
 	changeImage(isUp){
@@ -91,9 +111,9 @@ class ResultsScreen extends Component {
 	********************************/
 	
 	//Start the file saving process
-	saveCurrentImage(){
+	saveCurrentImageClicked(){
 		//Signal main process to open OS's file dialog
-		ipc.send('open-save-dialog', this.state.ipmData.characterizedImages[this.state.currentImageIdx]) ;
+		ipc.send('open-save-dialog');
 	}
 
 	//Re-render the screen according to the images that was toggled
@@ -107,7 +127,7 @@ class ResultsScreen extends Component {
 			<div className={styles.results_mainContainer}>
 				<div className={styles.containerOne} >
 					<NavigationView btnNavClicked={ (isUp) => { this.changeImage(isUp); } } />
-					<ImageView imageSrc= { this.state.currentImageSrc } btnSaveClicked={ () => { this.saveCurrentImage(); } } btnToggleClicked={ () => { this.toggleClicked();} }/>
+					<ImageView imageSrc= { this.state.currentImageSrc } btnSaveClicked={ () => { this.saveCurrentImageClicked(); } } btnToggleClicked={ () => { this.toggleClicked();} }/>
 					<VisualizationView currentState={ this.state } analysisData={ this.props.analysisData } binClicked={ (layerIndex) => { this.binClicked(layerIndex); } } imageClicked={ (imgIndex) => { this.imageClicked(imgIndex); } }/>
 				</div>
 				<div className={styles.containerTwo}>
@@ -117,6 +137,7 @@ class ResultsScreen extends Component {
 		);
 	}
 
+	//TODO Erase if not needed
 	// //Render the DOM elements to the screen
 	// render() {
 	// 	return (

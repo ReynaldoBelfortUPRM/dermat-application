@@ -2,11 +2,12 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-  app: ['webpack/hot/dev-server', './src/entry.js'],
+  app: ['webpack/hot/dev-server', './src/entry.js'],    //Application source file (ReactJS app) goes here
+  // app: './src/entry.js'
 },
 
 output: {
-  path: './public/built',
+  path: __dirname + '/public/built',                    //Build path goes here
   filename: 'bundle.js',
   publicPath: 'http://localhost:8080/built/'
 },
@@ -17,41 +18,53 @@ devServer: {
 },
 
 module: {
- loaders: [
-   { 
-    test: /\.js$/, 
-    loader: 'babel-loader', 
-    exclude: /node_modules/ 
-    },
-   {
-      exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: ['react', 'es2015', 'stage-1']
-      }
-    },
-    {
-      test: /\.css$/,
-      loader: 'style-loader'
-    }, 
-    {
-      test: /\.css$/,
-      loader: 'css-loader',
-      query: {
-        modules: true,
-        localIdentName: '[name]__[local]___[hash:base64:5]'
-      }
-    }
- ],
- resolve: {
-        extensions: ['', '.js', '.jsx', '.css'],
-        modulesDirectories: [
-          'node_modules'
-        ]        
-    },
+//  loaders: [
+//    { 
+//     test: /\.js$/, 
+//     exclude: /node_modules/,
+//     loader: 'babel-loader',     
+//     },
+//     {
+//       test: /\.css$/,
+//       loader: 'style-loader'
+//     }, 
+//     {
+//       test: /\.css$/,
+//       loader: 'css-loader',
+//       query: {
+//         modules: true,
+//         localIdentName: '[name]__[local]___[hash:base64:5]'
+//       }
+//     }
+//  ],
   rules: [
-          {
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+          }
+        }, 
+        {
+          test: /\.css$/,
+          exclude: /node_modules/,
+          // use: [ 'style-loader', 'css-loader' ]
+          use: [
+            {
+              loader: 'style-loader'
+            },
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: '[name]__[local]___[hash:base64:5]'
+              },
+            },
+          ],
+        },
+        {
             test: /\.(svg)$/,
+            exclude: /node_modules/,
             use: [
               {
                 loader: "babel-loader"
@@ -66,6 +79,7 @@ module: {
         },
         {
           test: /\.(png|jpg|gif)$/,
+          exclude: /node_modules/,
           use: [
             {
               loader: 'file-loader',
@@ -83,5 +97,6 @@ module: {
 
  node: {
         fs: "empty"
-      }
+      },
+ target: 'node',
 }

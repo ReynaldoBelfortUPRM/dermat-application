@@ -169,7 +169,7 @@ const StackVisualization = (props) => {
 		);
 }
 
-
+//TODO Remove if not needed
 // class StackVisualization extends Component {
 
 // 	constructor(props){

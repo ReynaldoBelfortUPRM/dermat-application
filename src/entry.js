@@ -25,9 +25,13 @@
 //Import libraries
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import jetpack from 'fs-jetpack'; 						//For file management
+// var fs = require('fs');
+const ipc = window.require('electron').ipcRenderer;		//Electron functions for interaction with Main Process	
 
-//Import Electron functions for interaction with Main Process
-const ipc = window.require('electron').ipcRenderer;
+//Import styles
+// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+// import styles from '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 //Import major components
 import ImageInputScreen from './components/sc_image_input';
@@ -37,6 +41,9 @@ import ResultsScreen from './components/sc_results_main';
 //Import dummy data
 import ipmOutputDummy from './components/dummyData/ipmOutputDummyData.js';
 import ipmInputDummy from './components/dummyData/ipmInputDummyData.js';
+
+//TODO Import debug tools
+import debug from './debug/debugTools.js';
 
 var ipmOutput = null;
 var ipmInput = null;
@@ -62,7 +69,6 @@ class App extends Component {
 	}
 
 	render (){
-
 		var currentScreen = null;
 
 		switch(this.state.currentScreenIdx){
@@ -73,7 +79,7 @@ class App extends Component {
 				currentScreen = (<InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} />);
 				break;
 			case 2: //Results Screen
-				currentScreen = (<ResultsScreen analysisData={ ipmOutputDummy } inputData = { ipmInputDummy } />)
+				currentScreen = (<ResultsScreen analysisData={ ipmOutputDummy } inputData = { ipmInputDummy } onRef= { ref => this.resultsScreenChild = ref}/>)
 				break;
 		}
 
@@ -83,6 +89,7 @@ class App extends Component {
 			</div>
 		);
 
+		//TODO REmove if not needed
 		// return (
 		// 	<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} />
 		// 	// <InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} />
@@ -115,6 +122,26 @@ ipc.on('status-update', (event, statusMessage) => {
 ipc.on('analysis-complete', (event, data) => {
 	//Save data sent by the IPM module. To be used in the Results Screen
 	ipmOutput = data;
+});
+
+ipc.on('save-destination-retrieved', (event, fileDest) => {
+
+	//Copy the current characterized image in view into the 
+	//path specified by the user
+	jetpack.copy(AppComponent.resultsScreenChild.state.currentImageSrc, fileDest, { 
+		overwrite: (srcInspectData, destInspectData) => {
+			//This function will run whenever there is a conflict when copying the image file
+			// to the destination (such as 'the destination file already exists'). 
+			//We decide here if file is to be replaced or not. Ask user.		<---- TODO
+			 
+			return true; 	//Overwrite for now
+		}
+	});
+
+	// fs.createReadStream(AppComponent.resultsScreenChild.state.currentImageSrc).pipe(fs.createWriteStream(fileDest));
+
+	debug('Function to save the filed has been called (async)!');
+	//TODO We should catch an error here if something unexpected hapens . 'Internal error application.' 
 });
 
 //Point where the entire applcation is rendered by binding App object with the HTML container
