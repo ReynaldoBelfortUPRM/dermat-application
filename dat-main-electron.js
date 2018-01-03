@@ -6,6 +6,9 @@
 
 //FIND ALL 'TODO' TAGS AND DELETE THEM IF NOT NEEDED
 
+//TODO - Task list
+			// We should catch all unexpected errors with try-catch cases
+
 //Terminology:
 //IPM - Image Processing Module
 //IPA - Image Processing Algorithm
@@ -49,12 +52,15 @@ app.on('browser-window-focus', (event, window) => {
 
 //Executes the command for opening the OS's OpenFile dialog. Returns back an array of paths selected by the user
 ipc.on('open-file-dialog', (event) => {
-	 dialog.showOpenDialog({
+
+	const options = {
 	    properties: ['openFile', 'multiSelections'],
 	    filters: [
 		    {name: 'RCM Images', extensions: ['png']},
 		  ]
-	  }, 
+	};
+
+	 dialog.showOpenDialog(options, 
 	  function (filePaths) {
 		    if (filePaths){
 		    	event.sender.send('selected-images', filePaths);	
@@ -63,19 +69,21 @@ ipc.on('open-file-dialog', (event) => {
 });
 
 //Opens the OS's Save File dialog. Saves the recieved image path to the user's local machine
-ipc.on('open-save-dialog', function (event, message) {
+ipc.on('open-save-dialog', function (event) {
   console.log('DEBUG: About to save image'); //TODO
 
   const options = {
-    title: 'Save Image',
+    title: 'Save Characterized Image',
     filters: [
       { name: 'Image', extensions: ['png'] }
     ]
   }
-  dialog.showSaveDialog(options, function (filename) {
-  	if(filename) {
+  dialog.showSaveDialog(options, function (fileDest) {
+	//Dialog has been closed at this point
+  	if(fileDest) {
   		//TODO Implement saving the image to local machine
-    	console.log("DEBUG: Image saved!!");
+		console.log("DEBUG: Save destination retrieved. Signaling Renderer proc..");
+		event.sender.send('save-destination-retrieved', fileDest);
   	}
   })
 })
