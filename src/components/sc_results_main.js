@@ -4,6 +4,10 @@
 // Author: Reynaldo Belfort Pierrilus, Computer Engineering Undergraduate
 // University of Puerto Rico - Mayagüez
 
+
+//TODO Task list
+		//Make sure download button gets removed when viewing original image
+
 //Terminology:
 //IPM - Image Processing Module
 //IPA - Image Processing Algorithm
@@ -31,24 +35,16 @@ class ResultsScreen extends Component {
 		super(props)
 
 		//Define screen's state for holding results data, along with metadata for funcitonality purposes
-		// this.state = {							//TODO Code to be removed
-		// 	currentImageIndex: 0,
-		// 	selectedLayerIndex: 0,
-		// 	totalImages: props.analysisData.FilePaths.length,
-		// 	currentImage: props.analysisData.FilePaths[0],
-		// 	characterizedImages: props.analysisData.FilePaths,			
-		// 	layersInfo: props.analysisData.LayersInfo,
-		// }
-
-		this.state = {
+		this.state = {											  //TODO DOCUMENT THIS PROPERTIES
 			currentImageIdx: 0,
 			selectedLayerIdx: 0,
-			rcmStackImageCount: props.analysisData.FilePaths.length,
-			currentImageSrc: props.analysisData.FilePaths[0],
+			rcmStackImageCount: props.outputData.FilePaths.length,
+			currentImageSrc: props.outputData.FilePaths[0],
+			isCharacterizedViewEnabled: false,
 			ipmData: {
-				originalImages: props.analysisData.FilePaths,
-				characterizedImages: props.analysisData.FilePaths,
-				layerData: props.analysisData.LayersInfo,
+				originalImages: props.inputData.FilePaths,
+				characterizedImages: props.outputData.FilePaths,
+				layerData: props.outputData.LayersInfo,
 			}
 		}
 	}
@@ -79,16 +75,42 @@ class ResultsScreen extends Component {
 		if(isUp){ //Up button was preessed
 			if(this.state.currentImageIdx > 0){
 				var newIndex = this.state.currentImageIdx - 1;
-				var newImage = this.state.ipmData.characterizedImages[newIndex];
-				this.setState({ currentImageIdx: newIndex, currentImageSrc: newImage });
+				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, this.state.currentImageIdx);		//Retrieve the new current image to be displayed on screen
+				// var newImageSrc = this.state.ipmData.characterizedImages[newIndex];
+
+				// //Display the corresponding image according to the new image view state																						
+				// var newImage = null;
+				// if(isCharacterizedView_newState){ 													//The characterized version of the image shall be displayed
+				// 	newImageSrc = this.state.ipmData.characterizedImages[this.state.currentImageIdx];																		
+				// } else {																				//The original version of the image shall be displayed
+				// 	newImageSrc = this.state.ipmData.originalImages[this.state.currentImageIdx];																		
+				// }
+				
+				this.setState({ currentImageIdx: newIndex, currentImageSrc: newImageSrc });
 			}
 		} else { //Down button was pressed
 			if(this.state.currentImageIdx < this.state.ipmData.characterizedImages.length - 1){
 				var newIndex = this.state.currentImageIdx + 1;
-				var newImage = this.state.ipmData.characterizedImages[newIndex];
-				this.setState({ currentImageIdx: newIndex, currentImageSrc: newImage });
+				var newImageSrc = this.state.ipmData.characterizedImages[newIndex];
+				this.setState({ currentImageIdx: newIndex, currentImageSrc: newImageSrc });
 			}
 		}
+	}
+
+	/**********************
+	  Component Utilities
+	***********************/
+
+	getNewCurrentImage(imgViewState, imgIdx){
+		//Display the corresponding image according to the new image view state																						
+		var newImageSrc = null;
+		if(imgViewState){ 														//The characterized version of the image shall be displayed
+			newImageSrc = this.state.ipmData.characterizedImages[imgIdx];																		
+		} else {																				//The original version of the image shall be displayed
+			newImageSrc = this.state.ipmData.originalImages[imgIdx];									
+		}
+
+		return newImageSrc;
 	}
 
 	/**********************************
@@ -102,8 +124,9 @@ class ResultsScreen extends Component {
 
 	//Re-render the screen according to the selected image
 	imageClicked(imgIndex){
-		var newImage = this.state.ipmData.characterizedImages[imgIndex];
-		this.setState({ currentImageIdx: imgIndex, currentImageSrc: newImage });
+		// var newImageSrc = this.state.ipmData.characterizedImages[imgIndex];
+		var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, imgIndex);		//Retrieve the new current image to be displayed on screen
+		this.setState({ currentImageIdx: imgIndex, currentImageSrc: newImageSrc });
 	}
 
 	/********************************
@@ -118,7 +141,20 @@ class ResultsScreen extends Component {
 
 	//Re-render the screen according to the images that was toggled
 	toggleClicked(){
-		console.log('DEBUG: Toggle signal received!!');
+		console.log('DEBUG: Toggle signal received!!'); //TODO Debugging purposes
+		var isCharacterizedView_newState = this.state.isCharacterizedViewEnabled ? false : true;  	//Establish the new view state of the image based on the current state. 
+																									//Doing it this way avoids unexpected 
+		var newImageSrc = this.getNewCurrentImage(isCharacterizedView_newState, this.state.currentImageIdx); 					//Retrieve the new current image to be displayed on screen
+
+		// //Display the corresponding image according to the new image view state																						
+		// var newImage = null;
+		// if(isCharacterizedView_newState){ 														//The characterized version of the image shall be displayed
+		// 	newImageSrc = this.state.ipmData.characterizedImages[this.state.currentImageIdx];																		
+		// } else {																				//The original version of the image shall be displayed
+		// 	newImageSrc = this.state.ipmData.originalImages[this.state.currentImageIdx];																		
+		// }
+																						
+		this.setState({isCharacterizedViewEnabled: isCharacterizedView_newState, currentImageSrc: newImageSrc});
 	}
 
 	//Render the DOM elements to the screen
@@ -128,7 +164,7 @@ class ResultsScreen extends Component {
 				<div className={styles.containerOne} >
 					<NavigationView btnNavClicked={ (isUp) => { this.changeImage(isUp); } } />
 					<ImageView imageSrc= { this.state.currentImageSrc } btnSaveClicked={ () => { this.saveCurrentImageClicked(); } } btnToggleClicked={ () => { this.toggleClicked();} }/>
-					<VisualizationView currentState={ this.state } analysisData={ this.props.analysisData } binClicked={ (layerIndex) => { this.binClicked(layerIndex); } } imageClicked={ (imgIndex) => { this.imageClicked(imgIndex); } }/>
+					<VisualizationView currentState={ this.state } outputData={ this.props.outputData } binClicked={ (layerIndex) => { this.binClicked(layerIndex); } } imageClicked={ (imgIndex) => { this.imageClicked(imgIndex); } }/>
 				</div>
 				<div className={styles.containerTwo}>
 					<ImageMetricsView currentImg = { this.state.currentImageIdx + 1} totalImages = { this.state.ipmData.characterizedImages.length }/>
@@ -145,7 +181,7 @@ class ResultsScreen extends Component {
 	// 			<div className={styles.containerOne} >
 	// 				<NavigationView btnNavClicked={ (isUp) => { this.changeImage(isUp); } } />
 	// 				<ImageView imageSrc= { this.state.currentImage } btnSaveClicked={ () => { this.saveCurrentImage(); } } btnToggleClicked={ () => { this.toggleClicked();} }/>
-	// 				<VisualizationView currentState={ this.state } analysisData={ this.props.analysisData } binClicked={ (layerIndex) => { this.binClicked(layerIndex); } } imageClicked={ (imgIndex) => { this.imageClicked(imgIndex); } }/>
+	// 				<VisualizationView currentState={ this.state } outputData={ this.props.outputData } binClicked={ (layerIndex) => { this.binClicked(layerIndex); } } imageClicked={ (imgIndex) => { this.imageClicked(imgIndex); } }/>
 	// 			</div>
 	// 			<div className={styles.containerTwo}>
 	// 				<ImageMetricsView currentImg = { this.state.currentImageIndex + 1} totalImages = { this.state.totalImages }/>

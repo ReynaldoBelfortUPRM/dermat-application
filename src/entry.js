@@ -39,8 +39,8 @@ import InProgressScreen from './components/sc_in_progress';
 import ResultsScreen from './components/sc_results_main';
 
 //Import dummy data
-import ipmOutputDummy from './components/dummyData/ipmOutputDummyData.js';
 import ipmInputDummy from './components/dummyData/ipmInputDummyData.js';
+import ipmOutputDummy from './components/dummyData/ipmOutputDummyData.js';
 
 //TODO Import debug tools
 import debug from './debug/debugTools.js';
@@ -79,7 +79,7 @@ class App extends Component {
 				currentScreen = (<InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} />);
 				break;
 			case 2: //Results Screen
-				currentScreen = (<ResultsScreen analysisData={ ipmOutputDummy } inputData = { ipmInputDummy } onRef= { ref => this.resultsScreenChild = ref}/>)
+				currentScreen = (<ResultsScreen outputData = { ipmOutputDummy } inputData = { ipmInputDummy } onRef= { ref => this.resultsScreenChild = ref}/>)
 				break;
 		}
 
@@ -88,17 +88,9 @@ class App extends Component {
 				{currentScreen}
 			</div>
 		);
-
-		//TODO REmove if not needed
-		// return (
-		// 	<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} />
-		// 	// <InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} />
-		// 	 // <ResultsScreen analysisData={ ipmOutputDummy } inputData = { ipmInputDummy } />
-		// );
 	}
 
 }
-
 
 /******************************************
  	Inter-process communication listeners
