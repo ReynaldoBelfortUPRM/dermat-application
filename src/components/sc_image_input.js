@@ -88,6 +88,14 @@ class ImageInputScreen extends Component {
 		
 	}
 
+	//------- Event handler for 'Browse' button ---------
+	btnBrowseClick (){
+		debug("Browse button clicked"); //TODO debug
+
+		//Signal main process to open OS's file dialog
+		ipc.send('open-file-dialog');
+	}
+
 	//Render the DOM elements to the screen
 	render() {
 
@@ -99,7 +107,7 @@ class ImageInputScreen extends Component {
 	  					<Col md={12} className="text-center ">Click 'Browse' to load RCM images for analysis</Col>
 	  				</Row>
 	  				<Row>
-	  					<Col md={12}> <Button bsStyle="primary" bSize="large" className="center-block" onClick= { btnBrowseClick } >Browse</Button> </Col>
+	  					<Col md={12}> <Button bsStyle="primary" bSize="large" className="center-block" onClick= { () => { this.btnBrowseClick(); } }> Browse </Button> </Col>
 	  				</Row>
 	  			</Grid>
 
@@ -131,14 +139,6 @@ class ImageInputScreen extends Component {
 		);
 	}
 
-}
-
-//------- Event handler for 'Browse' button ---------
-function btnBrowseClick (){
-	debug("Browse button clicked"); //TODO debug
-
-	//Signal main process to open OS's file dialog
-	ipc.send('open-file-dialog');
 }
 
 export default ImageInputScreen;

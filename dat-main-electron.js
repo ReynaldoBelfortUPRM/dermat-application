@@ -14,7 +14,7 @@
 //IPA - Image Processing Algorithm
 
 //Require necessary libraries and classes
-const {app, BrowserWindow, globalShortcut} = require('electron');
+const {app, BrowserWindow, globalShortcut, Menu} = require('electron');
 const path = require('path');
 const url = require('url');
 
@@ -31,7 +31,6 @@ let win;
 
 //Executes when Electron has finished initializing and it's ready to create BrowserWindows
 app.on('ready', createWindows);
-
 
 // Quit application when all windows are closed.
 app.on('window-all-closed', () => {
@@ -68,7 +67,8 @@ ipc.on('open-file-dialog', (event) => {
 	  });
 });
 
-//Opens the OS's Save File dialog. Saves the recieved image path to the user's local machine
+//For saving a single image. Opens the OS's Save File dialog. 
+//Saves the recieved image path to the user's local machine
 ipc.on('open-save-dialog', function (event) {
   console.log('DEBUG: About to save image'); //TODO
 
@@ -85,8 +85,10 @@ ipc.on('open-save-dialog', function (event) {
 		console.log("DEBUG: Save destination retrieved. Signaling Renderer proc..");
 		event.sender.send('save-destination-retrieved', fileDest);
   	}
-  })
-})
+  });
+});
+
+
 
 //Signals the IPM to start execution of the IPA
 ipc.on('execute-ipm', (event, ipmInputData) => {
@@ -108,6 +110,43 @@ ipc.on('cancel-execution', (event) => {
 
 });
 
+/************************
+   Menu bar definition 
+*************************/
+
+let menuBarTemplate = [{
+			label: 'File',
+			submenu: [{
+			label: 'Exit',
+			click: function (item, focusedWindow) {
+				if (focusedWindow) {
+					//Close the application. Will attempt to close all windows via win.close().
+					app.quit();	 		
+				}
+			}
+			}]
+		},{
+			label: 'Analysis',
+			submenu: [{
+			label: 'Perform new analysis',
+			click: function (item, focusedWindow) {
+				if (focusedWindow) {
+					//Send signal to the Renderer process to perform new analysis
+					win.webContents.send('perform-new-analysis');
+				}
+				}
+			},
+			{
+			label: 'Save analysis results',
+			click: function (item, focusedWindow) {
+				if (focusedWindow) {
+					//Send signal to the Renderer process to perform new analysis
+					win.webContents.send('save-analysis-results');
+				}
+				}
+			}]
+		}]
+
 /*************************************
    Application Function Declarations  
 **************************************/
@@ -117,6 +156,10 @@ function createWindows(){  	//Function called by the application. 'on-ready' eve
 	createMainWindow();		//Create and display applcation's main window
 
 	//TODO Future Work: We can register keyboard shortcuts here
+
+	//Menu bar setup
+	const menu = Menu.buildFromTemplate(menuBarTemplate);
+	Menu.setApplicationMenu(menu);
 }
 
 function displayAppInfo(){
@@ -132,7 +175,7 @@ function displayAppInfo(){
 
 function createMainWindow(){
 	//Create a new windows with the corresponding screen specifications
-	win = new BrowserWindow({width: 1200, height: 600, minWidth: 1200, minHeight: 600, resizable: false});
+	win = new BrowserWindow({width: 1200, height: 600, minWidth: 1200, minHeight: 600, resizable: false, show: false});
 
 	//Load HTML file to render ReactJS app
 	win.loadURL(url.format(
@@ -143,11 +186,23 @@ function createMainWindow(){
 	}));
 
 	//TODO Open DevTools for this window. For debugging purposes
-	// win.webContents.openDevTools();
+	win.webContents.openDevTools();
 
 	//--------------- Registration of  Window Events -------------
+
+	//Event registered so we can ensure that all resources of the Web Pages are loaded before we show
+	//the window to the user
+	win.on('ready-to-show', function() { 
+		win.show(); 
+		win.focus(); 
+	});
+
+	//When the application is about to close or the user click the X button
 	win.on('closed', () => {
+		//Warn user if image analysis results have not been save yet 
+
 		//Close window by dereferencing the window object.
 		win = null; 
 	});
+	
 }

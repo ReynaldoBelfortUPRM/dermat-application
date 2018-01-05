@@ -25,9 +25,11 @@
 //Import libraries
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import jetpack from 'fs-jetpack'; 						//For file management
-// var fs = require('fs');
-const ipc = window.require('electron').ipcRenderer;		//Electron functions for interaction with Main Process	
+import jetpack from 'fs-jetpack'; 								//For file management
+const ipc = window.require('electron').ipcRenderer;			//Electron functions for interaction with Main Process	
+// const dialog = window.require('electron').remote.dialog;
+// const app = window.require('electron').remote.app;
+const { dialog, app } = window.require('electron').remote;	//Importing rest of necessary Electron libraries
 
 //Import styles
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -55,14 +57,32 @@ class App extends Component {
 		this.state = {
 			currentScreenIdx: 2,
 			imgInputPaths: [],
+			isResulsDataExported: false 		//Will save wether results data was saved to the user at any given moment
 		};
 	}
 
-	showInProgressScreen(){
+	goImageInputSreen(openFileDilog) {
+		if(openFileDilog){
+			//Render the Image Input Screen and open 'Open Dialog'
+			this.setState({ currentScreenIdx: 0, isResulsDataExported: false});
+			this.inputScreenChild.btnBrowseClick();
+		} else {
+			//Render the Image Input Screen, without opening  'Open Dialog'
+			this.setState({ currentScreenIdx: 0, isResulsDataExported: false});			//TODO Maybe this step is never needed
+		}
+	}
+
+	goInProgressScreen(){
 
 	}
 
-	showResultsScreen(ipmOutputData){
+	setResultDataExported(isDataExported){
+		if(isDataExported){
+			this.setState({ isResulsDataExported: true});	
+		}
+	}
+
+	goResultsScreen(ipmOutputData){
 		//Image Processing Algorithm has finished. Show ResultsScreen
 		
 		//Change the screen
@@ -116,6 +136,7 @@ ipc.on('analysis-complete', (event, data) => {
 	ipmOutput = data;
 });
 
+//Executes when user has selected a destination to save a characterized image
 ipc.on('save-destination-retrieved', (event, fileDest) => {
 
 	//Copy the current characterized image in view into the 
@@ -129,12 +150,69 @@ ipc.on('save-destination-retrieved', (event, fileDest) => {
 			return true; 	//Overwrite for now
 		}
 	});
-
+	//TODO Another way that might work. Watning: Errors handling should be considered here
 	// fs.createReadStream(AppComponent.resultsScreenChild.state.currentImageSrc).pipe(fs.createWriteStream(fileDest));
 
 	debug('Function to save the filed has been called (async)!');
 	//TODO We should catch an error here if something unexpected hapens . 'Internal error application.' 
 });
+
+//Executes when a new image analysis has been requested
+ipc.on('perform-new-analysis', (event, message) => {
+	//Warn user to save current image analysis results, if needed
+	if(!AppComponent.state.isResulsDataExported) {
+
+		dialog.showMessageBox({
+			type: 'warning',
+			title: 'Save Result Data',
+			message: "Do you want to save the current image results on your local machine? Otherwise all data will be lost.",
+			buttons: ['Yes', 'No']
+		  }, function (index) {		//Callback function
+			  if(index === 0){		//User selected 'Yes'
+
+				//Proceed to save image analysis on the user's local machine
+				exportIPMOutputData();
+
+				//Note: Here we don't have to update the isResulsDataExported var since the app will change to the first page
+			  }
+
+			  //Change screen back to Image Input screen and open the 'Open Dialog'
+			  AppComponent.goImageInputSreen(true);
+		  });
+	} else{
+		//Change screen back to Image Input screen and open the 'Open Dialog'
+		AppComponent.goImageInputSreen(true);
+	}
+
+	//Return to first page
+	debug('SIGNAL to return to first page');
+});
+
+ipc.on('save-analysis-results', (event, message) => {
+	//Open the OS's dialog so that user can choose a folder to save the IPM data	
+	dialog.showOpenDialog({
+		title: 'Save Analysis Results',
+		properties: ['openFile', 'openDirectory'],
+		defaultPath: app.getPath('desktop')
+	  }, function (folderDest) { 				//Callbak function
+		//If a folder destination was chosen
+		if (folderDest){				
+			//Proceed to save image analysis on the user's local machine
+			exportIPMOutputData();
+
+			//Mark that the results data has been exported
+			AppComponent.setResultDataExported(true);
+
+			//Return to first page
+			debug('SAVED DATA on destination: ' + folderDest);
+		} 
+	  });
+
+});
+
+function exportIPMOutputData(){
+	//>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<>><>>>>>>>>>>>>< IMPLEMENT HERE! TODO
+}
 
 //Point where the entire applcation is rendered by binding App object with the HTML container
 var AppComponent = ReactDOM.render(<App/>, document.querySelector('.react-container') ); 

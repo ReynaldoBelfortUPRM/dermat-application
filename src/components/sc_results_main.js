@@ -39,7 +39,7 @@ class ResultsScreen extends Component {
 			currentImageIdx: 0,
 			selectedLayerIdx: 0,
 			rcmStackImageCount: props.outputData.FilePaths.length,
-			currentImageSrc: props.outputData.FilePaths[0],
+			currentImageSrc: props.inputData.FilePaths[0],
 			isCharacterizedViewEnabled: false,
 			ipmData: {
 				originalImages: props.inputData.FilePaths,
@@ -64,8 +64,6 @@ class ResultsScreen extends Component {
 	    this.props.onRef(undefined);
 	}
 
-	//	-------------------------------------------------------
-
 	/**********************************
 	  NavigationView event handlers
 	***********************************/
@@ -74,24 +72,20 @@ class ResultsScreen extends Component {
 	changeImage(isUp){
 		if(isUp){ //Up button was preessed
 			if(this.state.currentImageIdx > 0){
+				//Retrieve the new image index
 				var newIndex = this.state.currentImageIdx - 1;
-				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, this.state.currentImageIdx);		//Retrieve the new current image to be displayed on screen
-				// var newImageSrc = this.state.ipmData.characterizedImages[newIndex];
-
-				// //Display the corresponding image according to the new image view state																						
-				// var newImage = null;
-				// if(isCharacterizedView_newState){ 													//The characterized version of the image shall be displayed
-				// 	newImageSrc = this.state.ipmData.characterizedImages[this.state.currentImageIdx];																		
-				// } else {																				//The original version of the image shall be displayed
-				// 	newImageSrc = this.state.ipmData.originalImages[this.state.currentImageIdx];																		
-				// }
-				
+				//Get the  new RCM image according to the current image view state
+				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, this.state.currentImageIdx);
+				//Set new component state and re-render the DOM 
 				this.setState({ currentImageIdx: newIndex, currentImageSrc: newImageSrc });
 			}
 		} else { //Down button was pressed
 			if(this.state.currentImageIdx < this.state.ipmData.characterizedImages.length - 1){
+				//Retrieve the new image index
 				var newIndex = this.state.currentImageIdx + 1;
-				var newImageSrc = this.state.ipmData.characterizedImages[newIndex];
+				//Get the  new RCM image according to the current image view state
+				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, this.state.currentImageIdx);
+				//Set new component state and re-render the DOM 
 				this.setState({ currentImageIdx: newIndex, currentImageSrc: newImageSrc });
 			}
 		}
@@ -100,16 +94,16 @@ class ResultsScreen extends Component {
 	/**********************
 	  Component Utilities
 	***********************/
-
+	
+	//Get the corresponding image according to the new image view state
 	getNewCurrentImage(imgViewState, imgIdx){
-		//Display the corresponding image according to the new image view state																						
 		var newImageSrc = null;
 		if(imgViewState){ 														//The characterized version of the image shall be displayed
 			newImageSrc = this.state.ipmData.characterizedImages[imgIdx];																		
-		} else {																				//The original version of the image shall be displayed
+		} else {																//The original version of the image shall be displayed
 			newImageSrc = this.state.ipmData.originalImages[imgIdx];									
 		}
-
+		//Return the new image path
 		return newImageSrc;
 	}
 
@@ -124,9 +118,8 @@ class ResultsScreen extends Component {
 
 	//Re-render the screen according to the selected image
 	imageClicked(imgIndex){
-		// var newImageSrc = this.state.ipmData.characterizedImages[imgIndex];
 		var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, imgIndex);		//Retrieve the new current image to be displayed on screen
-		this.setState({ currentImageIdx: imgIndex, currentImageSrc: newImageSrc });
+		this.setState({ currentImageIdx: imgIndex, currentImageSrc: newImageSrc });						//Set new component state and re-render the DOM 
 	}
 
 	/********************************
@@ -144,17 +137,8 @@ class ResultsScreen extends Component {
 		console.log('DEBUG: Toggle signal received!!'); //TODO Debugging purposes
 		var isCharacterizedView_newState = this.state.isCharacterizedViewEnabled ? false : true;  	//Establish the new view state of the image based on the current state. 
 																									//Doing it this way avoids unexpected 
-		var newImageSrc = this.getNewCurrentImage(isCharacterizedView_newState, this.state.currentImageIdx); 					//Retrieve the new current image to be displayed on screen
-
-		// //Display the corresponding image according to the new image view state																						
-		// var newImage = null;
-		// if(isCharacterizedView_newState){ 														//The characterized version of the image shall be displayed
-		// 	newImageSrc = this.state.ipmData.characterizedImages[this.state.currentImageIdx];																		
-		// } else {																				//The original version of the image shall be displayed
-		// 	newImageSrc = this.state.ipmData.originalImages[this.state.currentImageIdx];																		
-		// }
-																						
-		this.setState({isCharacterizedViewEnabled: isCharacterizedView_newState, currentImageSrc: newImageSrc});
+		var newImageSrc = this.getNewCurrentImage(isCharacterizedView_newState, this.state.currentImageIdx); 			//Retrieve the new current image to be displayed on screen
+		this.setState({isCharacterizedViewEnabled: isCharacterizedView_newState, currentImageSrc: newImageSrc});		//Set new component state and re-render the DOM 
 	}
 
 	//Render the DOM elements to the screen
@@ -163,7 +147,7 @@ class ResultsScreen extends Component {
 			<div className={styles.results_mainContainer}>
 				<div className={styles.containerOne} >
 					<NavigationView btnNavClicked={ (isUp) => { this.changeImage(isUp); } } />
-					<ImageView imageSrc= { this.state.currentImageSrc } btnSaveClicked={ () => { this.saveCurrentImageClicked(); } } btnToggleClicked={ () => { this.toggleClicked();} }/>
+					<ImageView imageSrc= { this.state.currentImageSrc } isImageDownloadAllowed = { this.state.isCharacterizedViewEnabled } btnSaveClicked={ () => { this.saveCurrentImageClicked(); } } btnToggleClicked={ () => { this.toggleClicked();} }/>
 					<VisualizationView currentState={ this.state } outputData={ this.props.outputData } binClicked={ (layerIndex) => { this.binClicked(layerIndex); } } imageClicked={ (imgIndex) => { this.imageClicked(imgIndex); } }/>
 				</div>
 				<div className={styles.containerTwo}>
@@ -172,24 +156,6 @@ class ResultsScreen extends Component {
 			</div>
 		);
 	}
-
-	//TODO Erase if not needed
-	// //Render the DOM elements to the screen
-	// render() {
-	// 	return (
-	// 		<div className={styles.results_mainContainer}>
-	// 			<div className={styles.containerOne} >
-	// 				<NavigationView btnNavClicked={ (isUp) => { this.changeImage(isUp); } } />
-	// 				<ImageView imageSrc= { this.state.currentImage } btnSaveClicked={ () => { this.saveCurrentImage(); } } btnToggleClicked={ () => { this.toggleClicked();} }/>
-	// 				<VisualizationView currentState={ this.state } outputData={ this.props.outputData } binClicked={ (layerIndex) => { this.binClicked(layerIndex); } } imageClicked={ (imgIndex) => { this.imageClicked(imgIndex); } }/>
-	// 			</div>
-	// 			<div className={styles.containerTwo}>
-	// 				<ImageMetricsView currentImg = { this.state.currentImageIndex + 1} totalImages = { this.state.totalImages }/>
-	// 			</div>
-	// 		</div>
-	// 	);
-	// }
-
 }
 
 export default ResultsScreen;
