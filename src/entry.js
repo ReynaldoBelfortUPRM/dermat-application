@@ -20,7 +20,8 @@
 	- Figure out a way to incorporate webpack into electron
 	- Save 'npm list --depth=0' problems.
 	- Properly arrange application's package.json
-	- Change 'FilePaths' property of ipmOutputData var to 'characterizedImages' 
+	- Change 'FilePaths' property of ipmOutputData var to 'characterizedImages'
+	- Perform Unit Testing
 */
 
 //Import libraries
@@ -171,30 +172,33 @@ ipc.on('perform-new-analysis', (event, message) => {
 		  }, function (index) {		//Callback function
 			  if(index === 0){		//User selected 'Yes'
 
-			  //Open the OS's dialog so that user can choose a folder to save the IPM data	
-			dialog.showOpenDialog({
-				title: 'Save Analysis Results',
-				properties: ['openFile', 'openDirectory'],
-				defaultPath: app.getPath('desktop')
-			}, function (folderDestArr) { 				//Callbak function
-				//If a folder destination was chosen
-				if (folderDestArr){				
-					//Proceed to save image analysis on the user's local machine
-					exportIPMOutputData(folderDestArr[0]);
+				//Open the OS's dialog so that user can choose a folder to save the IPM data	
+				dialog.showOpenDialog({
+					title: 'Save Analysis Results',
+					properties: ['openFile', 'openDirectory'],
+					defaultPath: app.getPath('desktop')
+				}, function (folderDestArr) { 				//Callbak function
+					//If a folder destination was chosen
+					if (folderDestArr){				
+						//Proceed to save image analysis on the user's local machine
+						exportIPMOutputData(folderDestArr[0]);
 
-					//Mark that the results data has been exported
-					AppComponent.setResultDataExported(true);
+						//Mark that the results data has been exported
+						AppComponent.setResultDataExported(true);
 
-					//Return to first page
-					debug('SAVED DATA on destination: ' + folderDestArr);
-				} 
-			});
+						debug('SAVED DATA on destination: ' + folderDestArr); //TODO DEBU	
+					
+						//Change screen back to Image Input screen and open the 'Open Dialog'
+						AppComponent.goImageInputSreen(true);
+					} 
+					
+				});
 
 				//Note: Here we don't have to update the isResulsDataExported var since the app will change to the first page
+			  } else { 			//User selected 'No'
+			  	//Change screen back to Image Input screen and open the 'Open Dialog'
+				AppComponent.goImageInputSreen(true);
 			  }
-
-			  //Change screen back to Image Input screen and open the 'Open Dialog'
-			  AppComponent.goImageInputSreen(true);
 		  });
 	} else{
 		//Delete all application data produced by the app (characterized images & IPM metadata) 	TODO
@@ -228,12 +232,11 @@ ipc.on('save-analysis-results', (event, message) => {
 
 });
 
+//Exports images and metadata from the stored IPM output info into .PNG and .txt (CSV) files at the specified folder destination
 function exportIPMOutputData(folderDestPath){
-	//>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<>><>>>>>>>>>>>>< IMPLEMENT HERE! TODO
-
 	//TEST FOR ASYNC OPERATIONS TAHT MIGHT AFFECT The SAVING PROCESS TODO
 
-	//Create a new var contaning proper format for the papaparse library (copy Layer Info object)
+	//Create a new var contaning proper format for the papaparse library
 	var formattedIpmOutput = AppComponent.state.ipmOutputData.LayersInfo.map( (layerObj, i) => {
 		var newObj = {
 			LayerID: _.toString(layerObj.LayerID),
@@ -246,25 +249,20 @@ function exportIPMOutputData(folderDestPath){
 		return newObj;
 	});
 
-	debug("About to create csv data" );
+	debug("About to create csv data" );	 //TODO DEBUG
 
 	//Convert from JSON to CSV
 	var csvData = Papa.unparse(formattedIpmOutput);
 
-	console.log("DEBUG: Created CSV data: ", csvData);
+	console.log("DEBUG: Created CSV data: ", csvData);		//TODO DEBUG
 
-	console.log("DEBUG: JETPACK About to obtain main target directory. folderDestPath: ", folderDestPath);	
+	console.log("DEBUG: JETPACK About to obtain main target directory. folderDestPath: ", folderDestPath);		 //TODO DEBUG	
 
 	//Obtain main target directory
 	var mainTargetDir = jetpack.dir(folderDestPath);
 
 	//Store text file on the selected diretory
 	mainTargetDir.file('stack-analysis-results.txt', { content: csvData });
-
-	//Create new folder to place characterized images
-	// var imageDir = mainTargetDir.dir('characterized-images');
-	//Get folder path
-	// var imgExportFolderPath = imageDir.path(); 	
 
 	//Create new path where characterized images will be placed
 	var imgExportFolderPath = mainTargetDir.path() + '\\characterized-images'; 	
@@ -286,6 +284,7 @@ function exportIPMOutputData(folderDestPath){
 				return true;
 	} });
 
+	//TODO Test: What happens if an error occurs when copying a file???
 	//Inform user that information has been succesfully exported
 	dialog.showMessageBox({
 		type: 'info',
