@@ -88,14 +88,12 @@ ipc.on('open-save-dialog', function (event) {
   });
 });
 
-
-
 //Signals the IPM to start execution of the IPA
 ipc.on('execute-ipm', (event, ipmInputData) => {
 
 	if(ipmInputData){
 		//HERE WE EXECUTE THE IMAGE PROCESSING ALGORITHM
-		console.log("DEBUG: Image Processing Algorithm has been executed! IPM input object: ", inputObj); //TODO
+		console.log("DEBUG: Image Processing Algorithm has been executed! IPM input object: ", ipmInputData); //TODO
 	}
 
 });
