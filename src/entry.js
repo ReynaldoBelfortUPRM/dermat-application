@@ -136,6 +136,10 @@ ipc.on('status-update', (event, statusMessage) => {
 ipc.on('analysis-complete', (event, data) => {
 	//Save data sent by the IPM module. To be used in the Results Screen
 	ipmOutput = data;
+	
+	//TODO NOT SURE IF THIS BELONGS HERE
+	//Add 'Analysis' menu on app's menu bar
+	// ipc.send('add-analysis-menu');
 });
 
 //Executes when user has selected a destination to save a characterized image
@@ -156,7 +160,7 @@ ipc.on('save-destination-retrieved', (event, fileDest) => {
 	// fs.createReadStream(AppComponent.resultsScreenChild.state.currentImageSrc).pipe(fs.createWriteStream(fileDest));
 
 	debug('Function to save the filed has been called (async)!');
-	//TODO We should catch an error here if something unexpected hapens . 'Internal error application.' 
+	//TODO We should catch an error here if something unexpected hapens. 'Internal error application.' 
 });
 
 //Executes when a new image analysis has been requested

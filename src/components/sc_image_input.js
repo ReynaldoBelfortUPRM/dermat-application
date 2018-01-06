@@ -36,7 +36,9 @@ class ImageInputScreen extends Component {
 			selectedPaths: [],
 			imageNamesList: []
 		}
-		
+
+		//Add 'Analysis' menu on app's menu bar
+		ipc.send('remove-analysis-menu');   			//TODO Not sure if this belongs here
 	}
 
 	/****************************************
