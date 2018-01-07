@@ -20,15 +20,16 @@
 	- Figure out a way to incorporate webpack into electron
 	- Save 'npm list --depth=0' problems.
 	- Properly arrange application's package.json
+	- Change 'FilePaths' property of ipmOutputData var to 'characterizedImages'
+	- Perform Unit Testing
 */
 
 //Import libraries
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import jetpack from 'fs-jetpack'; 								//For file management
+import Papa from 'papaparse';
 const ipc = window.require('electron').ipcRenderer;			//Electron functions for interaction with Main Process	
-// const dialog = window.require('electron').remote.dialog;
-// const app = window.require('electron').remote.app;
 const { dialog, app } = window.require('electron').remote;	//Importing rest of necessary Electron libraries
 
 //Import styles
@@ -56,8 +57,9 @@ class App extends Component {
 
 		this.state = {
 			currentScreenIdx: 2,
-			imgInputPaths: [],
-			isResulsDataExported: false 		//Will save wether results data was saved to the user at any given moment
+			isResulsDataExported: false, 		//Will save wether results data was saved to the user at any given moment
+			ipmInputData: ipmInputDummy,			
+			ipmOutputData: ipmOutputDummy
 		};
 	}
 
@@ -93,13 +95,13 @@ class App extends Component {
 
 		switch(this.state.currentScreenIdx){
 			case 0: //Image Input Screen
-				currentScreen = (<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} />);
+				currentScreen = (<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} onSelectedPaths = { (ipmInputObj) => { this.setState({ ipmInputData: ipmInputObj}); } } />);
 				break;
 			case 1: //In Progress Screen
 				currentScreen = (<InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} />);
 				break;
 			case 2: //Results Screen
-				currentScreen = (<ResultsScreen outputData = { ipmOutputDummy } inputData = { ipmInputDummy } onRef= { ref => this.resultsScreenChild = ref}/>)
+				currentScreen = (<ResultsScreen outputData = { this.state.ipmOutputData } inputData = { this.state.ipmInputData } onRef= { ref => this.resultsScreenChild = ref}/>)
 				break;
 		}
 
@@ -110,6 +112,72 @@ class App extends Component {
 		);
 	}
 
+}
+
+/*************************
+ 	App Component Utils
+**************************/
+
+//Exports images and metadata from the stored IPM output info into .PNG and .txt (CSV) files at the specified folder destination
+function exportIPMOutputData(folderDestPath){
+	//TEST FOR ASYNC OPERATIONS TAHT MIGHT AFFECT The SAVING PROCESS TODO
+
+	//Create a new var contaning proper format for the papaparse library
+	var formattedIpmOutput = AppComponent.state.ipmOutputData.LayersInfo.map( (layerObj, i) => {
+		var newObj = {
+			LayerID: _.toString(layerObj.LayerID),
+			LayerName: layerObj.LayerName,
+			LayerThickness: _.toString(layerObj.LayerThickness),
+			LayerStackMin: _.toString(layerObj.LayerRange[0]),
+			LayerStackMax: _.toString(layerObj.LayerRange[1]),
+		};
+
+		return newObj;
+	});
+
+	debug("About to create csv data" );	 //TODO DEBUG
+
+	//Convert from JSON to CSV
+	var csvData = Papa.unparse(formattedIpmOutput);
+
+	console.log("DEBUG: Created CSV data: ", csvData);		//TODO DEBUG
+
+	console.log("DEBUG: JETPACK About to obtain main target directory. folderDestPath: ", folderDestPath);		 //TODO DEBUG	
+
+	//Obtain main target directory
+	var mainTargetDir = jetpack.dir(folderDestPath);
+
+	//Store text file on the selected diretory
+	mainTargetDir.file('stack-analysis-results.txt', { content: csvData });
+
+	//Create new path where characterized images will be placed
+	var imgExportFolderPath = mainTargetDir.path() + '\\characterized-images'; 	
+	
+	//Get app's internal folder where characterized images are stored
+	var imgSrcFolderPath = "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks (1)\\Testing_Stage\\CharacterizedImageSamples";
+
+	//TODO VERIFY HERE IF THERE ARE EXISTING IMAGES IN THE EXPORT FOLDER THAT MAY BE REPLACED
+			//Error case: what happens if user have to different folders with exported data and 
+			//the app replaces data on one of these folders (by user mistake)?
+
+	//Copy all and only the PNG files contained on the source folder into the export folder
+	jetpack.copy(imgSrcFolderPath, imgExportFolderPath, { matching: '*.png', 
+		overwrite: (srcInspectData, destInspectData) => { 
+				//This function executes when the image already exist in destination folder
+				//Criteria to replace/overwrite existing images should be defined here
+				//TODO Verify if we have to define something here
+				//TODO We should warn the user here that a file will be replaced ("one or more files will be replaced")
+				return true;
+	} });
+
+	//TODO Test: What happens if an error occurs when copying a file???
+	//Inform user that information has been succesfully exported
+	dialog.showMessageBox({
+		type: 'info',
+		title: 'Data succesfully exported',
+		message: "The image analysis results have been succesfully exported.",
+		buttons: ['Ok']
+	  });
 }
 
 /******************************************
@@ -134,6 +202,10 @@ ipc.on('status-update', (event, statusMessage) => {
 ipc.on('analysis-complete', (event, data) => {
 	//Save data sent by the IPM module. To be used in the Results Screen
 	ipmOutput = data;
+	
+	//TODO NOT SURE IF THIS BELONGS HERE
+	//Add 'Analysis' menu on app's menu bar
+	// ipc.send('add-analysis-menu');
 });
 
 //Executes when user has selected a destination to save a characterized image
@@ -154,7 +226,7 @@ ipc.on('save-destination-retrieved', (event, fileDest) => {
 	// fs.createReadStream(AppComponent.resultsScreenChild.state.currentImageSrc).pipe(fs.createWriteStream(fileDest));
 
 	debug('Function to save the filed has been called (async)!');
-	//TODO We should catch an error here if something unexpected hapens . 'Internal error application.' 
+	//TODO We should catch an error here if something unexpected hapens. 'Internal error application.' 
 });
 
 //Executes when a new image analysis has been requested
@@ -170,16 +242,37 @@ ipc.on('perform-new-analysis', (event, message) => {
 		  }, function (index) {		//Callback function
 			  if(index === 0){		//User selected 'Yes'
 
-				//Proceed to save image analysis on the user's local machine
-				exportIPMOutputData();
+				//Open the OS's dialog so that user can choose a folder to save the IPM data	
+				dialog.showOpenDialog({
+					title: 'Save Analysis Results',
+					properties: ['openFile', 'openDirectory'],
+					defaultPath: app.getPath('desktop')
+				}, function (folderDestArr) { 				//Callbak function
+					//If a folder destination was chosen
+					if (folderDestArr){				
+						//Proceed to save image analysis on the user's local machine
+						exportIPMOutputData(folderDestArr[0]);
+
+						//Mark that the results data has been exported
+						AppComponent.setResultDataExported(true);
+
+						debug('SAVED DATA on destination: ' + folderDestArr); //TODO DEBU	
+					
+						//Change screen back to Image Input screen and open the 'Open Dialog'
+						AppComponent.goImageInputSreen(true);
+					} 
+					
+				});
 
 				//Note: Here we don't have to update the isResulsDataExported var since the app will change to the first page
+			  } else { 			//User selected 'No'
+			  	//Change screen back to Image Input screen and open the 'Open Dialog'
+				AppComponent.goImageInputSreen(true);
 			  }
-
-			  //Change screen back to Image Input screen and open the 'Open Dialog'
-			  AppComponent.goImageInputSreen(true);
 		  });
 	} else{
+		//Delete all application data produced by the app (characterized images & IPM metadata) 	TODO
+
 		//Change screen back to Image Input screen and open the 'Open Dialog'
 		AppComponent.goImageInputSreen(true);
 	}
@@ -193,26 +286,35 @@ ipc.on('save-analysis-results', (event, message) => {
 	dialog.showOpenDialog({
 		title: 'Save Analysis Results',
 		properties: ['openFile', 'openDirectory'],
-		defaultPath: app.getPath('desktop')
-	  }, function (folderDest) { 				//Callbak function
+	  }, function (folderDestArr) { 				//Callbak function
 		//If a folder destination was chosen
-		if (folderDest){				
+		if (folderDestArr){				
 			//Proceed to save image analysis on the user's local machine
-			exportIPMOutputData();
+			exportIPMOutputData(folderDestArr[0]);
 
 			//Mark that the results data has been exported
 			AppComponent.setResultDataExported(true);
 
 			//Return to first page
-			debug('SAVED DATA on destination: ' + folderDest);
+			debug('SAVED DATA on destination: ' + folderDestArr);
 		} 
 	  });
 
 });
 
-function exportIPMOutputData(){
-	//>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<>><>>>>>>>>>>>>< IMPLEMENT HERE! TODO
-}
+//Signal the Results Screen component to change current image in UP direction
+ipc.on('change-image-up', (event) => {
+	if(AppComponent.state.currentScreenIdx === 2){ //Verify if we are in the Results screen
+		AppComponent.resultsScreenChild.changeImage(true);
+	}
+});
+
+//Signal the Results Screen component to change current image in DOWN direction
+ipc.on('change-image-down', (event) => {
+	if(AppComponent.state.currentScreenIdx === 2){ //Verify if we are in the Results screen
+		AppComponent.resultsScreenChild.changeImage(false);
+	}
+});
 
 //Point where the entire applcation is rendered by binding App object with the HTML container
 var AppComponent = ReactDOM.render(<App/>, document.querySelector('.react-container') ); 

@@ -36,7 +36,9 @@ class ImageInputScreen extends Component {
 			selectedPaths: [],
 			imageNamesList: []
 		}
-		
+
+		//Add 'Analysis' menu on app's menu bar
+		ipc.send('remove-analysis-menu');   			//TODO Not sure if this belongs here
 	}
 
 	/****************************************
@@ -80,12 +82,10 @@ class ImageInputScreen extends Component {
 			const ipmInputObj = {
 				filePaths: selectedPaths
 			}
-			//Signal main process to execute the IPM to analyze images
-			ipc.send('execute-ipm', ipmInputObj);	
-			//Hide the modal
-			this.setState({ showModal: false });
+			ipc.send('execute-ipm', ipmInputObj);						//Signal main process to execute the IPM to analyze images
+			this.props.onSelectedPaths(ipmInputObj);					//Send input object back to the App component
+			this.setState({ showModal: false });						//Hide the modal
 		}
-		
 	}
 
 	//------- Event handler for 'Browse' button ---------

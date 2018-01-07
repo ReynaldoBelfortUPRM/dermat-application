@@ -44,6 +44,11 @@ app.on('browser-window-focus', (event, window) => {
 	console.log('APP-DEBUG: focused window ID:' + window.id); 
 });
 
+//Remove if not needed TODO
+// app.on('will-quit', function () {
+// 	globalShortcut.unregisterAll();
+// });
+
 /******************************************
  	Inter-process communication listeners
 *******************************************/
@@ -88,14 +93,12 @@ ipc.on('open-save-dialog', function (event) {
   });
 });
 
-
-
 //Signals the IPM to start execution of the IPA
 ipc.on('execute-ipm', (event, ipmInputData) => {
 
 	if(ipmInputData){
 		//HERE WE EXECUTE THE IMAGE PROCESSING ALGORITHM
-		console.log("DEBUG: Image Processing Algorithm has been executed! IPM input object: ", inputObj); //TODO
+		console.log("DEBUG: Image Processing Algorithm has been executed! IPM input object: ", ipmInputData); //TODO
 	}
 
 });
@@ -107,45 +110,100 @@ ipc.on('cancel-execution', (event) => {
 	console.log("DEBUG: CANCELED EXECUTION!!" );
 	const statusMsg = "This is a dummy message that was sent form the Main Process!!";
 	event.sender.send('status-update', statusMsg);
+});
 
+
+//Adds 'Analysis' menu option on app's menu bar
+ipc.on('add-analysis-menu', (event) => {
+	console.log('DEBUG: Added <Analysis> menu bar');
+	//Menu bar setup
+	const menu = Menu.buildFromTemplate(menuBarTemplatePostAnalysis);
+	Menu.setApplicationMenu(menu);
+});
+
+//Removes 'Analysis' menu option on app's menu bar
+ipc.on('remove-analysis-menu', (event) => {
+	console.log('DEBUG: Added <Analysis> menu bar');
+	//Menu bar setup
+	const menu = Menu.buildFromTemplate(menuBarTemplatePreAnalysis);
+	Menu.setApplicationMenu(menu);
 });
 
 /************************
-   Menu bar definition 
+   Menu bar definitions 
 *************************/
+//Used when we are not at the results screen
+let menuBarTemplatePreAnalysis = [{
+	label: 'File',
+	submenu: [{
+		label: 'Exit',
+		click: function (item, focusedWindow) {
+			if (focusedWindow) {
+				//Close the application. Will attempt to close all windows via win.close().
+				app.quit();	 		
+			}
+		}
+	}]
+}];
 
-let menuBarTemplate = [{
+//Used at the results screen
+let menuBarTemplatePostAnalysis = [{
 			label: 'File',
 			submenu: [{
-			label: 'Exit',
-			click: function (item, focusedWindow) {
-				if (focusedWindow) {
-					//Close the application. Will attempt to close all windows via win.close().
-					app.quit();	 		
+				label: 'Exit',
+				click: function (item, focusedWindow) {
+					if (focusedWindow) {
+						//Close the application. Will attempt to close all windows via win.close().
+						app.quit();	 		
+					}
 				}
-			}
 			}]
-		},{
+		},
+		{
 			label: 'Analysis',
 			submenu: [{
-			label: 'Perform new analysis',
-			click: function (item, focusedWindow) {
-				if (focusedWindow) {
-					//Send signal to the Renderer process to perform new analysis
-					win.webContents.send('perform-new-analysis');
-				}
-				}
-			},
-			{
-			label: 'Save analysis results',
-			click: function (item, focusedWindow) {
-				if (focusedWindow) {
-					//Send signal to the Renderer process to perform new analysis
-					win.webContents.send('save-analysis-results');
-				}
-				}
-			}]
-		}]
+					label: 'Perform new analysis',
+					click: function (item, focusedWindow) {
+						if (focusedWindow) {
+							//Send signal to the Renderer process to perform new analysis
+							win.webContents.send('perform-new-analysis');
+						}
+						}
+					},
+					{
+					label: 'Save analysis results',
+					click: function (item, focusedWindow) {
+						if (focusedWindow) {
+							//Send signal to the Renderer process to perform new analysis
+							win.webContents.send('save-analysis-results');
+						}
+						}
+				}]
+		},
+		{
+			visible: false,
+			submenu: [{
+					label: 'Change image: Up',
+					accelerator: 'Up',
+					visible: false,
+					click: function (item, focusedWindow) {
+						if (focusedWindow) {
+							//Send signal to the Renderer process to change image: UP
+							win.webContents.send('change-image-up');
+						}
+					}
+					},{
+					label: 'Change image: Down',
+					accelerator: 'Down',
+					visible: false,
+					click: function (item, focusedWindow) {
+						if (focusedWindow) {
+							//Send signal to the Renderer process to change image: DOWN
+							win.webContents.send('change-image-down');
+						}
+					}
+				}]
+		}];
 
 /*************************************
    Application Function Declarations  
@@ -155,10 +213,8 @@ function createWindows(){  	//Function called by the application. 'on-ready' eve
 	displayAppInfo(); 		//Display applcation metadata information for debugging purposes TODO
 	createMainWindow();		//Create and display applcation's main window
 
-	//TODO Future Work: We can register keyboard shortcuts here
-
 	//Menu bar setup
-	const menu = Menu.buildFromTemplate(menuBarTemplate);
+	const menu = Menu.buildFromTemplate(menuBarTemplatePreAnalysis);
 	Menu.setApplicationMenu(menu);
 }
 

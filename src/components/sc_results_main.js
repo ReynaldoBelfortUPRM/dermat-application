@@ -47,6 +47,9 @@ class ResultsScreen extends Component {
 				layerData: props.outputData.LayersInfo,
 			}
 		}
+
+		//Add 'Analysis' menu on app's menu bar
+		ipc.send('add-analysis-menu');						//TODO Not sure if this belongs here
 	}
 
 	/****************************************
