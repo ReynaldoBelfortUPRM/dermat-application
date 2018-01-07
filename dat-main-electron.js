@@ -44,6 +44,11 @@ app.on('browser-window-focus', (event, window) => {
 	console.log('APP-DEBUG: focused window ID:' + window.id); 
 });
 
+//Remove if not needed TODO
+// app.on('will-quit', function () {
+// 	globalShortcut.unregisterAll();
+// });
+
 /******************************************
  	Inter-process communication listeners
 *******************************************/
@@ -125,52 +130,79 @@ ipc.on('remove-analysis-menu', (event) => {
 });
 
 /************************
-   Menu bar definition 
+   Menu bar definitions 
 *************************/
+//Used when we are not at the results screen
 let menuBarTemplatePreAnalysis = [{
 	label: 'File',
 	submenu: [{
-	label: 'Exit',
-	click: function (item, focusedWindow) {
-		if (focusedWindow) {
-			//Close the application. Will attempt to close all windows via win.close().
-			app.quit();	 		
+		label: 'Exit',
+		click: function (item, focusedWindow) {
+			if (focusedWindow) {
+				//Close the application. Will attempt to close all windows via win.close().
+				app.quit();	 		
+			}
 		}
-	}
 	}]
 }];
 
+//Used at the results screen
 let menuBarTemplatePostAnalysis = [{
 			label: 'File',
 			submenu: [{
-			label: 'Exit',
-			click: function (item, focusedWindow) {
-				if (focusedWindow) {
-					//Close the application. Will attempt to close all windows via win.close().
-					app.quit();	 		
+				label: 'Exit',
+				click: function (item, focusedWindow) {
+					if (focusedWindow) {
+						//Close the application. Will attempt to close all windows via win.close().
+						app.quit();	 		
+					}
 				}
-			}
 			}]
-		},{
+		},
+		{
 			label: 'Analysis',
 			submenu: [{
-			label: 'Perform new analysis',
-			click: function (item, focusedWindow) {
-				if (focusedWindow) {
-					//Send signal to the Renderer process to perform new analysis
-					win.webContents.send('perform-new-analysis');
-				}
-				}
-			},
-			{
-			label: 'Save analysis results',
-			click: function (item, focusedWindow) {
-				if (focusedWindow) {
-					//Send signal to the Renderer process to perform new analysis
-					win.webContents.send('save-analysis-results');
-				}
-				}
-			}]
+					label: 'Perform new analysis',
+					click: function (item, focusedWindow) {
+						if (focusedWindow) {
+							//Send signal to the Renderer process to perform new analysis
+							win.webContents.send('perform-new-analysis');
+						}
+						}
+					},
+					{
+					label: 'Save analysis results',
+					click: function (item, focusedWindow) {
+						if (focusedWindow) {
+							//Send signal to the Renderer process to perform new analysis
+							win.webContents.send('save-analysis-results');
+						}
+						}
+				}]
+		},
+		{
+			visible: false,
+			submenu: [{
+					label: 'Change image: Up',
+					accelerator: 'Up',
+					visible: false,
+					click: function (item, focusedWindow) {
+						if (focusedWindow) {
+							//Send signal to the Renderer process to change image: UP
+							win.webContents.send('change-image-up');
+						}
+					}
+					},{
+					label: 'Change image: Down',
+					accelerator: 'Down',
+					visible: false,
+					click: function (item, focusedWindow) {
+						if (focusedWindow) {
+							//Send signal to the Renderer process to change image: DOWN
+							win.webContents.send('change-image-down');
+						}
+					}
+				}]
 		}];
 
 /*************************************
@@ -181,19 +213,6 @@ function createWindows(){  	//Function called by the application. 'on-ready' eve
 	displayAppInfo(); 		//Display applcation metadata information for debugging purposes TODO
 	createMainWindow();		//Create and display applcation's main window
 
-	/****************************************
-   		Keyboard Shortcut registrations 
-	*****************************************/
-	globalShortcut.register('Up', function () {
-		//Send signal to the Renderer process to change image: UP
-		win.webContents.send('change-image-up');
-	});
-
-	globalShortcut.register('Down', function () {
-		//Send signal to the Renderer process to change image: DOWN
-		win.webContents.send('change-image-down');
-	});
-	
 	//Menu bar setup
 	const menu = Menu.buildFromTemplate(menuBarTemplatePreAnalysis);
 	Menu.setApplicationMenu(menu);

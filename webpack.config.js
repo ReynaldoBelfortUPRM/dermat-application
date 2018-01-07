@@ -67,9 +67,6 @@ module: {
             exclude: /node_modules/,
             use: [
               {
-                loader: "babel-loader"
-              },
-              {
                 loader: "react-svg-loader",
                 options: {
                   jsx: true // outputs JSX tags when set to true
