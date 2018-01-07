@@ -18,26 +18,8 @@ devServer: {
 },
 
 module: {
-//  loaders: [
-//    { 
-//     test: /\.js$/, 
-//     exclude: /node_modules/,
-//     loader: 'babel-loader',     
-//     },
-//     {
-//       test: /\.css$/,
-//       loader: 'style-loader'
-//     }, 
-//     {
-//       test: /\.css$/,
-//       loader: 'css-loader',
-//       query: {
-//         modules: true,
-//         localIdentName: '[name]__[local]___[hash:base64:5]'
-//       }
-//     }
-//  ],
   rules: [
+
         {
           test: /\.js$/,
           exclude: /node_modules/,
@@ -63,15 +45,12 @@ module: {
           ],
         },
         {
-            test: /\.(svg)$/,
-            exclude: /node_modules/,
-            use: [
-              {
-                loader: "react-svg-loader",
-                options: {
-                  jsx: true // outputs JSX tags when set to true
-                }
-              }
+          test: /\.svg$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: 'svg-react-loader'
+            }
           ]
         },
         {
@@ -83,8 +62,8 @@ module: {
               options: {}  
             }
           ]
-        }
-        
+        },
+               
       ]
 
   },

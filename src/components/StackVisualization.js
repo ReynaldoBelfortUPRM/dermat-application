@@ -32,7 +32,7 @@ var d3Color = require('d3-color');
 import styles from '../styles/StackVisualization.css';
 
 //Import resources TODO
-// import SvgBracket from '../../assets/resources/GullBraceDown.svg';
+// import SvgBracket from '-!babel-loader!svg-react-loader!../../assets/resources/GullBraceDown.svg';
 
 //Define the StackVisualization component
 const StackVisualization = (props) => {
