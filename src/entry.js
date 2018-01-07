@@ -114,6 +114,72 @@ class App extends Component {
 
 }
 
+/*************************
+ 	App Component Utils
+**************************/
+
+//Exports images and metadata from the stored IPM output info into .PNG and .txt (CSV) files at the specified folder destination
+function exportIPMOutputData(folderDestPath){
+	//TEST FOR ASYNC OPERATIONS TAHT MIGHT AFFECT The SAVING PROCESS TODO
+
+	//Create a new var contaning proper format for the papaparse library
+	var formattedIpmOutput = AppComponent.state.ipmOutputData.LayersInfo.map( (layerObj, i) => {
+		var newObj = {
+			LayerID: _.toString(layerObj.LayerID),
+			LayerName: layerObj.LayerName,
+			LayerThickness: _.toString(layerObj.LayerThickness),
+			LayerStackMin: _.toString(layerObj.LayerRange[0]),
+			LayerStackMax: _.toString(layerObj.LayerRange[1]),
+		};
+
+		return newObj;
+	});
+
+	debug("About to create csv data" );	 //TODO DEBUG
+
+	//Convert from JSON to CSV
+	var csvData = Papa.unparse(formattedIpmOutput);
+
+	console.log("DEBUG: Created CSV data: ", csvData);		//TODO DEBUG
+
+	console.log("DEBUG: JETPACK About to obtain main target directory. folderDestPath: ", folderDestPath);		 //TODO DEBUG	
+
+	//Obtain main target directory
+	var mainTargetDir = jetpack.dir(folderDestPath);
+
+	//Store text file on the selected diretory
+	mainTargetDir.file('stack-analysis-results.txt', { content: csvData });
+
+	//Create new path where characterized images will be placed
+	var imgExportFolderPath = mainTargetDir.path() + '\\characterized-images'; 	
+	
+	//Get app's internal folder where characterized images are stored
+	var imgSrcFolderPath = "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks (1)\\Testing_Stage\\CharacterizedImageSamples";
+
+	//TODO VERIFY HERE IF THERE ARE EXISTING IMAGES IN THE EXPORT FOLDER THAT MAY BE REPLACED
+			//Error case: what happens if user have to different folders with exported data and 
+			//the app replaces data on one of these folders (by user mistake)?
+
+	//Copy all and only the PNG files contained on the source folder into the export folder
+	jetpack.copy(imgSrcFolderPath, imgExportFolderPath, { matching: '*.png', 
+		overwrite: (srcInspectData, destInspectData) => { 
+				//This function executes when the image already exist in destination folder
+				//Criteria to replace/overwrite existing images should be defined here
+				//TODO Verify if we have to define something here
+				//TODO We should warn the user here that a file will be replaced ("one or more files will be replaced")
+				return true;
+	} });
+
+	//TODO Test: What happens if an error occurs when copying a file???
+	//Inform user that information has been succesfully exported
+	dialog.showMessageBox({
+		type: 'info',
+		title: 'Data succesfully exported',
+		message: "The image analysis results have been succesfully exported.",
+		buttons: ['Ok']
+	  });
+}
+
 /******************************************
  	Inter-process communication listeners
 *******************************************/
@@ -236,67 +302,19 @@ ipc.on('save-analysis-results', (event, message) => {
 
 });
 
-//Exports images and metadata from the stored IPM output info into .PNG and .txt (CSV) files at the specified folder destination
-function exportIPMOutputData(folderDestPath){
-	//TEST FOR ASYNC OPERATIONS TAHT MIGHT AFFECT The SAVING PROCESS TODO
+//Signal the Results Screen component to change current image in UP direction
+ipc.on('change-image-up', (event) => {
+	if(AppComponent.state.currentScreenIdx === 2){ //Verify if we are in the Results screen
+		AppComponent.resultsScreenChild.changeImage(true);
+	}
+});
 
-	//Create a new var contaning proper format for the papaparse library
-	var formattedIpmOutput = AppComponent.state.ipmOutputData.LayersInfo.map( (layerObj, i) => {
-		var newObj = {
-			LayerID: _.toString(layerObj.LayerID),
-			LayerName: layerObj.LayerName,
-			LayerThickness: _.toString(layerObj.LayerThickness),
-			LayerStackMin: _.toString(layerObj.LayerRange[0]),
-			LayerStackMax: _.toString(layerObj.LayerRange[1]),
-		};
-
-		return newObj;
-	});
-
-	debug("About to create csv data" );	 //TODO DEBUG
-
-	//Convert from JSON to CSV
-	var csvData = Papa.unparse(formattedIpmOutput);
-
-	console.log("DEBUG: Created CSV data: ", csvData);		//TODO DEBUG
-
-	console.log("DEBUG: JETPACK About to obtain main target directory. folderDestPath: ", folderDestPath);		 //TODO DEBUG	
-
-	//Obtain main target directory
-	var mainTargetDir = jetpack.dir(folderDestPath);
-
-	//Store text file on the selected diretory
-	mainTargetDir.file('stack-analysis-results.txt', { content: csvData });
-
-	//Create new path where characterized images will be placed
-	var imgExportFolderPath = mainTargetDir.path() + '\\characterized-images'; 	
-	
-	//Get app's internal folder where characterized images are stored
-	var imgSrcFolderPath = "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks (1)\\Testing_Stage\\CharacterizedImageSamples";
-
-	//TODO VERIFY HERE IF THERE ARE EXISTING IMAGES IN THE EXPORT FOLDER THAT MAY BE REPLACED
-			//Error case: what happens if user have to different folders with exported data and 
-			//the app replaces data on one of these folders (by user mistake)?
-
-	//Copy all and only the PNG files contained on the source folder into the export folder
-	jetpack.copy(imgSrcFolderPath, imgExportFolderPath, { matching: '*.png', 
-		overwrite: (srcInspectData, destInspectData) => { 
-				//This function executes when the image already exist in destination folder
-				//Criteria to replace/overwrite existing images should be defined here
-				//TODO Verify if we have to define something here
-				//TODO We should warn the user here that a file will be replaced ("one or more files will be replaced")
-				return true;
-	} });
-
-	//TODO Test: What happens if an error occurs when copying a file???
-	//Inform user that information has been succesfully exported
-	dialog.showMessageBox({
-		type: 'info',
-		title: 'Data succesfully exported',
-		message: "The image analysis results have been succesfully exported.",
-		buttons: ['Ok']
-	  });
-}
+//Signal the Results Screen component to change current image in DOWN direction
+ipc.on('change-image-down', (event) => {
+	if(AppComponent.state.currentScreenIdx === 2){ //Verify if we are in the Results screen
+		AppComponent.resultsScreenChild.changeImage(false);
+	}
+});
 
 //Point where the entire applcation is rendered by binding App object with the HTML container
 var AppComponent = ReactDOM.render(<App/>, document.querySelector('.react-container') ); 

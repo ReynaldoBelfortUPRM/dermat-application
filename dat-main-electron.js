@@ -105,14 +105,42 @@ ipc.on('cancel-execution', (event) => {
 	console.log("DEBUG: CANCELED EXECUTION!!" );
 	const statusMsg = "This is a dummy message that was sent form the Main Process!!";
 	event.sender.send('status-update', statusMsg);
+});
 
+
+//Adds 'Analysis' menu option on app's menu bar
+ipc.on('add-analysis-menu', (event) => {
+	console.log('DEBUG: Added <Analysis> menu bar');
+	//Menu bar setup
+	const menu = Menu.buildFromTemplate(menuBarTemplatePostAnalysis);
+	Menu.setApplicationMenu(menu);
+});
+
+//Removes 'Analysis' menu option on app's menu bar
+ipc.on('remove-analysis-menu', (event) => {
+	console.log('DEBUG: Added <Analysis> menu bar');
+	//Menu bar setup
+	const menu = Menu.buildFromTemplate(menuBarTemplatePreAnalysis);
+	Menu.setApplicationMenu(menu);
 });
 
 /************************
    Menu bar definition 
 *************************/
+let menuBarTemplatePreAnalysis = [{
+	label: 'File',
+	submenu: [{
+	label: 'Exit',
+	click: function (item, focusedWindow) {
+		if (focusedWindow) {
+			//Close the application. Will attempt to close all windows via win.close().
+			app.quit();	 		
+		}
+	}
+	}]
+}];
 
-let menuBarTemplate = [{
+let menuBarTemplatePostAnalysis = [{
 			label: 'File',
 			submenu: [{
 			label: 'Exit',
@@ -143,7 +171,7 @@ let menuBarTemplate = [{
 				}
 				}
 			}]
-		}]
+		}];
 
 /*************************************
    Application Function Declarations  
@@ -153,10 +181,21 @@ function createWindows(){  	//Function called by the application. 'on-ready' eve
 	displayAppInfo(); 		//Display applcation metadata information for debugging purposes TODO
 	createMainWindow();		//Create and display applcation's main window
 
-	//TODO Future Work: We can register keyboard shortcuts here
+	/****************************************
+   		Keyboard Shortcut registrations 
+	*****************************************/
+	globalShortcut.register('Up', function () {
+		//Send signal to the Renderer process to change image: UP
+		win.webContents.send('change-image-up');
+	});
 
+	globalShortcut.register('Down', function () {
+		//Send signal to the Renderer process to change image: DOWN
+		win.webContents.send('change-image-down');
+	});
+	
 	//Menu bar setup
-	const menu = Menu.buildFromTemplate(menuBarTemplate);
+	const menu = Menu.buildFromTemplate(menuBarTemplatePreAnalysis);
 	Menu.setApplicationMenu(menu);
 }
 
