@@ -57,17 +57,22 @@ app.on('browser-window-focus', (event, window) => {
 //Executes the command for opening the OS's OpenFile dialog. Returns back an array of paths selected by the user
 ipc.on('open-file-dialog', (event) => {
 
+	// const options = {
+	//     properties: ['openFile', 'multiSelections'],
+	//     filters: [
+	// 	    {name: 'RCM Images', extensions: ['png']},
+	// 	  ]
+	// };
+
 	const options = {
-	    properties: ['openFile', 'multiSelections'],
-	    filters: [
-		    {name: 'RCM Images', extensions: ['png']},
-		  ]
+		title: 'Open RCM images',
+	    properties: ['openDirectory'],
 	};
 
 	 dialog.showOpenDialog(options, 
-	  function (filePaths) {
-		    if (filePaths){
-		    	event.sender.send('selected-images', filePaths);	
+	  function (folderPaths) {
+		    if (folderPaths){
+		    	event.sender.send('selected-input-folder', folderPaths[0]);	
 		    }
 	  });
 });

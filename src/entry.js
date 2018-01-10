@@ -24,11 +24,18 @@
 	- Perform Unit Testing
 */
 
+
+//Meta: Ver las imagenes originales que inserte de unstack de Input Screen -> Results screen.
+//Meta 2: Que me cargue imagenes caracterizadas (dommy data) independiente de cualquier stack ogirinal que ponga.
+
 //Import libraries
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import jetpack from 'fs-jetpack'; 								//For file management
 import Papa from 'papaparse';
+import sortPaths from 'sort-paths';
+import pathSorter from 'path-sort';
+import _ from 'lodash';
 const ipc = window.require('electron').ipcRenderer;			//Electron functions for interaction with Main Process	
 const { dialog, app } = window.require('electron').remote;	//Importing rest of necessary Electron libraries
 
@@ -56,9 +63,9 @@ class App extends Component {
 		super(props);
 
 		this.state = {
-			currentScreenIdx: 2,
+			currentScreenIdx: 0,
 			isResulsDataExported: false, 		//Will save wether results data was saved to the user at any given moment
-			ipmInputData: ipmInputDummy,			
+			ipmInputData: null,			
 			ipmOutputData: ipmOutputDummy
 		};
 	}
@@ -75,8 +82,10 @@ class App extends Component {
 	}
 
 	goInProgressScreen(){
-
-	}
+		this.setState({ currentScreenIdx: 1});	
+		setTimeout(() => {}, 5000); 			//Wait 5secs before continuing
+		this.goResultsScreen();					//TODO THIS CODE IS NOT FOR PRODUCTION
+	}	
 
 	setResultDataExported(isDataExported){
 		if(isDataExported){
@@ -86,8 +95,13 @@ class App extends Component {
 
 	goResultsScreen(ipmOutputData){
 		//Image Processing Algorithm has finished. Show ResultsScreen
-		
-		//Change the screen
+		this.setState({ currentScreenIdx: 2});
+	}
+
+	executeIpm(ipmInputObj){
+		this.setState({ ipmInputData: ipmInputObj});				//Save the data	
+		ipc.send('execute-ipm', ipmInputObj);						//Signal main process to execute the IPM to analyze images
+		this.goInProgressScreen();
 	}
 
 	render (){
@@ -95,7 +109,7 @@ class App extends Component {
 
 		switch(this.state.currentScreenIdx){
 			case 0: //Image Input Screen
-				currentScreen = (<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} onSelectedPaths = { (ipmInputObj) => { this.setState({ ipmInputData: ipmInputObj}); } } />);
+				currentScreen = (<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} onSelectedPaths = { (ipmInputObj) => { this.executeIpm(ipmInputObj) } } />);
 				break;
 			case 1: //In Progress Screen
 				currentScreen = (<InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} />);
@@ -113,6 +127,8 @@ class App extends Component {
 	}
 
 }
+
+
 
 /*************************
  	App Component Utils
@@ -186,10 +202,67 @@ function exportIPMOutputData(folderDestPath){
 
 //These functions are defined for interaction with the Main Process
 
-//Executes when user has selected images
-ipc.on('selected-images', (event, filePaths) => {
+//Executes when user has selected the image source folder
+ipc.on('selected-input-folder', (event, srcFolderPath) => {
+
+	//TODO >>>>>>>> VALIDATE IMAGES HERE!!! <<<<<<
+
+	/**********************************************************************************
+	//This functon will retrieve the index contained in the given fileName parameter.
+	//'fileName' is expected to have '_' characters that separates an index number from 
+		the rest of the string. e.g. 'RCM_image_9' or '9_image_RCM'
+	//Returns -1 if the fileName doesn't comply with the expected format.
+	**********************************************************************************/
+	function getFileNameIndex(fileName){
+
+		//TODO VERIFY THIS CASE getFileNameIndex('_RCM_image'). This returns 0 value when it should returning -1.
+		
+		//Split name acording to the expected file name format 
+		var splittedFileNameValues = fileName.split('_');		
+		//Initialize vars	
+		var foundIndexValue = -1;
+		var numberCount = 0;
+		
+		//Count how many numbers are available in the string while also storing the last found index
+		splittedFileNameValues.forEach( (str) => {
+			var parseAttempt = _.toNumber(str);
+			if(!_.isNaN(parseAttempt)){
+				foundIndexValue = parseAttempt;
+				numberCount++;
+			}
+		} )
+
+		//If there are either 0 numbers or more than 1 numbers in the file name, it's an error. Return -1 in that case. Otherwise return the index found.
+		return (numberCount === 0 || numberCount > 2) ? -1 : foundIndexValue;		
+	}
+
+	//----- Obtaing the absolute path of every PNG image found in the given source folder  --------
+
+	//Obtain all the PNG files contained within the source folder
+	var relativeImageFilePaths = jetpack.find(srcFolderPath, {files: true, matching: "*.png" } );	
+	
+	//Obtain the file names of each image with its corresponding index
+	var imageFileNames = relativeImageFilePaths.map((path, i) => {
+		var fileName = jetpack.inspect(path).name;
+		var fileIndex = getFileNameIndex(fileName);
+		//Validate if the file name has index
+		if(fileIndex < 0){
+			console.warn('DEBUG: FILENAME INDEX ERROR! For file: ', jetpack.inspect(path).name );
+		}
+		//Return a new object with 'fileName' and 'fileIndex' properties
+		return {fileName: fileName, fileIndex: fileIndex};
+	});
+
+	//Sort array based on the fileIndex property
+	var sortedArray = _.sortBy(imageFileNames, [function(target) {return target.fileIndex; }])
+
+	//Append the source folder to each image file name to retrieve a new array of absolute paths
+	var sortedAbsoluteImagePaths = sortedArray.map( (d) => {
+		return srcFolderPath + '\\' + d.fileName;
+	});
+
 	//Signal the ImageInputScreen component to display the 'Input Confirmation Dialog'
-	AppComponent.inputScreenChild.displayConfirmationModal(filePaths);
+	AppComponent.inputScreenChild.displayConfirmationModal(sortedAbsoluteImagePaths);
 });
 
 //Executes everytime there is a new massege to be recieved form the IPM
@@ -202,6 +275,8 @@ ipc.on('status-update', (event, statusMessage) => {
 ipc.on('analysis-complete', (event, data) => {
 	//Save data sent by the IPM module. To be used in the Results Screen
 	ipmOutput = data;
+
+	//Display the Results Screen
 	
 	//TODO NOT SURE IF THIS BELONGS HERE
 	//Add 'Analysis' menu on app's menu bar

@@ -76,14 +76,15 @@ class ImageInputScreen extends Component {
 	}
 
 	//Signals the Main Process via IPC to execute the IPA.
-	executeIpm(selectedPaths) {
+	signalIpmExecution(selectedPaths) {
+
+		//TODO VALIDATE FILE PATH FIRST!!!
 		if(selectedPaths){ 
 			//Creating an object that corresponds to the format that was defined in the early stages of the project
 			const ipmInputObj = {
-				filePaths: selectedPaths
+				FilePaths: selectedPaths
 			}
-			ipc.send('execute-ipm', ipmInputObj);						//Signal main process to execute the IPM to analyze images
-			this.props.onSelectedPaths(ipmInputObj);					//Send input object back to the App component
+			this.props.onSelectedPaths(ipmInputObj);					//Send input object back to the App component and also signal tostart execution process
 			this.setState({ showModal: false });						//Hide the modal
 		}
 	}
@@ -130,7 +131,7 @@ class ImageInputScreen extends Component {
 			          </Modal.Body>
 			          <Modal.Footer>
 			            <Button onClick={ () => {this.setState({ showModal: false })} }>Cancel</Button>
-			            <Button bsStyle="primary" onClick={ () => { this.executeIpm(this.state.selectedPaths); } }>Execute</Button>
+			            <Button bsStyle="primary" onClick={ () => { this.signalIpmExecution(this.state.selectedPaths); } }>Execute</Button>
 
 			          </Modal.Footer>
 	    		</Modal>
