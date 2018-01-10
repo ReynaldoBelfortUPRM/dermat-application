@@ -83,7 +83,7 @@ class ResultsScreen extends Component {
 				this.setState({ currentImageIdx: newIndex, currentImageSrc: newImageSrc });
 			}
 		} else { //Down button was pressed
-			if(this.state.currentImageIdx < this.state.ipmData.characterizedImages.length - 1){
+			if(this.state.currentImageIdx < this.state.ipmData.originalImages.length - 1){
 				//Retrieve the new image index
 				var newIndex = this.state.currentImageIdx + 1;
 				//Get the  new RCM image according to the current image view state
@@ -102,7 +102,12 @@ class ResultsScreen extends Component {
 	getNewCurrentImage(imgViewState, imgIdx){
 		var newImageSrc = null;
 		if(imgViewState){ 														//The characterized version of the image shall be displayed
-			newImageSrc = this.state.ipmData.characterizedImages[imgIdx];																		
+			var arrLength = this.state.ipmData.characterizedImages.length;
+			if(arrLength - 1 <= imgIdx){ //TODO FOR DEBUG PURPOSES
+				newImageSrc = this.state.ipmData.characterizedImages[arrLength - 1]; //Just always show the last characterized image
+			} else {	//TODO This is the production code
+				newImageSrc = this.state.ipmData.characterizedImages[imgIdx];																		
+			}
 		} else {																//The original version of the image shall be displayed
 			newImageSrc = this.state.ipmData.originalImages[imgIdx];									
 		}
@@ -154,7 +159,7 @@ class ResultsScreen extends Component {
 					<VisualizationView currentState={ this.state } outputData={ this.props.outputData } binClicked={ (layerIndex) => { this.binClicked(layerIndex); } } imageClicked={ (imgIndex) => { this.imageClicked(imgIndex); } }/>
 				</div>
 				<div className={styles.containerTwo}>
-					<ImageMetricsView currentImg = { this.state.currentImageIdx + 1} totalImages = { this.state.ipmData.characterizedImages.length }/>
+					<ImageMetricsView currentImg = { this.state.currentImageIdx + 1} totalImages = { this.state.ipmData.originalImages.length }/>
 				</div>
 			</div>
 		);
