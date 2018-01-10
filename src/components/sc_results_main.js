@@ -36,7 +36,7 @@ class ResultsScreen extends Component {
 
 		//Define screen's state for holding results data, along with metadata for funcitonality purposes
 		this.state = {											  //TODO DOCUMENT THIS PROPERTIES
-			currentImageIdx: 0,
+			currentImageIdx: 2,
 			selectedLayerIdx: 0,
 			rcmStackImageCount: props.outputData.FilePaths.length,
 			currentImageSrc: props.inputData.FilePaths[0],
