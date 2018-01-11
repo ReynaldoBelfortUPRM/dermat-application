@@ -86,7 +86,7 @@ class App extends Component {
 
 	goInProgressScreen(){
 		this.setState({ currentScreenIdx: 1});	
-		setTimeout(() => { this.goResultsScreen();}, 3000); 		//TODO THIS CODE IS NOT FOR PRODUCTION	
+		// setTimeout(() => { this.goResultsScreen();}, 3000); 		//TODO THIS CODE IS NOT FOR PRODUCTION	DEBUG
 	}	
 
 	setResultDataExported(isDataExported){
@@ -97,7 +97,7 @@ class App extends Component {
 
 	goResultsScreen(ipmOutputData){
 		//Image Processing Algorithm has finished. Show ResultsScreen
-		this.setState({ currentScreenIdx: 2});
+		this.setState({ currentScreenIdx: 2, ipmOutputData: ipmOutputData});
 	}
 
 	executeIpm(ipmInputObj){
@@ -114,7 +114,7 @@ class App extends Component {
 				currentScreen = (<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} onSelectedPaths = { (ipmInputObj) => { this.executeIpm(ipmInputObj) } } />);
 				break;
 			case 1: //In Progress Screen
-				currentScreen = (<InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} />);
+				currentScreen = (<InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} onCancel = { () => { this.goImageInputSreen(false) } }/>);
 				break;
 			case 2: //Results Screen
 				currentScreen = (<ResultsScreen outputData = { this.state.ipmOutputData } inputData = { this.state.ipmInputData } onRef= { ref => this.resultsScreenChild = ref}/>)
@@ -304,9 +304,10 @@ ipc.on('status-update', (event, statusMessage) => {
 });
 
 //Executes when the IPA finished its execution and result data was sent back to this Renderer proecss
-ipc.on('analysis-complete', (event, data) => {
+ipc.on('analysis-complete', (event, ipmOutput) => {
 	//Save data sent by the IPM module. To be used in the Results Screen
-	ipmOutput = data;
+	// ipmOutput = data;
+	AppComponent.goResultsScreen(ipmOutput);
 
 	//Display the Results Screen
 	
