@@ -5,7 +5,7 @@
 
 
 export default {
-    "FilePaths": [
+    "characterizedImages": [
         "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized1.png",
         "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized2.png",
         "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized3.png",

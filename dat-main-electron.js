@@ -17,6 +17,7 @@
 const {app, BrowserWindow, globalShortcut, Menu} = require('electron');
 const path = require('path');
 const url = require('url');
+require('electron-debug')({enabled: true});
 
 //For interaction with the Renderer process
 const ipc = require('electron').ipcMain;
@@ -149,7 +150,19 @@ let menuBarTemplatePreAnalysis = [{
 			}
 		}
 	}]
-}];
+},{
+	label: 'Tools',
+	submenu: [{
+		label: 'DevTools',
+		accelerator:'Ctrl+Shift+I',
+		click: function (item, focusedWindow) {
+			if (focusedWindow) {
+				win.webContents.openDevTools();
+			}
+		}
+	}]
+}
+];
 
 //Used at the results screen
 let menuBarTemplatePostAnalysis = [{
@@ -247,7 +260,7 @@ function createMainWindow(){
 	}));
 
 	//TODO Open DevTools for this window. For debugging purposes
-	win.webContents.openDevTools();
+	// win.webContents.openDevTools();
 
 	//--------------- Registration of  Window Events -------------
 

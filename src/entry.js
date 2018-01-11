@@ -33,9 +33,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import jetpack from 'fs-jetpack'; 								//For file management
 import Papa from 'papaparse';
-import sortPaths from 'sort-paths';
-import pathSorter from 'path-sort';
 import _ from 'lodash';
+// import sortPaths from 'sort-paths';
+// import pathSorter from 'path-sort';
 const ipc = window.require('electron').ipcRenderer;			//Electron functions for interaction with Main Process	
 const { dialog, app } = window.require('electron').remote;	//Importing rest of necessary Electron libraries
 
@@ -62,6 +62,9 @@ class App extends Component {
 	constructor(props){
 		super(props);
 
+		//TODO DEBUG PURPOSES - Obtain the characterized images stored in this computer
+		ipmOutputDummy.characterizedImages = getCharacterizedImagesLocalComputer();
+
 		this.state = {
 			currentScreenIdx: 0,
 			isResulsDataExported: false, 		//Will save wether results data was saved to the user at any given moment
@@ -83,8 +86,7 @@ class App extends Component {
 
 	goInProgressScreen(){
 		this.setState({ currentScreenIdx: 1});	
-		setTimeout(() => {}, 5000); 			//Wait 5secs before continuing
-		this.goResultsScreen();					//TODO THIS CODE IS NOT FOR PRODUCTION
+		setTimeout(() => { this.goResultsScreen();}, 3000); 		//TODO THIS CODE IS NOT FOR PRODUCTION	
 	}	
 
 	setResultDataExported(isDataExported){
@@ -196,6 +198,65 @@ function exportIPMOutputData(folderDestPath){
 	  });
 }
 
+function getCharacterizedImagesLocalComputer(){
+	var roamingPath = app.getPath('appData'); //Will look something like this: C:\Users\reyna\AppData\Roaming
+	var characterizedImgPath = roamingPath + "\\dermat-application\\characterized-images";
+
+	//Obtain all the PNG files contained within the source folder
+	var relativeImageFilePaths = jetpack.find(characterizedImgPath, {files: true, matching: "*.png" } );	
+	
+	//Obtain the file names of each image with its corresponding index
+	var imageFileNames = relativeImageFilePaths.map((path, i) => {
+		var fileName = jetpack.inspect(path).name;
+		var fileIndex = getFileNameIndex(fileName);
+		//Validate if the file name has index
+		if(fileIndex < 0){
+			console.warn('DEBUG: FILENAME INDEX ERROR! For file: ', jetpack.inspect(path).name );
+		}
+		//Return a new object with 'fileName' and 'fileIndex' properties
+		return {fileName: fileName, fileIndex: fileIndex};
+	});
+
+	//Sort array based on the fileIndex property
+	var sortedArray = _.sortBy(imageFileNames, [function(target) {return target.fileIndex; }])
+
+	//Append the source folder to each image file name to retrieve a new array of absolute paths
+	var sortedAbsoluteImagePaths = sortedArray.map( (d) => {
+		return characterizedImgPath + '\\' + d.fileName;
+	});
+
+	return sortedAbsoluteImagePaths;
+}
+
+/**********************************************************************************
+//This functon will retrieve the index contained in the given fileName parameter.
+//'fileName' is expected to have '_' characters that separates an index number from 
+	the rest of the string. e.g. 'RCM_image_9' or '9_image_RCM'
+//Returns -1 if the fileName doesn't comply with the expected format.
+**********************************************************************************/
+function getFileNameIndex(fileName){
+
+	//TODO VERIFY THIS CASE getFileNameIndex('_RCM_image'). This returns 0 value when it should returning -1.
+	
+	//Split name acording to the expected file name format 
+	var splittedFileNameValues = fileName.split('_');		
+	//Initialize vars	
+	var foundIndexValue = -1;
+	var numberCount = 0;
+	
+	//Count how many numbers are available in the string while also storing the last found index
+	splittedFileNameValues.forEach( (str) => {
+		var parseAttempt = _.toNumber(str);
+		if(!_.isNaN(parseAttempt)){
+			foundIndexValue = parseAttempt;
+			numberCount++;
+		}
+	} )
+
+	//If there are either 0 numbers or more than 1 numbers in the file name, it's an error. Return -1 in that case. Otherwise return the index found.
+	return (numberCount === 0 || numberCount > 2) ? -1 : foundIndexValue;		
+}
+
 /******************************************
  	Inter-process communication listeners
 *******************************************/
@@ -204,38 +265,6 @@ function exportIPMOutputData(folderDestPath){
 
 //Executes when user has selected the image source folder
 ipc.on('selected-input-folder', (event, srcFolderPath) => {
-
-	//TODO >>>>>>>> VALIDATE IMAGES HERE!!! <<<<<<
-
-	/**********************************************************************************
-	//This functon will retrieve the index contained in the given fileName parameter.
-	//'fileName' is expected to have '_' characters that separates an index number from 
-		the rest of the string. e.g. 'RCM_image_9' or '9_image_RCM'
-	//Returns -1 if the fileName doesn't comply with the expected format.
-	**********************************************************************************/
-	function getFileNameIndex(fileName){
-
-		//TODO VERIFY THIS CASE getFileNameIndex('_RCM_image'). This returns 0 value when it should returning -1.
-		
-		//Split name acording to the expected file name format 
-		var splittedFileNameValues = fileName.split('_');		
-		//Initialize vars	
-		var foundIndexValue = -1;
-		var numberCount = 0;
-		
-		//Count how many numbers are available in the string while also storing the last found index
-		splittedFileNameValues.forEach( (str) => {
-			var parseAttempt = _.toNumber(str);
-			if(!_.isNaN(parseAttempt)){
-				foundIndexValue = parseAttempt;
-				numberCount++;
-			}
-		} )
-
-		//If there are either 0 numbers or more than 1 numbers in the file name, it's an error. Return -1 in that case. Otherwise return the index found.
-		return (numberCount === 0 || numberCount > 2) ? -1 : foundIndexValue;		
-	}
-
 	//----- Obtaing the absolute path of every PNG image found in the given source folder  --------
 
 	//Obtain all the PNG files contained within the source folder
@@ -260,6 +289,9 @@ ipc.on('selected-input-folder', (event, srcFolderPath) => {
 	var sortedAbsoluteImagePaths = sortedArray.map( (d) => {
 		return srcFolderPath + '\\' + d.fileName;
 	});
+
+	//TODO >>>>>>>> VALIDATE IMAGES HERE!!! <<<<<<
+	
 
 	//Signal the ImageInputScreen component to display the 'Input Confirmation Dialog'
 	AppComponent.inputScreenChild.displayConfirmationModal(sortedAbsoluteImagePaths);
