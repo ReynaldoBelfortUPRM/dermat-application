@@ -38,12 +38,12 @@ class ResultsScreen extends Component {
 		this.state = {											  //TODO DOCUMENT THIS PROPERTIES
 			currentImageIdx: 2,
 			selectedLayerIdx: 0,
-			rcmStackImageCount: props.outputData.FilePaths.length,
-			currentImageSrc: props.inputData.FilePaths[0],
+			rcmStackImageCount: props.outputData.characterizedImages.length,
+			currentImageSrc: props.inputData.originalImages[0],
 			isCharacterizedViewEnabled: false,
 			ipmData: {
-				originalImages: props.inputData.FilePaths,
-				characterizedImages: props.outputData.FilePaths,
+				originalImages: props.inputData.originalImages,
+				characterizedImages: props.outputData.characterizedImages,
 				layerData: props.outputData.LayersInfo,
 			}
 		}

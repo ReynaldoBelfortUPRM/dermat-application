@@ -15,8 +15,9 @@
 import React, { Component } from 'react';
 import {Grid, Row, Col, Button, Modal, ListGroup, ListGroupItem} from 'react-bootstrap';
 
-//Import Electron functions for interaction with Main Process
+//Import Electron required electron functions
 const ipc = window.require('electron').ipcRenderer;
+const { app } = window.require('electron').remote;
 
 //Import styles
 import styles from '../styles/sc-imageinput-progress.css';
@@ -82,7 +83,8 @@ class ImageInputScreen extends Component {
 		if(selectedPaths){ 
 			//Creating an object that corresponds to the format that was defined in the early stages of the project
 			const ipmInputObj = {
-				FilePaths: selectedPaths
+				originalImages: selectedPaths,
+				characterizedImagesDest: app.getPath('appData') + "\\dermat-application\\characterized-images",
 			}
 			this.props.onSelectedPaths(ipmInputObj);					//Send input object back to the App component and also signal tostart execution process
 			this.setState({ showModal: false });						//Hide the modal

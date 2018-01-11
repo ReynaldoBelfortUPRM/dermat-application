@@ -33,9 +33,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import jetpack from 'fs-jetpack'; 								//For file management
 import Papa from 'papaparse';
-import sortPaths from 'sort-paths';
-import pathSorter from 'path-sort';
 import _ from 'lodash';
+// import sortPaths from 'sort-paths';
+// import pathSorter from 'path-sort';
 const ipc = window.require('electron').ipcRenderer;			//Electron functions for interaction with Main Process	
 const { dialog, app } = window.require('electron').remote;	//Importing rest of necessary Electron libraries
 
@@ -63,7 +63,7 @@ class App extends Component {
 		super(props);
 
 		//TODO DEBUG PURPOSES - Obtain the characterized images stored in this computer
-		ipmOutputDummy.FilePaths = getCharacterizedImagesLocalComputer();
+		ipmOutputDummy.characterizedImages = getCharacterizedImagesLocalComputer();
 
 		this.state = {
 			currentScreenIdx: 0,
@@ -265,9 +265,6 @@ function getFileNameIndex(fileName){
 
 //Executes when user has selected the image source folder
 ipc.on('selected-input-folder', (event, srcFolderPath) => {
-
-	//TODO >>>>>>>> VALIDATE IMAGES HERE!!! <<<<<<
-
 	//----- Obtaing the absolute path of every PNG image found in the given source folder  --------
 
 	//Obtain all the PNG files contained within the source folder
@@ -292,6 +289,9 @@ ipc.on('selected-input-folder', (event, srcFolderPath) => {
 	var sortedAbsoluteImagePaths = sortedArray.map( (d) => {
 		return srcFolderPath + '\\' + d.fileName;
 	});
+
+	//TODO >>>>>>>> VALIDATE IMAGES HERE!!! <<<<<<
+	
 
 	//Signal the ImageInputScreen component to display the 'Input Confirmation Dialog'
 	AppComponent.inputScreenChild.displayConfirmationModal(sortedAbsoluteImagePaths);
