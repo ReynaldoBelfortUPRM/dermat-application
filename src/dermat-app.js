@@ -200,7 +200,7 @@ function exportIPMOutputData(folderDestPath){
 
 function getCharacterizedImagesLocalComputer(){
 	var roamingPath = app.getPath('appData'); //Will look something like this: C:\Users\reyna\AppData\Roaming
-	var characterizedImgPath = roamingPath + "\\dermat-application\\characterized-images";
+	var characterizedImgPath = roamingPath + "\\" + app.getName() + "\\characterized-images";
 
 	//Obtain all the PNG files contained within the source folder
 	var relativeImageFilePaths = jetpack.find(characterizedImgPath, {files: true, matching: "*.png" } );	
