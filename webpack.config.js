@@ -2,18 +2,18 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-  app: ['webpack/hot/dev-server', './src/entry.js'],    //Application source file (ReactJS app) goes here
-  // app: './src/entry.js'
+  app: ['webpack/hot/dev-server', './src/dermat-app.js'],    //Application source file (ReactJS app) goes here
+  // app: './src/dermat-app.js'
 },
 
 output: {
-  path: __dirname + '/public/built',                    //Build path goes here
+  path: __dirname + '/dist/built',                    //Build path goes here
   filename: 'bundle.js',
   publicPath: 'http://localhost:8080/built/'
 },
 
 devServer: {
-  contentBase: './public',
+  contentBase: './dist',
   publicPath: 'http://localhost:8080/built/'
 },
 
