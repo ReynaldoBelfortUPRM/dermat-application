@@ -58,7 +58,7 @@ import debug from './debug/debugTools.js';
 //TODO Maybe this should be saved in the react component
 //Get App Data information
 var roamingPath = app.getPath('appData'); //Will look something like this: C:\Users\reyna\AppData\Roaming
-var characterizedImgPath = roamingPath + "\\" + app.getName() + "\\characterized-images";
+var appDataFolderPath = roamingPath + "\\" + app.getName();
 
 
 var ipmOutput = null;
@@ -143,7 +143,7 @@ class App extends Component {
 
 		switch(this.state.currentScreenIdx){
 			case 0: //Image Input Screen
-				currentScreen = (<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} onSelectedPaths = { (ipmInputObj) => { this.executeIpm(ipmInputObj) } } />);
+				currentScreen = (<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} onSelectedPaths = { (ipmInputObj) => { this.executeIpm(ipmInputObj) } } appDataPath = { appDataFolderPath } />);
 				break;
 			case 1: //In Progress Screen
 				currentScreen = (<InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} onCancel = { () => { this.goImageInputSreen(false) } }/>);
@@ -236,6 +236,7 @@ function getCharacterizedImagesLocalComputer(){
 	debug("about to store charerized images in Roaming folder");
 
 	//Copy all and only the PNG files contained on the source folder into the export folder
+	var characterizedImgPath = appDataFolderPath + "\\characterized-images";
 	if(!jetpack.exists(characterizedImgPath)){	//If does not exists
 
 		jetpack.copy(app.getAppPath() + "\\assets\\characterized-images", characterizedImgPath, { matching: '*.png', 

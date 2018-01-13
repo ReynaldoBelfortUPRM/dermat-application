@@ -75,7 +75,7 @@ def main():
         os.makedirs(outputImagesSavePath)
 
     # Saves image matrix in .mat file to be accessed by the runtime
-    scipy.io.savemat(ImageArrayPath, {'imageData': data})
+    # scipy.io.savemat(ImageArrayPath, {'imageData': data})
     
     message["data"] = "Step 2: Data saved....."
     print json.dumps(message)
@@ -91,19 +91,19 @@ def main():
     print json.dumps(message)
     sys.stdout.flush()
 
-    # Initializes MATLAB runtime
-    matlabRuntime = RCM_LayerSeparation.initialize()
+    # # Initializes MATLAB runtime
+    # matlabRuntime = RCM_LayerSeparation.initialize()
 
-    # Input: Matrix of pixel values,
-    #        Path to folder where texton library and models are stored,
-    #        Path to folder where characterized images will be stored
-    # Output: Vector containing the classification of each image in the stack
+    # # Input: Matrix of pixel values,
+    # #        Path to folder where texton library and models are stored,
+    # #        Path to folder where characterized images will be stored
+    # # Output: Vector containing the classification of each image in the stack
 
-    ipmOutput = matlabRuntime.RCM_LayerSeparation(data_mat,textFilesPath,outputImagesSavePath)
-    # print (ipmOutput)   #Test classifier output
+    # ipmOutput = matlabRuntime.RCM_LayerSeparation(data_mat,textFilesPath,outputImagesSavePath)
+    # # print (ipmOutput)   #Test classifier output
 
-    # Terminate MATLAB runtime
-    matlabRuntime.terminate()
+    # # Terminate MATLAB runtime
+    # matlabRuntime.terminate()
     
     # t1 = time.time()
     # total = t1 - t0 

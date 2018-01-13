@@ -150,7 +150,7 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 		});
 
 		// console.log("DEBUG: Image Processing Algorithm has started! IPM input object: ", ipmInputData); //TODO
-		console.log("DEBUG: Image Processing Algorithm has started! IPM input object: "); //TODO
+		console.log("DEBUG: Image Processing Algorithm has started! IPM input object: ", ipmInputData); //TODO
 	}
 
 });

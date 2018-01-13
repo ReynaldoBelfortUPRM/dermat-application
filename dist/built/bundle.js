@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "cc268c2bf0e941c1b605"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "b6f180efb58ae07a08bb"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -42099,7 +42099,7 @@ const { dialog, app } = window.require('electron').remote; //Importing rest of n
 //TODO Maybe this should be saved in the react component
 //Get App Data information
 var roamingPath = app.getPath('appData'); //Will look something like this: C:\Users\reyna\AppData\Roaming
-var characterizedImgPath = roamingPath + "\\" + app.getName() + "\\characterized-images";
+var appDataFolderPath = roamingPath + "\\" + app.getName();
 
 var ipmOutput = null;
 var ipmInput = null;
@@ -42158,9 +42158,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 	goInProgressScreen() {
 		this.setState({ currentScreenIdx: 1 });
-		setTimeout(() => {
-			this.goResultsScreen();
-		}, 3000); //TODO THIS CODE IS NOT FOR PRODUCTION	
+		// setTimeout(() => { this.goResultsScreen();}, 3000); 		//TODO THIS CODE IS NOT FOR PRODUCTION	DEBUG
 	}
 
 	setResultDataExported(isDataExported) {
@@ -42171,7 +42169,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 	goResultsScreen(ipmOutputData) {
 		//Image Processing Algorithm has finished. Show ResultsScreen
-		this.setState({ currentScreenIdx: 2 });
+		this.setState({ currentScreenIdx: 2, ipmOutputData: ipmOutputData });
 	}
 
 	executeIpm(ipmInputObj) {
@@ -42188,11 +42186,13 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				//Image Input Screen
 				currentScreen = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__components_sc_image_input__["a" /* default */], { onRef: ref => this.inputScreenChild = ref, onSelectedPaths: ipmInputObj => {
 						this.executeIpm(ipmInputObj);
-					} });
+					}, appDataPath: appDataFolderPath });
 				break;
 			case 1:
 				//In Progress Screen
-				currentScreen = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__components_sc_in_progress__["a" /* default */], { onRef: ref => this.inProcessScreenChild = ref });
+				currentScreen = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__components_sc_in_progress__["a" /* default */], { onRef: ref => this.inProcessScreenChild = ref, onCancel: () => {
+						this.goImageInputSreen(false);
+					} });
 				break;
 			case 2:
 				//Results Screen
@@ -42281,6 +42281,7 @@ function getCharacterizedImagesLocalComputer() {
 	Object(__WEBPACK_IMPORTED_MODULE_10__debug_debugTools_js__["a" /* default */])("about to store charerized images in Roaming folder");
 
 	//Copy all and only the PNG files contained on the source folder into the export folder
+	var characterizedImgPath = appDataFolderPath + "\\characterized-images";
 	if (!__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.exists(characterizedImgPath)) {
 		//If does not exists
 
@@ -42400,9 +42401,10 @@ ipc.on('status-update', (event, statusMessage) => {
 });
 
 //Executes when the IPA finished its execution and result data was sent back to this Renderer proecss
-ipc.on('analysis-complete', (event, data) => {
+ipc.on('analysis-complete', (event, ipmOutput) => {
 	//Save data sent by the IPM module. To be used in the Results Screen
-	ipmOutput = data;
+	// ipmOutput = data;
+	AppComponent.goResultsScreen(ipmOutput);
 
 	//Display the Results Screen
 
@@ -55922,7 +55924,8 @@ module.exports = function(module) {
 
 //Import Electron required electron functions
 const ipc = window.require('electron').ipcRenderer;
-const { app } = window.require('electron').remote;
+//TODO REMOVE IF NOT NEEDED
+// const { app } = window.require('electron').remote;
 
 //Import styles
 
@@ -55940,7 +55943,8 @@ class ImageInputScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] 
 		this.state = {
 			showModal: false,
 			selectedPaths: [],
-			imageNamesList: []
+			imageNamesList: [],
+			imageCount: 0
 
 			//Add 'Analysis' menu on app's menu bar
 		};ipc.send('remove-analysis-menu'); //TODO Not sure if this belongs here
@@ -55981,7 +55985,7 @@ class ImageInputScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] 
 		});
 
 		//Update the state of this component so we can re-trigger render() so that the modal will now be displayed
-		this.setState({ selectedPaths, showModal: true, imageNamesList }); //The same as this.setState({ selectedPaths: selectedPaths });
+		this.setState({ selectedPaths, showModal: true, imageNamesList, imageCount: imageNamesList.length }); //The same as this.setState({ selectedPaths: selectedPaths });
 		//TODO DEBUG 
 		console.log('DEBUG: Modal Displayed. Filepaths are... ', selectedPaths);
 	}
@@ -55994,8 +55998,9 @@ class ImageInputScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] 
 			//Creating an object that corresponds to the format that was defined in the early stages of the project
 			const ipmInputObj = {
 				originalImages: selectedPaths,
-				characterizedImagesDest: app.getPath('appData') + "\\dermat-application\\characterized-images"
+				characterizedImagesDest: this.props.appDataPath
 			};
+			console.log("DEBUG: Created ipmInputObj:", ipmInputObj);
 			this.props.onSelectedPaths(ipmInputObj); //Send input object back to the App component and also signal tostart execution process
 			this.setState({ showModal: false }); //Hide the modal
 		}
@@ -56066,7 +56071,7 @@ class ImageInputScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] 
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 							'p',
 							null,
-							'The following list presents the images to be analyzed where the list order is based on how the images were inserted into the application. Since the application will analyze images shown in this list in a top to bottom fashion, please verify that the order of the images is correct:'
+							'The following list presents the PNG images found within the selected folder. Since the application will analyze images shown in this list in a top to bottom fashion, please verify that the order of the images is correct:'
 						)
 					),
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -56082,6 +56087,16 @@ class ImageInputScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] 
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["g" /* Modal */].Footer,
 					null,
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+						'div',
+						null,
+						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+							'p',
+							null,
+							'Image Count: ',
+							this.state.imageCount
+						)
+					),
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 						__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["a" /* Button */],
 						{ onClick: () => {
@@ -68296,7 +68311,7 @@ class InProgressScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] 
 
 	//Send signal to the Main Process to cancel the current execution of the IPA
 	cancelIpmExecution() {
-
+		this.props.onCancel();
 		ipc.send('cancel-execution');
 	}
 

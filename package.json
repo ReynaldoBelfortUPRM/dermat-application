@@ -28,7 +28,7 @@
     "d3-scale": "1.0.7",
     "d3-selection": "1.2.0",
     "d3-shape": "1.2.0",
-    "fs-jetpack": "^1.2.0",    
+    "fs-jetpack": "^1.2.0",
     "babel-preset-stage-1": "^6.1.18",
     "bootstrap": "^3.3.6",
     "css-loader": "^0.28.7",
