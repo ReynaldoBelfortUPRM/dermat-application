@@ -53,7 +53,7 @@ class InProgressScreen extends Component {
 
 	//Send signal to the Main Process to cancel the current execution of the IPA
 	cancelIpmExecution() {
-		
+		this.props.onCancel();
 		ipc.send('cancel-execution');
 	}
 

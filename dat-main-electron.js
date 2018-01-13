@@ -33,6 +33,10 @@ require('electron-debug')({enabled: true});
 const ipc = require('electron').ipcMain;
 const dialog = require('electron').dialog;
 
+//Python related vars
+var PythonShell = require('python-shell');
+var pyshell = null;
+
 //Define application window
 let win;
 
@@ -114,7 +118,39 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 
 	if(ipmInputData){
 		//HERE WE EXECUTE THE IMAGE PROCESSING ALGORITHM
-		console.log("DEBUG: Image Processing Algorithm has been executed! IPM input object: ", ipmInputData); //TODO
+		pyshell = new PythonShell('test_script.py');
+		pyshell.send(JSON.stringify(ipmInputData));
+
+		/************************
+		   Python definitions 
+		*************************/
+		// (TEST OUTPUT)
+		pyshell.on('message', function (message) {
+		  // received a message sent from the Python script (a simple "print" statement)
+		    console.log(message);
+		    output = JSON.parse(message)
+		    if (output.messageType == 'status'){
+
+		      //Signal the InProcessScreen component to send a status message
+			  win.webContents.send('status-update',output.data);
+		      console.log(output.data);
+		    
+		    }
+		    else if (output.messageType == 'results'){
+		      
+		      win.webContents.send('analysis-complete',output.data);
+		      console.log(output.data);
+
+		    }
+		});
+
+		pyshell.end(function (err) {
+		  if (err) throw err;
+		  console.log('Program ended normally');
+		});
+
+		// console.log("DEBUG: Image Processing Algorithm has started! IPM input object: ", ipmInputData); //TODO
+		console.log("DEBUG: Image Processing Algorithm has started! IPM input object: "); //TODO
 	}
 
 });
@@ -123,9 +159,11 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 ipc.on('cancel-execution', (event) => {
 
 	//HERE WE SIGNAL THE IMAGE PROCESSING ALGORITHM TO STOP ALGORITHM EXECUTION
-	console.log("DEBUG: CANCELED EXECUTION!!" );
-	const statusMsg = "This is a dummy message that was sent form the Main Process!!";
-	event.sender.send('status-update', statusMsg);
+	
+	// const statusMsg = "This is a dummy message that was sent form the Main Process!!";
+	// event.sender.send('status-update', statusMsg);
+	pyshell.end();
+	console.log("DEBUG: CANCEL SIGNAL SENT!!" );
 });
 
 
@@ -144,6 +182,7 @@ ipc.on('remove-analysis-menu', (event) => {
 	const menu = Menu.buildFromTemplate(menuBarTemplatePreAnalysis);
 	Menu.setApplicationMenu(menu);
 });
+
 
 /************************
    Menu bar definitions 
