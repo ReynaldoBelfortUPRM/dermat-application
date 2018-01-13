@@ -7,13 +7,13 @@ module.exports = {
 },
 
 output: {
-  path: __dirname + '/public/built',                    //Build path goes here
+  path: __dirname + '/dist/built',                    //Build path goes here
   filename: 'bundle.js',
   publicPath: 'http://localhost:8080/built/'
 },
 
 devServer: {
-  contentBase: './public',
+  contentBase: './dist',
   publicPath: 'http://localhost:8080/built/'
 },
 

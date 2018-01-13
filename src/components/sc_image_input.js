@@ -17,7 +17,8 @@ import {Grid, Row, Col, Button, Modal, ListGroup, ListGroupItem} from 'react-boo
 
 //Import Electron required electron functions
 const ipc = window.require('electron').ipcRenderer;
-const { app } = window.require('electron').remote;
+//TODO REMOVE IF NOT NEEDED
+// const { app } = window.require('electron').remote;
 
 //Import styles
 import styles from '../styles/sc-imageinput-progress.css';
@@ -35,7 +36,8 @@ class ImageInputScreen extends Component {
 		this.state = {
 			showModal: false,
 			selectedPaths: [],
-			imageNamesList: []
+			imageNamesList: [],
+			imageCount: 0,
 		}
 
 		//Add 'Analysis' menu on app's menu bar
@@ -71,7 +73,7 @@ class ImageInputScreen extends Component {
 		});
 
 		//Update the state of this component so we can re-trigger render() so that the modal will now be displayed
-		this.setState({ selectedPaths, showModal: true, imageNamesList }); //The same as this.setState({ selectedPaths: selectedPaths });
+		this.setState({ selectedPaths, showModal: true, imageNamesList, imageCount: imageNamesList.length }); //The same as this.setState({ selectedPaths: selectedPaths });
 		//TODO DEBUG 
 		console.log('DEBUG: Modal Displayed. Filepaths are... ', selectedPaths);
 	}
@@ -84,8 +86,9 @@ class ImageInputScreen extends Component {
 			//Creating an object that corresponds to the format that was defined in the early stages of the project
 			const ipmInputObj = {
 				originalImages: selectedPaths,
-				characterizedImagesDest: app.getPath('appData') + "\\dermat-application\\characterized-images",
+				characterizedImagesDest: this.props.appDataPath,
 			}
+			console.log("DEBUG: Created ipmInputObj:", ipmInputObj);
 			this.props.onSelectedPaths(ipmInputObj);					//Send input object back to the App component and also signal tostart execution process
 			this.setState({ showModal: false });						//Hide the modal
 		}
@@ -107,7 +110,7 @@ class ImageInputScreen extends Component {
 			<div className={[styles.centerContent, styles.windowContainer].join(' ')}>
 	  			<Grid>
 	  				<Row>
-	  					<Col md={12} className="text-center ">Click 'Browse' to load RCM images for analysis</Col>
+	  					<Col md={12} className="text-center ">Click 'Browse' to load a stack of RCM images for analysis</Col>
 	  				</Row>
 	  				<Row>
 	  					<Col md={12}> <Button bsStyle="primary" bSize="large" className="center-block" onClick= { () => { this.btnBrowseClick(); } }> Browse </Button> </Col>
@@ -121,7 +124,7 @@ class ImageInputScreen extends Component {
 			          <Modal.Body>
 			            <div>
 			            	<p>
-			            		The following list presents the images to be analyzed where the list order is based on how the images were inserted into the application. Since the application will analyze images shown in this list in a top to bottom fashion, please verify that the order of the images is correct:
+			            		The following list presents the PNG images found within the selected folder. Since the application will analyze images shown in this list in a top to bottom fashion, please verify that the order of the images is correct:
 			            	</p>
 			            </div>
 			            <div className={[styles.confirmationList].join(' ')}>
@@ -132,9 +135,9 @@ class ImageInputScreen extends Component {
 			            
 			          </Modal.Body>
 			          <Modal.Footer>
+						  <div><p>Image Count: {this.state.imageCount}</p></div>
 			            <Button onClick={ () => {this.setState({ showModal: false })} }>Cancel</Button>
 			            <Button bsStyle="primary" onClick={ () => { this.signalIpmExecution(this.state.selectedPaths); } }>Execute</Button>
-
 			          </Modal.Footer>
 	    		</Modal>
 			</div>

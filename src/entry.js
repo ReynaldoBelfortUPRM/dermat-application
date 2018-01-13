@@ -55,8 +55,40 @@ import ipmOutputDummy from './components/dummyData/ipmOutputDummyData.js';
 //TODO Import debug tools
 import debug from './debug/debugTools.js';
 
+//TODO Maybe this should be saved in the react component
+//Get App Data information
+var roamingPath = app.getPath('appData'); //Will look something like this: C:\Users\reyna\AppData\Roaming
+var appDataFolderPath = roamingPath + "\\" + app.getName();
+
+
 var ipmOutput = null;
 var ipmInput = null;
+
+/*********************
+ 	MSI Installer
+**********************/
+// import { MSICreator } from 'electron-wix-msi';
+
+// // Step 1: Instantiate the MSICreator
+// const msiCreator = new MSICreator({
+//   appDirectory: '.\\DermAT-win32-x64',
+//   description: 'Dermatologists Assistive Tool',
+//   exe: 'DermAT',
+//   name: 'DermAT',
+//   manufacturer: 'Harmonic Group',
+//   version: '1.0.0',
+//   outputDirectory: '.\\MSI Installer'
+// });
+
+// // Step 2: Create a .wxs template file
+// await msiCreator.create();
+
+// // Step 3: Compile the template to a .msi file
+// await msiCreator.compile();
+
+/*********************
+ 	App Component
+**********************/
 
 class App extends Component {
 	constructor(props){
@@ -64,7 +96,7 @@ class App extends Component {
 
 		//TODO DEBUG PURPOSES - Obtain the characterized images stored in this computer
 		ipmOutputDummy.characterizedImages = getCharacterizedImagesLocalComputer();
-
+		
 		this.state = {
 			currentScreenIdx: 0,
 			isResulsDataExported: false, 		//Will save wether results data was saved to the user at any given moment
@@ -86,7 +118,7 @@ class App extends Component {
 
 	goInProgressScreen(){
 		this.setState({ currentScreenIdx: 1});	
-		setTimeout(() => { this.goResultsScreen();}, 3000); 		//TODO THIS CODE IS NOT FOR PRODUCTION	
+		// setTimeout(() => { this.goResultsScreen();}, 3000); 		//TODO THIS CODE IS NOT FOR PRODUCTION	DEBUG
 	}	
 
 	setResultDataExported(isDataExported){
@@ -97,7 +129,7 @@ class App extends Component {
 
 	goResultsScreen(ipmOutputData){
 		//Image Processing Algorithm has finished. Show ResultsScreen
-		this.setState({ currentScreenIdx: 2});
+		this.setState({ currentScreenIdx: 2, ipmOutputData: ipmOutputData});
 	}
 
 	executeIpm(ipmInputObj){
@@ -111,10 +143,10 @@ class App extends Component {
 
 		switch(this.state.currentScreenIdx){
 			case 0: //Image Input Screen
-				currentScreen = (<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} onSelectedPaths = { (ipmInputObj) => { this.executeIpm(ipmInputObj) } } />);
+				currentScreen = (<ImageInputScreen onRef= { ref => this.inputScreenChild = ref} onSelectedPaths = { (ipmInputObj) => { this.executeIpm(ipmInputObj) } } appDataPath = { appDataFolderPath } />);
 				break;
 			case 1: //In Progress Screen
-				currentScreen = (<InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} />);
+				currentScreen = (<InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} onCancel = { () => { this.goImageInputSreen(false) } }/>);
 				break;
 			case 2: //Results Screen
 				currentScreen = (<ResultsScreen outputData = { this.state.ipmOutputData } inputData = { this.state.ipmInputData } onRef= { ref => this.resultsScreenChild = ref}/>)
@@ -172,14 +204,14 @@ function exportIPMOutputData(folderDestPath){
 	var imgExportFolderPath = mainTargetDir.path() + '\\characterized-images'; 	
 	
 	//Get app's internal folder where characterized images are stored
-	var imgSrcFolderPath = "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks (1)\\Testing_Stage\\CharacterizedImageSamples";
+	// var characterizedImagesSrc = "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks (1)\\Testing_Stage\\CharacterizedImageSamples";
 
 	//TODO VERIFY HERE IF THERE ARE EXISTING IMAGES IN THE EXPORT FOLDER THAT MAY BE REPLACED
 			//Error case: what happens if user have to different folders with exported data and 
 			//the app replaces data on one of these folders (by user mistake)?
 
 	//Copy all and only the PNG files contained on the source folder into the export folder
-	jetpack.copy(imgSrcFolderPath, imgExportFolderPath, { matching: '*.png', 
+	jetpack.copy(characterizedImgPath, imgExportFolderPath, { matching: '*.png', 
 		overwrite: (srcInspectData, destInspectData) => { 
 				//This function executes when the image already exist in destination folder
 				//Criteria to replace/overwrite existing images should be defined here
@@ -199,8 +231,24 @@ function exportIPMOutputData(folderDestPath){
 }
 
 function getCharacterizedImagesLocalComputer(){
-	var roamingPath = app.getPath('appData'); //Will look something like this: C:\Users\reyna\AppData\Roaming
-	var characterizedImgPath = roamingPath + "\\dermat-application\\characterized-images";
+
+	//Store characterized images on the user's temporary folder if it doesn't exist
+	debug("about to store charerized images in Roaming folder");
+
+	//Copy all and only the PNG files contained on the source folder into the export folder
+	var characterizedImgPath = appDataFolderPath + "\\characterized-images";
+	if(!jetpack.exists(characterizedImgPath)){	//If does not exists
+
+		jetpack.copy(app.getAppPath() + "\\assets\\characterized-images", characterizedImgPath, { matching: '*.png', 
+		overwrite: (srcInspectData, destInspectData) => { 
+				//This function executes when the image already exist in destination folder
+				//Criteria to replace/overwrite existing images should be defined here
+				//TODO Verify if we have to define something here
+				//TODO We should warn the user here that a file will be replaced ("one or more files will be replaced")
+				return true;
+		} });
+	}
+	
 
 	//Obtain all the PNG files contained within the source folder
 	var relativeImageFilePaths = jetpack.find(characterizedImgPath, {files: true, matching: "*.png" } );	
@@ -304,9 +352,10 @@ ipc.on('status-update', (event, statusMessage) => {
 });
 
 //Executes when the IPA finished its execution and result data was sent back to this Renderer proecss
-ipc.on('analysis-complete', (event, data) => {
+ipc.on('analysis-complete', (event, ipmOutput) => {
 	//Save data sent by the IPM module. To be used in the Results Screen
-	ipmOutput = data;
+	// ipmOutput = data;
+	AppComponent.goResultsScreen(ipmOutput);
 
 	//Display the Results Screen
 	

@@ -15,6 +15,16 @@
 
 //Require necessary libraries and classes
 const {app, BrowserWindow, globalShortcut, Menu} = require('electron');
+
+/****************************************
+ 	Related to DermAT software installer
+*****************************************/
+// this should be placed at top of main.js to handle setup events quickly
+if (handleSquirrelEvent(app)) {
+    // squirrel event handled and app will exit in 1000ms, so don't do anything else
+    return;
+}
+
 const path = require('path');
 const url = require('url');
 require('electron-debug')({enabled: true});
@@ -22,6 +32,10 @@ require('electron-debug')({enabled: true});
 //For interaction with the Renderer process
 const ipc = require('electron').ipcMain;
 const dialog = require('electron').dialog;
+
+//Python related vars
+var PythonShell = require('python-shell');
+var pyshell = null;
 
 //Define application window
 let win;
@@ -104,7 +118,39 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 
 	if(ipmInputData){
 		//HERE WE EXECUTE THE IMAGE PROCESSING ALGORITHM
-		console.log("DEBUG: Image Processing Algorithm has been executed! IPM input object: ", ipmInputData); //TODO
+		pyshell = new PythonShell('test_script.py');
+		pyshell.send(JSON.stringify(ipmInputData));
+
+		/************************
+		   Python definitions 
+		*************************/
+		// (TEST OUTPUT)
+		pyshell.on('message', function (message) {
+		  // received a message sent from the Python script (a simple "print" statement)
+		    console.log(message);
+		    output = JSON.parse(message)
+		    if (output.messageType == 'status'){
+
+		      //Signal the InProcessScreen component to send a status message
+			  win.webContents.send('status-update',output.data);
+		      console.log(output.data);
+		    
+		    }
+		    else if (output.messageType == 'results'){
+		      
+		      win.webContents.send('analysis-complete',output.data);
+		      console.log(output.data);
+
+		    }
+		});
+
+		pyshell.end(function (err) {
+		  if (err) throw err;
+		  console.log('Program ended normally');
+		});
+
+		// console.log("DEBUG: Image Processing Algorithm has started! IPM input object: ", ipmInputData); //TODO
+		console.log("DEBUG: Image Processing Algorithm has started! IPM input object: ", ipmInputData); //TODO
 	}
 
 });
@@ -113,9 +159,11 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 ipc.on('cancel-execution', (event) => {
 
 	//HERE WE SIGNAL THE IMAGE PROCESSING ALGORITHM TO STOP ALGORITHM EXECUTION
-	console.log("DEBUG: CANCELED EXECUTION!!" );
-	const statusMsg = "This is a dummy message that was sent form the Main Process!!";
-	event.sender.send('status-update', statusMsg);
+	
+	// const statusMsg = "This is a dummy message that was sent form the Main Process!!";
+	// event.sender.send('status-update', statusMsg);
+	pyshell.end();
+	console.log("DEBUG: CANCEL SIGNAL SENT!!" );
 });
 
 
@@ -134,6 +182,7 @@ ipc.on('remove-analysis-menu', (event) => {
 	const menu = Menu.buildFromTemplate(menuBarTemplatePreAnalysis);
 	Menu.setApplicationMenu(menu);
 });
+
 
 /************************
    Menu bar definitions 
@@ -254,7 +303,7 @@ function createMainWindow(){
 	//Load HTML file to render ReactJS app
 	win.loadURL(url.format(
 		{
-			pathname: path.join(__dirname, 'public/index.html'),
+			pathname: path.join(__dirname, 'dist/index.html'),
 			protocol:'file:',
 			slashes: true
 	}));
@@ -280,3 +329,72 @@ function createMainWindow(){
 	});
 	
 }
+
+
+/****************************************
+ 	Related to DermAT software installer
+*****************************************/
+
+function handleSquirrelEvent(application) {
+    if (process.argv.length === 1) {
+        return false;
+    }
+
+    const ChildProcess = require('child_process');
+    const path = require('path');
+
+    const appFolder = path.resolve(process.execPath, '..');
+    const rootAtomFolder = path.resolve(appFolder, '..');
+    const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
+    const exeName = path.basename(process.execPath);
+
+    const spawn = function(command, args) {
+        let spawnedProcess, error;
+
+        try {
+            spawnedProcess = ChildProcess.spawn(command, args, {
+                detached: true
+            });
+        } catch (error) {}
+
+        return spawnedProcess;
+    };
+
+    const spawnUpdate = function(args) {
+        return spawn(updateDotExe, args);
+    };
+
+    const squirrelEvent = process.argv[1];
+    switch (squirrelEvent) {
+        case '--squirrel-install':
+        case '--squirrel-updated':
+            // Optionally do things such as:
+            // - Add your .exe to the PATH
+            // - Write to the registry for things like file associations and
+            //   explorer context menus
+
+            // Install desktop and start menu shortcuts
+            spawnUpdate(['--createShortcut', exeName]);
+
+            setTimeout(application.quit, 1000);
+            return true;
+
+        case '--squirrel-uninstall':
+            // Undo anything you did in the --squirrel-install and
+            // --squirrel-updated handlers
+
+            // Remove desktop and start menu shortcuts
+            spawnUpdate(['--removeShortcut', exeName]);
+
+            setTimeout(application.quit, 1000);
+            return true;
+
+        case '--squirrel-obsolete':
+            // This is called on the outgoing version of your app before
+            // we update to the new version - it's the opposite of
+            // --squirrel-updated
+
+            application.quit();
+            return true;
+    }
+};
