@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "22281f316aceee6283fe"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "20f45e355020b047f8f0"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -42096,8 +42096,39 @@ const { dialog, app } = window.require('electron').remote; //Importing rest of n
 //TODO Import debug tools
 
 
+//TODO Maybe this should be saved in the react component
+//Get App Data information
+var roamingPath = app.getPath('appData'); //Will look something like this: C:\Users\reyna\AppData\Roaming
+var characterizedImgPath = roamingPath + "\\" + app.getName() + "\\characterized-images";
+
 var ipmOutput = null;
 var ipmInput = null;
+
+/*********************
+ 	MSI Installer
+**********************/
+// import { MSICreator } from 'electron-wix-msi';
+
+// // Step 1: Instantiate the MSICreator
+// const msiCreator = new MSICreator({
+//   appDirectory: '.\\DermAT-win32-x64',
+//   description: 'Dermatologists Assistive Tool',
+//   exe: 'DermAT',
+//   name: 'DermAT',
+//   manufacturer: 'Harmonic Group',
+//   version: '1.0.0',
+//   outputDirectory: '.\\MSI Installer'
+// });
+
+// // Step 2: Create a .wxs template file
+// await msiCreator.create();
+
+// // Step 3: Compile the template to a .msi file
+// await msiCreator.compile();
+
+/*********************
+ 	App Component
+**********************/
 
 class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	constructor(props) {
@@ -42218,14 +42249,14 @@ function exportIPMOutputData(folderDestPath) {
 	var imgExportFolderPath = mainTargetDir.path() + '\\characterized-images';
 
 	//Get app's internal folder where characterized images are stored
-	var imgSrcFolderPath = "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks (1)\\Testing_Stage\\CharacterizedImageSamples";
+	// var characterizedImagesSrc = "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks (1)\\Testing_Stage\\CharacterizedImageSamples";
 
 	//TODO VERIFY HERE IF THERE ARE EXISTING IMAGES IN THE EXPORT FOLDER THAT MAY BE REPLACED
 	//Error case: what happens if user have to different folders with exported data and 
 	//the app replaces data on one of these folders (by user mistake)?
 
 	//Copy all and only the PNG files contained on the source folder into the export folder
-	__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(imgSrcFolderPath, imgExportFolderPath, { matching: '*.png',
+	__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(characterizedImgPath, imgExportFolderPath, { matching: '*.png',
 		overwrite: (srcInspectData, destInspectData) => {
 			//This function executes when the image already exist in destination folder
 			//Criteria to replace/overwrite existing images should be defined here
@@ -42245,8 +42276,23 @@ function exportIPMOutputData(folderDestPath) {
 }
 
 function getCharacterizedImagesLocalComputer() {
-	var roamingPath = app.getPath('appData'); //Will look something like this: C:\Users\reyna\AppData\Roaming
-	var characterizedImgPath = roamingPath + "\\" + app.getName() + "\\characterized-images";
+
+	//Store characterized images on the user's temporary folder if it doesn't exist
+	Object(__WEBPACK_IMPORTED_MODULE_10__debug_debugTools_js__["a" /* default */])("about to store charerized images in Roaming folder");
+
+	//Copy all and only the PNG files contained on the source folder into the export folder
+	if (!__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.exists(characterizedImgPath)) {
+		//If does not exists
+
+		__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(app.getAppPath() + "\\assets\\characterized-images", characterizedImgPath, { matching: '*.png',
+			overwrite: (srcInspectData, destInspectData) => {
+				//This function executes when the image already exist in destination folder
+				//Criteria to replace/overwrite existing images should be defined here
+				//TODO Verify if we have to define something here
+				//TODO We should warn the user here that a file will be replaced ("one or more files will be replaced")
+				return true;
+			} });
+	}
 
 	//Obtain all the PNG files contained within the source folder
 	var relativeImageFilePaths = __WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.find(characterizedImgPath, { files: true, matching: "*.png" });
