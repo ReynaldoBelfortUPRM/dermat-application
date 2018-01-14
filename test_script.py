@@ -26,7 +26,7 @@ def main():
     # Output: Matrix containing pixel values of all the images in the stack
     message = {
         "messageType": "status",
-        "data": "Step 1: Uploading images....."
+        "data": "Step 1: Preparing images..."
     }
     print json.dumps(message)
     sys.stdout.flush()
@@ -67,9 +67,9 @@ def main():
     # Required files path (texton library and models)
     textFilesPath = "..\ipa-files"
     # Path where to output images
-    outputImagesSavePath = ipmInput['machineAppData'] + '\characterized-images'
+    outputImagesSavePath = ipmInput['appDataPath'] + '\characterized-images'
     # Path to access stored and load image matrix
-    ImageArrayPath = ipmInput['machineAppData'] + '\ImageArray.mat'
+    ImageArrayPath = ipmInput['appDataPath'] + '\ImageArray.mat'
     # If output folder does not exist, create it
     if not os.path.exists(outputImagesSavePath):
         os.makedirs(outputImagesSavePath)
@@ -77,9 +77,9 @@ def main():
     # Saves image matrix in .mat file to be accessed by the runtime
     # scipy.io.savemat(ImageArrayPath, {'imageData': data})
     
-    message["data"] = "Step 2: Data saved....."
-    print json.dumps(message)
-    sys.stdout.flush()  
+    # message["data"] = "Step 2: Data saved..."
+    # print json.dumps(message)
+    # sys.stdout.flush()  
 
     # t1 = time.time()
     # total = t1 - t0 
@@ -87,7 +87,7 @@ def main():
     # t0 = t1
 
     # ----------------------------Runtime management-----------------------------
-    message["data"] = "Step 2: Classifying images....."
+    message["data"] = "Step 2: Classifying images..."
     print json.dumps(message)
     sys.stdout.flush()
 
