@@ -101,7 +101,8 @@ class App extends Component {
 			currentScreenIdx: 0,
 			isResulsDataExported: false, 		//Will save wether results data was saved to the user at any given moment
 			ipmInputData: null,			
-			ipmOutputData: ipmOutputDummy
+			ipmOutputData: ipmOutputDummy,
+			isIPAError: false,
 		};
 	}
 
@@ -127,9 +128,9 @@ class App extends Component {
 		}
 	}
 
-	goResultsScreen(ipmOutputData){
+	goResultsScreen(ipmOutputData, isIPAError){
 		//Image Processing Algorithm has finished. Show ResultsScreen
-		this.setState({ currentScreenIdx: 2, ipmOutputData: ipmOutputData});
+		this.setState({ currentScreenIdx: 2, ipmOutputData: ipmOutputData, isIPAError});
 	}
 
 	executeIpm(ipmInputObj){
@@ -149,7 +150,7 @@ class App extends Component {
 				currentScreen = (<InProgressScreen onRef= { ref => this.inProcessScreenChild = ref} onCancel = { () => { this.goImageInputSreen(false) } }/>);
 				break;
 			case 2: //Results Screen
-				currentScreen = (<ResultsScreen outputData = { this.state.ipmOutputData } inputData = { this.state.ipmInputData } onRef= { ref => this.resultsScreenChild = ref}/>)
+				currentScreen = (<ResultsScreen outputData = { this.state.ipmOutputData } inputData = { this.state.ipmInputData } isAnalysisError={ this.state.isIPAError } onRef= { ref => this.resultsScreenChild = ref}/>)
 				break;
 		}
 
@@ -355,7 +356,20 @@ ipc.on('status-update', (event, statusMessage) => {
 ipc.on('analysis-complete', (event, ipmOutput) => {
 	//Save data sent by the IPM module. To be used in the Results Screen
 	// ipmOutput = data;
-	AppComponent.goResultsScreen(ipmOutput);
+	AppComponent.goResultsScreen(ipmOutput, false);
+
+	//Display the Results Screen
+	
+	//TODO NOT SURE IF THIS BELONGS HERE
+	//Add 'Analysis' menu on app's menu bar
+	// ipc.send('add-analysis-menu');
+});
+
+//Executes when the IPA could not classify the stack of images appropiately
+ipc.on('analysis-error', (event, ipmOutput) => {
+	//Save data sent by the IPM module. To be used in the Results Screen
+	// ipmOutput = data;
+	AppComponent.goResultsScreen(ipmOutput, true);
 
 	//Display the Results Screen
 	

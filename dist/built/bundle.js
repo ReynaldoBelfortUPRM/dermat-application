@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b6f180efb58ae07a08bb"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "46a8f255deba4274fa0f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -42141,7 +42141,8 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			currentScreenIdx: 0,
 			isResulsDataExported: false, //Will save wether results data was saved to the user at any given moment
 			ipmInputData: null,
-			ipmOutputData: __WEBPACK_IMPORTED_MODULE_9__components_dummyData_ipmOutputDummyData_js__["a" /* default */]
+			ipmOutputData: __WEBPACK_IMPORTED_MODULE_9__components_dummyData_ipmOutputDummyData_js__["a" /* default */],
+			isIPAError: false
 		};
 	}
 
@@ -42167,9 +42168,9 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		}
 	}
 
-	goResultsScreen(ipmOutputData) {
+	goResultsScreen(ipmOutputData, isIPAError) {
 		//Image Processing Algorithm has finished. Show ResultsScreen
-		this.setState({ currentScreenIdx: 2, ipmOutputData: ipmOutputData });
+		this.setState({ currentScreenIdx: 2, ipmOutputData: ipmOutputData, isIPAError });
 	}
 
 	executeIpm(ipmInputObj) {
@@ -42196,7 +42197,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				break;
 			case 2:
 				//Results Screen
-				currentScreen = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_sc_results_main__["a" /* default */], { outputData: this.state.ipmOutputData, inputData: this.state.ipmInputData, onRef: ref => this.resultsScreenChild = ref });
+				currentScreen = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_sc_results_main__["a" /* default */], { outputData: this.state.ipmOutputData, inputData: this.state.ipmInputData, isAnalysisError: this.state.isIPAError, onRef: ref => this.resultsScreenChild = ref });
 				break;
 		}
 
@@ -42404,7 +42405,20 @@ ipc.on('status-update', (event, statusMessage) => {
 ipc.on('analysis-complete', (event, ipmOutput) => {
 	//Save data sent by the IPM module. To be used in the Results Screen
 	// ipmOutput = data;
-	AppComponent.goResultsScreen(ipmOutput);
+	AppComponent.goResultsScreen(ipmOutput, false);
+
+	//Display the Results Screen
+
+	//TODO NOT SURE IF THIS BELONGS HERE
+	//Add 'Analysis' menu on app's menu bar
+	// ipc.send('add-analysis-menu');
+});
+
+//Executes when the IPA could not classify the stack of images appropiately
+ipc.on('analysis-error', (event, ipmOutput) => {
+	//Save data sent by the IPM module. To be used in the Results Screen
+	// ipmOutput = data;
+	AppComponent.goResultsScreen(ipmOutput, true);
 
 	//Display the Results Screen
 
@@ -55998,7 +56012,7 @@ class ImageInputScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] 
 			//Creating an object that corresponds to the format that was defined in the early stages of the project
 			const ipmInputObj = {
 				originalImages: selectedPaths,
-				characterizedImagesDest: this.props.appDataPath
+				appDataPath: this.props.appDataPath
 			};
 			console.log("DEBUG: Created ipmInputObj:", ipmInputObj);
 			this.props.onSelectedPaths(ipmInputObj); //Send input object back to the App component and also signal tostart execution process
@@ -68289,7 +68303,7 @@ class InProgressScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] 
 
 		//Define screen's state
 		this.state = {
-			statusMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			statusMessage: "Initializing processing module..."
 		};
 	}
 

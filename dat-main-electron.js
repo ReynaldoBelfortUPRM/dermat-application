@@ -141,7 +141,12 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 		      win.webContents.send('analysis-complete',output.data);
 		      console.log(output.data);
 
-		    }
+			}
+			else if (output.messageType == 'error'){ //The IPA could not classify appropiately the images
+				
+			  win.webContents.send('analysis-error',output.data);
+		      console.log(output.data);
+			}
 		});
 
 		pyshell.end(function (err) {

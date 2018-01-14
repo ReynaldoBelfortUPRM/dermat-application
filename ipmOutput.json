@@ -1,0 +1,62 @@
+{
+   "LayersInfo": [
+      {
+         "LayerThickness": 10, 
+         "LayerName": "Stratum Corneum", 
+         "LayerRange": [
+            1, 
+            10
+         ], 
+         "LayerID": 1
+      }, 
+      {
+         "LayerThickness": 6, 
+         "LayerName": "Stratum Granulosum", 
+         "LayerRange": [
+            11, 
+            16
+         ], 
+         "LayerID": 2
+      }, 
+      {
+         "LayerThickness": 5, 
+         "LayerName": "Stratum Spinosum", 
+         "LayerRange": [
+            17, 
+            21
+         ], 
+         "LayerID": 3
+      }, 
+      {
+         "LayerThickness": 8, 
+         "LayerName": "Stratum Basale", 
+         "LayerRange": [
+            22, 
+            29
+         ], 
+         "LayerID": 4
+      }, 
+      {
+         "LayerThickness": 7, 
+         "LayerName": "Dermis", 
+         "LayerRange": [
+            30, 
+            36
+         ], 
+         "LayerID": 5
+      }
+   ], 
+   "characterizedImages": [
+      "C:\\Users\\reyna\\AppData\\Roaming\\DermAT\\characterized-images\\Characterized_1.png", 
+      "C:\\Users\\reyna\\AppData\\Roaming\\DermAT\\characterized-images\\Characterized_2.png", 
+      "C:\\Users\\reyna\\AppData\\Roaming\\DermAT\\characterized-images\\Characterized_3.png", 
+      "C:\\Users\\reyna\\AppData\\Roaming\\DermAT\\characterized-images\\Characterized_4.png", 
+      "C:\\Users\\reyna\\AppData\\Roaming\\DermAT\\characterized-images\\Characterized_5.png", 
+      "C:\\Users\\reyna\\AppData\\Roaming\\DermAT\\characterized-images\\Characterized_6.png", 
+      "C:\\Users\\reyna\\AppData\\Roaming\\DermAT\\characterized-images\\Characterized_7.png", 
+      "C:\\Users\\reyna\\AppData\\Roaming\\DermAT\\characterized-images\\Characterized_8.png", 
+      "C:\\Users\\reyna\\AppData\\Roaming\\DermAT\\characterized-images\\Characterized_9.png", 
+      "C:\\Users\\reyna\\AppData\\Roaming\\DermAT\\characterized-images\\Characterized_10.png", 
+      "C:\\Users\\reyna\\AppData\\Roaming\\DermAT\\characterized-images\\Characterized_11.png"
+   ]
+}
