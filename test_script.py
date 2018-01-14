@@ -113,17 +113,17 @@ def main():
     # ----------------------------Output management-----------------------------
     ipmOutput = {
         "characterizedImages": [
-            outputImagesSavePath + "/Characterized_1",
-            outputImagesSavePath + "/Characterized_2",
-            outputImagesSavePath + "/Characterized_3",
-            outputImagesSavePath + "/Characterized_4",
-            outputImagesSavePath + "/Characterized_5",
-            outputImagesSavePath + "/Characterized_6",
-            outputImagesSavePath + "/Characterized_7",
-            outputImagesSavePath + "/Characterized_8",
-            outputImagesSavePath + "/Characterized_9",
-            outputImagesSavePath + "/Characterized_10",
-            outputImagesSavePath + "/Characterized_11"
+            outputImagesSavePath + "\\Characterized_1",
+            outputImagesSavePath + "\\Characterized_2",
+            outputImagesSavePath + "\\Characterized_3",
+            outputImagesSavePath + "\\Characterized_4",
+            outputImagesSavePath + "\\Characterized_5",
+            outputImagesSavePath + "\\Characterized_6",
+            outputImagesSavePath + "\\Characterized_7",
+            outputImagesSavePath + "\\Characterized_8",
+            outputImagesSavePath + "\\Characterized_9",
+            outputImagesSavePath + "\\Characterized_10",
+            outputImagesSavePath + "\\Characterized_11"
         ],
 
         "LayersInfo": [
@@ -142,7 +142,7 @@ def main():
             {
                 "LayerID":3,
                 "LayerName":"Stratum Spinosum",
-                "LayerThickness":"5",
+                "LayerThickness":5,
                 "LayerRange":[17,21]
             },
             {
@@ -153,7 +153,7 @@ def main():
             },
             {
                 "LayerID":5,
-                "LayerName":"Papillary Dermis",
+                "LayerName":"Dermis",
                 "LayerThickness":7,
                 "LayerRange":[30,36]
             },
@@ -176,4 +176,4 @@ def main():
 
 # Start process
 # if __name__ == '__main__':
-# main()
+main()
