@@ -36,7 +36,7 @@ class ResultsScreen extends Component {
 
 		//Define screen's state for holding results data, along with metadata for funcitonality purposes
 		this.state = {											  //TODO DOCUMENT THIS PROPERTIES
-			currentImageIdx: 2,
+			currentImageIdx: 0,
 			selectedLayerIdx: 0,
 			rcmStackImageCount: props.outputData.characterizedImages.length,
 			currentImageSrc: props.inputData.originalImages[0],
@@ -155,8 +155,8 @@ class ResultsScreen extends Component {
 			<div className={styles.results_mainContainer}>
 				<div className={styles.containerOne} >
 					<NavigationView btnNavClicked={ (isUp) => { this.changeImage(isUp); } } />
-					<ImageView imageSrc= { this.state.currentImageSrc } isImageDownloadAllowed = { this.state.isCharacterizedViewEnabled } btnSaveClicked={ () => { this.saveCurrentImageClicked(); } } btnToggleClicked={ () => { this.toggleClicked();} }/>
-					<VisualizationView currentState={ this.state } outputData={ this.props.outputData } binClicked={ (layerIndex) => { this.binClicked(layerIndex); } } imageClicked={ (imgIndex) => { this.imageClicked(imgIndex); } }/>
+					<ImageView imageSrc = { this.state.currentImageSrc } isImageDownloadAllowed = { this.state.isCharacterizedViewEnabled } btnSaveClicked={ () => { this.saveCurrentImageClicked(); } } btnToggleClicked={ () => { this.toggleClicked();} }/>
+					<VisualizationView currentState = { this.state } isAnalysisError = { this.props.isAnalysisError } outputData={ this.props.outputData } binClicked={ (layerIndex) => { this.binClicked(layerIndex); } } imageClicked={ (imgIndex) => { this.imageClicked(imgIndex); } }/>
 				</div>
 				<div className={styles.containerTwo}>
 					<ImageMetricsView currentImg = { this.state.currentImageIdx + 1} totalImages = { this.state.ipmData.originalImages.length }/>
