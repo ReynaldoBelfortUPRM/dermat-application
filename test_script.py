@@ -113,17 +113,17 @@ def main():
     # ----------------------------Output management-----------------------------
     ipmOutput = {
         "characterizedImages": [
-            outputImagesSavePath + "\\Characterized_1",
-            outputImagesSavePath + "\\Characterized_2",
-            outputImagesSavePath + "\\Characterized_3",
-            outputImagesSavePath + "\\Characterized_4",
-            outputImagesSavePath + "\\Characterized_5",
-            outputImagesSavePath + "\\Characterized_6",
-            outputImagesSavePath + "\\Characterized_7",
-            outputImagesSavePath + "\\Characterized_8",
-            outputImagesSavePath + "\\Characterized_9",
-            outputImagesSavePath + "\\Characterized_10",
-            outputImagesSavePath + "\\Characterized_11"
+            outputImagesSavePath + "\\Characterized_1.png",
+            outputImagesSavePath + "\\Characterized_2.png",
+            outputImagesSavePath + "\\Characterized_3.png",
+            outputImagesSavePath + "\\Characterized_4.png",
+            outputImagesSavePath + "\\Characterized_5.png",
+            outputImagesSavePath + "\\Characterized_6.png",
+            outputImagesSavePath + "\\Characterized_7.png",
+            outputImagesSavePath + "\\Characterized_8.png",
+            outputImagesSavePath + "\\Characterized_9.png",
+            outputImagesSavePath + "\\Characterized_10.png",
+            outputImagesSavePath + "\\Characterized_11.png"
         ],
 
         "LayersInfo": [
