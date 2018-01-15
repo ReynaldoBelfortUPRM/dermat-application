@@ -1,4 +1,4 @@
-import RCM_LayerSeparation
+import RCM_LayerSeparation_Final
 
 import os
 import time
@@ -26,7 +26,7 @@ def main():
     # Output: Matrix containing pixel values of all the images in the stack
     message = {
         "messageType": "status",
-        "data": "Step 1: Uploading images....."
+        "data": "Step 1: Preparing images..."
     }
     print json.dumps(message)
     sys.stdout.flush()
@@ -64,98 +64,109 @@ def main():
             for k in range(0, size[0]):
                 data[j][k][i] = image[j][k]
 
-    # Required files path (texton library and models)
-    textFilesPath = "..\ipa-files"
     # Path where to output images
-    outputImagesSavePath = ipmInput['machineAppData'] + '\characterized-images'
+    outputImagesSavePath = ipmInput['appDataPath'] + '\characterized-images'
     # Path to access stored and load image matrix
-    ImageArrayPath = ipmInput['machineAppData'] + '\ImageArray.mat'
+    ImageArrayPath = ipmInput['appDataPath']
+    # print ImageArrayPath
     # If output folder does not exist, create it
     if not os.path.exists(outputImagesSavePath):
         os.makedirs(outputImagesSavePath)
 
     # Saves image matrix in .mat file to be accessed by the runtime
-    # scipy.io.savemat(ImageArrayPath, {'imageData': data})
+    scipy.io.savemat(ImageArrayPath + '\ImageArray.mat', {'imageData': data})
     
-    message["data"] = "Step 2: Data saved....."
-    print json.dumps(message)
-    sys.stdout.flush()  
+    # message["data"] = "Step 2: Data saved..."
+    # print json.dumps(message)
+    # sys.stdout.flush()  
 
     # t1 = time.time()
-    # total = t1 - t0 
-    # print('Total time: ' + repr(total) + ' seconds')
+    # total = t1 - t0
+    # message["data"] = 'Total time: ' + repr(total) + ' seconds'
+    # print json.dumps(message)
+    # sys.stdout.flush()  
     # t0 = t1
 
     # ----------------------------Runtime management-----------------------------
-    message["data"] = "Step 2: Classifying images....."
+    message["data"] = "Step 2: Classifying images..."
     print json.dumps(message)
     sys.stdout.flush()
 
     # # Initializes MATLAB runtime
-    # matlabRuntime = RCM_LayerSeparation.initialize()
+    matlabRuntime = RCM_LayerSeparation_Final.initialize()
+    # message["data"] = "Runtime Initialized"
+    # print json.dumps(message)
+    # sys.stdout.flush()
 
     # # Input: Matrix of pixel values,
     # #        Path to folder where texton library and models are stored,
     # #        Path to folder where characterized images will be stored
     # # Output: Vector containing the classification of each image in the stack
 
-    # ipmOutput = matlabRuntime.RCM_LayerSeparation(data_mat,textFilesPath,outputImagesSavePath)
-    # # print (ipmOutput)   #Test classifier output
+    ipmOutput = matlabRuntime.RCM_LayerSeparation_Final(ImageArrayPath,outputImagesSavePath)
+    # message["data"] = "Images Classified"
+    # print json.dumps(message)
+    # sys.stdout.flush()
 
     # # Terminate MATLAB runtime
-    # matlabRuntime.terminate()
+    matlabRuntime.terminate()
     
     # t1 = time.time()
-    # total = t1 - t0 
-    # print('Total time: ' + repr(total) + ' seconds')
+    # total = t1 - t0
+    # message["data"] = 'Total time: ' + repr(total) + ' seconds'
+    # print json.dumps(message)
+    # sys.stdout.flush()  
     # t0 = t1
-
+    thickness1 = ipmOutput[0][2] - ipmOutput[0][1] + 1
+    thickness2 = ipmOutput[1][2] - ipmOutput[1][1] + 1
+    thickness3 = ipmOutput[2][2] - ipmOutput[2][1] + 1
+    thickness4 = ipmOutput[3][2] - ipmOutput[3][1] + 1
+    thickness5 = ipmOutput[4][2] - ipmOutput[4][1] + 1 
     # ----------------------------Output management-----------------------------
-    ipmOutput = {
-        "characterizedImages": [
-            outputImagesSavePath + "/Characterized_1",
-            outputImagesSavePath + "/Characterized_2",
-            outputImagesSavePath + "/Characterized_3",
-            outputImagesSavePath + "/Characterized_4",
-            outputImagesSavePath + "/Characterized_5",
-            outputImagesSavePath + "/Characterized_6",
-            outputImagesSavePath + "/Characterized_7",
-            outputImagesSavePath + "/Characterized_8",
-            outputImagesSavePath + "/Characterized_9",
-            outputImagesSavePath + "/Characterized_10",
-            outputImagesSavePath + "/Characterized_11"
-        ],
-
+    ipmOutputJSON = {
+    "characterizedImages": [
+        outputImagesSavePath + "\\Characterized1.png",
+        outputImagesSavePath + "\\Characterized2.png",
+        outputImagesSavePath + "\\Characterized3.png",
+        outputImagesSavePath + "\\Characterized4.png",
+        outputImagesSavePath + "\\Characterized5.png",
+        outputImagesSavePath + "\\Characterized6.png",
+        outputImagesSavePath + "\\Characterized7.png",
+        outputImagesSavePath + "\\Characterized8.png",
+        outputImagesSavePath + "\\Characterized9.png",
+        outputImagesSavePath + "\\Characterized10.png",
+        outputImagesSavePath + "\\Characterized11.png"
+    ],
         "LayersInfo": [
             {
                 "LayerID":1,
                 "LayerName":"Stratum Corneum",
-                "LayerThickness":10,
-                "LayerRange":[1,10]
+                "LayerThickness":thickness1,
+                "LayerRange":[ipmOutput[0][1],ipmOutput[0][2]]
             },
             {
                 "LayerID":2,
                 "LayerName":"Stratum Granulosum",
-                "LayerThickness":6,
-                "LayerRange":[11,16]
+                "LayerThickness":thickness2,
+                "LayerRange":[ipmOutput[1][1],ipmOutput[1][2]]
             },
             {
                 "LayerID":3,
                 "LayerName":"Stratum Spinosum",
-                "LayerThickness":"5",
-                "LayerRange":[17,21]
+                "LayerThickness":thickness3,
+                "LayerRange":[ipmOutput[2][1],ipmOutput[2][2]]
             },
             {
                 "LayerID":4,
                 "LayerName":"Stratum Basale",
-                "LayerThickness":8,
-                "LayerRange":[22,29]
+                "LayerThickness":thickness4,
+                "LayerRange":[ipmOutput[3][1],ipmOutput[3][2]]
             },
             {
                 "LayerID":5,
-                "LayerName":"Papillary Dermis",
-                "LayerThickness":7,
-                "LayerRange":[30,36]
+                "LayerName":"Dermis",
+                "LayerThickness":thickness5,
+                "LayerRange":[ipmOutput[4][1],ipmOutput[4][2]]
             },
 
         ]
@@ -163,17 +174,16 @@ def main():
 # Returns the JSON output to Electron in a single string
 # (TEST OUTPUT)
     message["messageType"] = "results"
-    message["data"] = ipmOutput
+    message["data"] = ipmOutputJSON
     print json.dumps(message)
-    # print message
     sys.stdout.flush()
   
    
     # Write JSON string to file
-    with open("ipmOutput.json","w") as outfile:
-        json.dump(ipmOutput, outfile, indent = 3)
+    # with open("ipmOutput.json","w") as outfile:
+        # json.dump(ipmOutput, outfile, indent = 3)
     # pprint(ipmOutput)
 
 # Start process
 # if __name__ == '__main__':
-# main()
+main()

@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b6f180efb58ae07a08bb"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "80e379904c8105a24db3"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -12949,7 +12949,7 @@ exports = module.exports = __webpack_require__(159)(false);
 
 
 // module
-exports.push([module.i, "/*\r\n CSS file for image input & in-progress screens\r\n Author: Reynaldo Belfort Pierrilus\r\n University of Puerto Rico - Mayagüez\r\n*/\r\n\r\n/*TODO:\r\n- Remove the css properties that we don't need\r\n*/\r\n\r\n.sc-imageinput-progress__windowContainer___FbakY{\r\n\tbackground-color: #4b4e51;\r\n\tcolor: white;\r\n}\r\n\r\n.sc-imageinput-progress__containerTable___1apxK {\r\n\theigh:100%;\r\n\tdisplay: table;\r\n}\r\n\r\n.sc-imageinput-progress__verticalCenterRow___3mCP7 {\r\n    display: table-cell;\r\n    vertical-align: middle;\r\n}\r\n\r\n/*For image-input and in-progress screens*/\r\n.sc-imageinput-progress__centerContent___1yo-A {\r\n  height: 100vh;\r\n  display: -webkit-flex;\r\n  display:         flex;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  -webkit-justify-content: center;\r\n          justify-content: center;\r\n  font-size: 30px;\r\n}\r\n\r\n.sc-imageinput-progress__statusMessageFormat___1i5hi {\r\n\tcolor: gray;\r\n\tfont-size: 16px;\r\n}\r\n\r\n/*Image Input Screen specific*/\r\n.sc-imageinput-progress__confirmationList___vvPDZ {\r\n  overflow-y: scroll;\r\n  height: 250px;\r\n}\r\n\r\n\r\n\r\n/*Progress Bar*/\r\n/* Progress Bar */\r\n.sc-imageinput-progress__progress___XaZTW {\r\n  left:35%;\r\n  position: relative;\r\n  height: 4px;\r\n  display: block;\r\n  width: 100%;\r\n  background-color: #acd0ec; /*bar background color*/\r\n  border-radius: 2px;\r\n  background-clip: padding-box;\r\n  margin: 0.5rem 0 1rem 0;\r\n  overflow: hidden; }\r\n  .sc-imageinput-progress__progress___XaZTW .sc-imageinput-progress__determinate___2aMGU {\r\n    position: absolute;\r\n    background-color: inherit;\r\n    top: 0;\r\n    bottom: 0;\r\n    background-color: #2583a6; /*moving bar color */\r\n    transition: width .3s linear; }\r\n  .sc-imageinput-progress__progress___XaZTW .sc-imageinput-progress__indeterminate___zWY4W {\r\n    background-color: #2583a6; } /*moving bar color */\r\n    .sc-imageinput-progress__progress___XaZTW .sc-imageinput-progress__indeterminate___zWY4W:before {\r\n      content: '';\r\n      position: absolute;\r\n      background-color: inherit;\r\n      top: 0;\r\n      left: 0;\r\n      bottom: 0;\r\n      will-change: left, right;\r\n      -webkit-animation: sc-imageinput-progress__indeterminate___zWY4W 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;\r\n              animation: sc-imageinput-progress__indeterminate___zWY4W 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite; }\r\n    .sc-imageinput-progress__progress___XaZTW .sc-imageinput-progress__indeterminate___zWY4W:after {\r\n      content: '';\r\n      position: absolute;\r\n      background-color: inherit;\r\n      top: 0;\r\n      left: 0;\r\n      bottom: 0;\r\n      will-change: left, right;\r\n      -webkit-animation: sc-imageinput-progress__indeterminate-short___Mp2Sz 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;\r\n              animation: sc-imageinput-progress__indeterminate-short___Mp2Sz 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;\r\n      -webkit-animation-delay: 1.15s;\r\n              animation-delay: 1.15s; }\r\n\r\n@-webkit-keyframes sc-imageinput-progress__indeterminate___zWY4W {\r\n  0% {\r\n    left: -35%;\r\n    right: 100%; }\r\n  60% {\r\n    left: 100%;\r\n    right: -90%; }\r\n  100% {\r\n    left: 100%;\r\n    right: -90%; } }\r\n@keyframes sc-imageinput-progress__indeterminate___zWY4W {\r\n  0% {\r\n    left: -35%;\r\n    right: 100%; }\r\n  60% {\r\n    left: 100%;\r\n    right: -90%; }\r\n  100% {\r\n    left: 100%;\r\n    right: -90%; } }\r\n@-webkit-keyframes sc-imageinput-progress__indeterminate-short___Mp2Sz {\r\n  0% {\r\n    left: -200%;\r\n    right: 100%; }\r\n  60% {\r\n    left: 107%;\r\n    right: -8%; }\r\n  100% {\r\n    left: 107%;\r\n    right: -8%; } }\r\n@keyframes sc-imageinput-progress__indeterminate-short___Mp2Sz {\r\n  0% {\r\n    left: -200%;\r\n    right: 100%; }\r\n  60% {\r\n    left: 107%;\r\n    right: -8%; }\r\n  100% {\r\n    left: 107%;\r\n    right: -8%; } }", ""]);
+exports.push([module.i, "/*\r\n CSS file for image input & in-progress screens\r\n Author: Reynaldo Belfort Pierrilus\r\n University of Puerto Rico - Mayagüez\r\n*/\r\n\r\n/*TODO:\r\n- Remove the css properties that we don't need\r\n*/\r\n\r\n.sc-imageinput-progress__windowContainer___FbakY{\r\n\tbackground-color: #4b4e51;\r\n\tcolor: white;\r\n}\r\n\r\n.sc-imageinput-progress__containerTable___1apxK {\r\n\theigh:100%;\r\n\tdisplay: table;\r\n}\r\n\r\n.sc-imageinput-progress__verticalCenterRow___3mCP7 {\r\n    display: table-cell;\r\n    vertical-align: middle;\r\n}\r\n\r\n/*For image-input and in-progress screens*/\r\n.sc-imageinput-progress__centerContent___1yo-A {\r\n  height: 100vh;\r\n  display: -webkit-flex;\r\n  display:         flex;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  -webkit-justify-content: center;\r\n          justify-content: center;\r\n  font-size: 30px;\r\n}\r\n\r\n.sc-imageinput-progress__statusMessageFormat___1i5hi {\r\n\tcolor: gray;\r\n\tfont-size: 20px;\r\n}\r\n\r\n/*Image Input Screen specific*/\r\n.sc-imageinput-progress__confirmationList___vvPDZ {\r\n  overflow-y: scroll;\r\n  height: 250px;\r\n}\r\n\r\n\r\n\r\n/*Progress Bar*/\r\n/* Progress Bar */\r\n.sc-imageinput-progress__progress___XaZTW {\r\n  left:35%;\r\n  position: relative;\r\n  height: 4px;\r\n  display: block;\r\n  width: 100%;\r\n  background-color: #acd0ec; /*bar background color*/\r\n  border-radius: 2px;\r\n  background-clip: padding-box;\r\n  margin: 0.5rem 0 1rem 0;\r\n  overflow: hidden; }\r\n  .sc-imageinput-progress__progress___XaZTW .sc-imageinput-progress__determinate___2aMGU {\r\n    position: absolute;\r\n    background-color: inherit;\r\n    top: 0;\r\n    bottom: 0;\r\n    background-color: #2583a6; /*moving bar color */\r\n    transition: width .3s linear; }\r\n  .sc-imageinput-progress__progress___XaZTW .sc-imageinput-progress__indeterminate___zWY4W {\r\n    background-color: #2583a6; } /*moving bar color */\r\n    .sc-imageinput-progress__progress___XaZTW .sc-imageinput-progress__indeterminate___zWY4W:before {\r\n      content: '';\r\n      position: absolute;\r\n      background-color: inherit;\r\n      top: 0;\r\n      left: 0;\r\n      bottom: 0;\r\n      will-change: left, right;\r\n      -webkit-animation: sc-imageinput-progress__indeterminate___zWY4W 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;\r\n              animation: sc-imageinput-progress__indeterminate___zWY4W 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite; }\r\n    .sc-imageinput-progress__progress___XaZTW .sc-imageinput-progress__indeterminate___zWY4W:after {\r\n      content: '';\r\n      position: absolute;\r\n      background-color: inherit;\r\n      top: 0;\r\n      left: 0;\r\n      bottom: 0;\r\n      will-change: left, right;\r\n      -webkit-animation: sc-imageinput-progress__indeterminate-short___Mp2Sz 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;\r\n              animation: sc-imageinput-progress__indeterminate-short___Mp2Sz 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;\r\n      -webkit-animation-delay: 1.15s;\r\n              animation-delay: 1.15s; }\r\n\r\n@-webkit-keyframes sc-imageinput-progress__indeterminate___zWY4W {\r\n  0% {\r\n    left: -35%;\r\n    right: 100%; }\r\n  60% {\r\n    left: 100%;\r\n    right: -90%; }\r\n  100% {\r\n    left: 100%;\r\n    right: -90%; } }\r\n@keyframes sc-imageinput-progress__indeterminate___zWY4W {\r\n  0% {\r\n    left: -35%;\r\n    right: 100%; }\r\n  60% {\r\n    left: 100%;\r\n    right: -90%; }\r\n  100% {\r\n    left: 100%;\r\n    right: -90%; } }\r\n@-webkit-keyframes sc-imageinput-progress__indeterminate-short___Mp2Sz {\r\n  0% {\r\n    left: -200%;\r\n    right: 100%; }\r\n  60% {\r\n    left: 107%;\r\n    right: -8%; }\r\n  100% {\r\n    left: 107%;\r\n    right: -8%; } }\r\n@keyframes sc-imageinput-progress__indeterminate-short___Mp2Sz {\r\n  0% {\r\n    left: -200%;\r\n    right: 100%; }\r\n  60% {\r\n    left: 107%;\r\n    right: -8%; }\r\n  100% {\r\n    left: 107%;\r\n    right: -8%; } }", ""]);
 
 // exports
 exports.locals = {
@@ -13428,7 +13428,7 @@ exports = module.exports = __webpack_require__(159)(false);
 
 
 // module
-exports.push([module.i, "/*\r\n CSS file for the Results screen\r\n Author: Reynaldo Belfort Pierrilus\r\n University of Puerto Rico - Mayagüez\r\n*/\r\n\r\n.sc-results-main__results_mainContainer___1V56g{\r\n    /*background-color: grey;*/\r\n    padding: 0;\r\n    box-sizing: border-box;\r\n    /*flex-wrap: wrap;*/\r\n   /* width:1200px;\r\n    height:600px;*/\r\n    /*height:100%;*/\r\n}\r\n\r\n.sc-results-main__resultsWindow___9tIyg {\r\n    /*border: 1px solid #fff; for debugging purooses*/\r\n   /* width: 1200px;*/\r\n    /*height: 600px;*/\r\n    height: 95vh;\r\n    flex: 1;\r\n}\r\n\r\n.sc-results-main__containerOne___3Riic {\r\n    background-color: #4b4e51;\r\n    display: flex;\r\n    justify-content: space-around;\r\n\r\n}\r\n\r\n.sc-results-main__containerTwo___wjh24 {\r\n    background-color: #4b4e51;\r\n    display: flex;\r\n}\r\n\r\n/*Navitagion View*/\r\n.sc-results-main__navigationView___2UbIx{\r\n    /*background-color: red;*/\r\n    width: 35px;\r\n    flex: initial;\r\n    display: flex;\r\n    flex-direction: column;\r\n    flex-wrap: wrap;\r\n    /*flex: .05;*/\r\n}   \r\n\r\n.sc-results-main__buttonNav___3Uhlw{\r\n    width: 25px;\r\n    height: 25px;\r\n    margin-top: 15%;\r\n    margin-left: 10%;\r\n    font-size:12px;\r\n    padding: 6px 0;\r\n}\r\n\r\n.sc-results-main__buttonContainer___1i1_B{\r\n    margin-top: 20%;    \r\n}\r\n\r\n\r\n/*Image View*/\r\n.sc-results-main__imageView___1ZIx5{\r\n    position: relative;\r\n    /*background-color: green;*/\r\n    /*background-color: #0a5423;*/ /*Dark green for DEBUG purposes*/\r\n    padding: 1px;\r\n    margin-right: 10px;\r\n\r\n    border-radius: 5px;\r\n    border-style: solid;\r\n    border-width: 2px;\r\n    border-color: gray;\r\n    flex: 1;\r\n}\r\n\r\n.sc-results-main__imageElement___2S1fp{\r\n    width: 100%;\r\n    height: 100%;\r\n}\r\n\r\n.sc-results-main__buttonSwitch___eTnHw {\r\n    position: absolute;\r\n    top: 2%;\r\n    left: 93%;\r\n    width: 30px;\r\n    height: 30px;\r\n    padding: 6px 0;\r\n    font-size:12px;\r\n    line-height: 1.42;\r\n    border-style: 15px;\r\n    text-align: center;\r\n}\r\n\r\n.sc-results-main__buttonDownload___3ZtxT {\r\n    position: absolute;\r\n    top: 91%;\r\n    left: 93%;\r\n    width: 30px;\r\n    height: 30px;\r\n    padding: 6px 0;\r\n    font-size:12px;\r\n    line-height: 1.42;\r\n    border-style: 15px;\r\n    text-align: center;\r\n}\r\n\r\n.sc-results-main__tempText___19JET {\r\n    position: absolute;\r\n    top: 45%;\r\n    left: 25%;\r\n    font-size: 50px;\r\n    color: white;\r\n}\r\n\r\n/*Visualization view*/\r\n.sc-results-main__visualizationView___24mTi{\r\n    /*background-color: orange;*/\r\n    background-color: #4b4e51; /*Gray*/\r\n    display: flex;\r\n    flex-direction: row;\r\n    padding: 8px;\r\n\r\n    border-radius: 5px;\r\n    border-style: solid;\r\n    border-width: 2px;\r\n    border-color: gray;\r\n    flex: 1;\r\n}\r\n\r\n.sc-results-main__vizItem___eKm8L {\r\n    flex:1;\r\n}\r\n\r\n.sc-results-main__vizBox___3tmt5 {\r\n    /*background-color:  #663300;*/\r\n    background-color:  #4b4e51;\r\n    border-radius: 5px;\r\n    margin-right: 5px;\r\n}\r\n\r\n.sc-results-main__vizList___1Z1_t {\r\n    /*background-color: purple;*/\r\n    border-style: solid;\r\n    border-width: 0 0 0 2px;\r\n    border-color: white;\r\n    padding: 5px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n/*Image Metrics View*/\r\n\r\n.sc-results-main__imageMetricsView___2u0C1{\r\n    /*border: 1px solid #fff;*/ /*for debugging purooses*/\r\n    /*background-color: yellow;*/\r\n    /*height: 25px;*/\r\n    color: white;\r\n    height: 5vh;\r\n    flex: 1;\r\n}\r\n\r\n.sc-results-main__metricsStyle___1Ga-W {\r\n    font-weight: bold;\r\n    margin-left: 40px;\r\n}", ""]);
+exports.push([module.i, "/*\r\n CSS file for the Results screen\r\n Author: Reynaldo Belfort Pierrilus\r\n University of Puerto Rico - Mayagüez\r\n*/\r\n\r\n.sc-results-main__results_mainContainer___1V56g{\r\n    /*background-color: grey;*/\r\n    padding: 0;\r\n    box-sizing: border-box;\r\n    /*flex-wrap: wrap;*/\r\n   /* width:1200px;\r\n    height:600px;*/\r\n    /*height:100%;*/\r\n}\r\n\r\n.sc-results-main__resultsWindow___9tIyg {\r\n    /*border: 1px solid #fff; for debugging purooses*/\r\n   /* width: 1200px;*/\r\n    /*height: 600px;*/\r\n    height: 95vh;\r\n    flex: 1;\r\n}\r\n\r\n.sc-results-main__containerOne___3Riic {\r\n    background-color: #4b4e51;\r\n    display: flex;\r\n    justify-content: space-around;\r\n\r\n}\r\n\r\n.sc-results-main__containerTwo___wjh24 {\r\n    background-color: #4b4e51;\r\n    display: flex;\r\n}\r\n\r\n/*Navitagion View*/\r\n.sc-results-main__navigationView___2UbIx{\r\n    /*background-color: red;*/\r\n    width: 35px;\r\n    flex: initial;\r\n    display: flex;\r\n    flex-direction: column;\r\n    flex-wrap: wrap;\r\n    /*flex: .05;*/\r\n}   \r\n\r\n.sc-results-main__buttonNav___3Uhlw{\r\n    width: 25px;\r\n    height: 25px;\r\n    margin-top: 15%;\r\n    margin-left: 10%;\r\n    font-size:12px;\r\n    padding: 6px 0;\r\n}\r\n\r\n.sc-results-main__buttonContainer___1i1_B{\r\n    margin-top: 20%;    \r\n}\r\n\r\n\r\n/*Image View*/\r\n.sc-results-main__imageView___1ZIx5{\r\n    position: relative;\r\n    /*background-color: green;*/\r\n    /*background-color: #0a5423;*/ /*Dark green for DEBUG purposes*/\r\n    padding: 1px;\r\n    margin-right: 10px;\r\n\r\n    border-radius: 5px;\r\n    border-style: solid;\r\n    border-width: 2px;\r\n    border-color: gray;\r\n    flex: 1;\r\n}\r\n\r\n.sc-results-main__imageElement___2S1fp{\r\n    width: 100%;\r\n    height: 100%;\r\n}\r\n\r\n.sc-results-main__buttonSwitch___eTnHw {\r\n    position: absolute;\r\n    top: 2%;\r\n    left: 93%;\r\n    width: 30px;\r\n    height: 30px;\r\n    padding: 6px 0;\r\n    font-size:12px;\r\n    line-height: 1.42;\r\n    border-style: 15px;\r\n    text-align: center;\r\n}\r\n\r\n.sc-results-main__buttonDownload___3ZtxT {\r\n    position: absolute;\r\n    top: 91%;\r\n    left: 93%;\r\n    width: 30px;\r\n    height: 30px;\r\n    padding: 6px 0;\r\n    font-size:12px;\r\n    line-height: 1.42;\r\n    border-style: 15px;\r\n    text-align: center;\r\n}\r\n\r\n.sc-results-main__tempText___19JET {\r\n    position: absolute;\r\n    top: 45%;\r\n    left: 25%;\r\n    font-size: 50px;\r\n    color: white;\r\n}\r\n\r\n/*Visualization view*/\r\n.sc-results-main__visualizationView___24mTi{\r\n    /*background-color: orange;*/\r\n    background-color: #4b4e51; /*Gray*/\r\n    display: flex;\r\n    flex-direction: row;\r\n    padding: 8px;\r\n\r\n    border-radius: 5px;\r\n    border-style: solid;\r\n    border-width: 2px;\r\n    border-color: gray;\r\n    flex: 1;\r\n}\r\n\r\n.sc-results-main__vizItem___eKm8L {\r\n    flex:1;\r\n}\r\n\r\n.sc-results-main__vizBox___3tmt5 {\r\n    /*background-color:  #663300;*/\r\n    background-color:  #4b4e51;\r\n    border-radius: 5px;\r\n    margin-right: 5px;\r\n}\r\n\r\n.sc-results-main__vizList___1Z1_t {\r\n    /*background-color: purple;*/\r\n    border-style: solid;\r\n    border-width: 0 0 0 2px;\r\n    border-color: white;\r\n    padding: 5px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.sc-results-main__centerContent___3DGl4 {\r\n    display: -webkit-flex;\r\n    display:         flex;\r\n    -webkit-align-items: center;\r\n            align-items: center;\r\n    -webkit-justify-content: center;\r\n            justify-content: center;\r\n  }\r\n\r\n  .sc-results-main__vizErrorMessage___3sheG {\r\n    color: gray;\r\n    font-size: 20px;\r\n  }\r\n\r\n/*Image Metrics View*/\r\n\r\n.sc-results-main__imageMetricsView___2u0C1{\r\n    /*border: 1px solid #fff;*/ /*for debugging purooses*/\r\n    /*background-color: yellow;*/\r\n    /*height: 25px;*/\r\n    color: white;\r\n    height: 5vh;\r\n    flex: 1;\r\n}\r\n\r\n.sc-results-main__metricsStyle___1Ga-W {\r\n    font-weight: bold;\r\n    margin-left: 40px;\r\n}", ""]);
 
 // exports
 exports.locals = {
@@ -13448,6 +13448,8 @@ exports.locals = {
 	"vizItem": "sc-results-main__vizItem___eKm8L",
 	"vizBox": "sc-results-main__vizBox___3tmt5",
 	"vizList": "sc-results-main__vizList___1Z1_t",
+	"centerContent": "sc-results-main__centerContent___3DGl4",
+	"vizErrorMessage": "sc-results-main__vizErrorMessage___3sheG",
 	"imageMetricsView": "sc-results-main__imageMetricsView___2u0C1",
 	"metricsStyle": "sc-results-main__metricsStyle___1Ga-W"
 };
@@ -39932,7 +39934,7 @@ if(true) {
 // University of Puerto Rico - Mayagüez
 
 
-/* harmony default export */ __webpack_exports__["a"] = ({
+/* unused harmony default export */ var _unused_webpack_default_export = ({
     "characterizedImages": ["C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized1.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized2.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized3.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized4.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized5.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized6.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized7.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized8.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized9.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized10.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized11.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized12.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized13.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized14.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized15.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized16.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized17.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized18.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized19.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized20.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized21.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized22.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized23.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized24.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized25.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized26.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized27.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized28.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized29.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized30.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized31.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized32.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized33.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized34.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized35.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized36.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized37.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized38.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized39.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized40.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized41.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized42.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized43.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized44.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized45.png"],
     "LayersInfo": [{
         "LayerID": "1",
@@ -42098,11 +42100,8 @@ const { dialog, app } = window.require('electron').remote; //Importing rest of n
 
 //TODO Maybe this should be saved in the react component
 //Get App Data information
-var roamingPath = app.getPath('appData'); //Will look something like this: C:\Users\reyna\AppData\Roaming
-var appDataFolderPath = roamingPath + "\\" + app.getName();
-
-var ipmOutput = null;
-var ipmInput = null;
+const appDataFolderPath = app.getPath('appData') + "\\" + app.getName();
+const characterizedImgFolderPath = appDataFolderPath + "\\characterized-images";
 
 /*********************
  	MSI Installer
@@ -42127,7 +42126,7 @@ var ipmInput = null;
 // await msiCreator.compile();
 
 /*********************
- 	App Component
+	App Component
 **********************/
 
 class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
@@ -42135,18 +42134,21 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		super(props);
 
 		//TODO DEBUG PURPOSES - Obtain the characterized images stored in this computer
-		__WEBPACK_IMPORTED_MODULE_9__components_dummyData_ipmOutputDummyData_js__["a" /* default */].characterizedImages = getCharacterizedImagesLocalComputer();
+		// ipmOutputDummy.characterizedImages = getCharacterizedImagesLocalComputer();
 
 		this.state = {
 			currentScreenIdx: 0,
 			isResulsDataExported: false, //Will save wether results data was saved to the user at any given moment
 			ipmInputData: null,
-			ipmOutputData: __WEBPACK_IMPORTED_MODULE_9__components_dummyData_ipmOutputDummyData_js__["a" /* default */]
+			ipmOutputData: null,
+			isIPAError: false
 		};
 	}
 
 	goImageInputSreen(openFileDilog) {
 		if (openFileDilog) {
+			//Erase the produced characterized images we no longer need
+			eraseLocalImages(this.state.ipmOutputData.characterizedImages);
 			//Render the Image Input Screen and open 'Open Dialog'
 			this.setState({ currentScreenIdx: 0, isResulsDataExported: false });
 			this.inputScreenChild.btnBrowseClick();
@@ -42167,9 +42169,12 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		}
 	}
 
-	goResultsScreen(ipmOutputData) {
+	goResultsScreen(ipmOutputData, isIPAError) {
+		//Retrieve the produced characterized images stored on the local machine
+		ipmOutputData.characterizedImages = getAndSortImages(characterizedImgFolderPath);
+
 		//Image Processing Algorithm has finished. Show ResultsScreen
-		this.setState({ currentScreenIdx: 2, ipmOutputData: ipmOutputData });
+		this.setState({ currentScreenIdx: 2, ipmOutputData, isIPAError });
 	}
 
 	executeIpm(ipmInputObj) {
@@ -42196,7 +42201,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				break;
 			case 2:
 				//Results Screen
-				currentScreen = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_sc_results_main__["a" /* default */], { outputData: this.state.ipmOutputData, inputData: this.state.ipmInputData, onRef: ref => this.resultsScreenChild = ref });
+				currentScreen = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_sc_results_main__["a" /* default */], { outputData: this.state.ipmOutputData, inputData: this.state.ipmInputData, isAnalysisError: this.state.isIPAError, onRef: ref => this.resultsScreenChild = ref });
 				break;
 		}
 
@@ -42210,7 +42215,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 }
 
 /*************************
- 	App Component Utils
+	App Component Utils
 **************************/
 
 //Exports images and metadata from the stored IPM output info into .PNG and .txt (CSV) files at the specified folder destination
@@ -42248,15 +42253,12 @@ function exportIPMOutputData(folderDestPath) {
 	//Create new path where characterized images will be placed
 	var imgExportFolderPath = mainTargetDir.path() + '\\characterized-images';
 
-	//Get app's internal folder where characterized images are stored
-	// var characterizedImagesSrc = "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks (1)\\Testing_Stage\\CharacterizedImageSamples";
-
 	//TODO VERIFY HERE IF THERE ARE EXISTING IMAGES IN THE EXPORT FOLDER THAT MAY BE REPLACED
 	//Error case: what happens if user have to different folders with exported data and 
 	//the app replaces data on one of these folders (by user mistake)?
 
 	//Copy all and only the PNG files contained on the source folder into the export folder
-	__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(characterizedImgPath, imgExportFolderPath, { matching: '*.png',
+	__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(characterizedImgFolderPath, imgExportFolderPath, { matching: '*.png',
 		overwrite: (srcInspectData, destInspectData) => {
 			//This function executes when the image already exist in destination folder
 			//Criteria to replace/overwrite existing images should be defined here
@@ -42281,11 +42283,10 @@ function getCharacterizedImagesLocalComputer() {
 	Object(__WEBPACK_IMPORTED_MODULE_10__debug_debugTools_js__["a" /* default */])("about to store charerized images in Roaming folder");
 
 	//Copy all and only the PNG files contained on the source folder into the export folder
-	var characterizedImgPath = appDataFolderPath + "\\characterized-images";
-	if (!__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.exists(characterizedImgPath)) {
+	if (!__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.exists(characterizedImgFolderPath)) {
 		//If does not exists
 
-		__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(app.getAppPath() + "\\assets\\characterized-images", characterizedImgPath, { matching: '*.png',
+		__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(app.getAppPath() + "\\assets\\characterized-images", characterizedImgFolderPath, { matching: '*.png',
 			overwrite: (srcInspectData, destInspectData) => {
 				//This function executes when the image already exist in destination folder
 				//Criteria to replace/overwrite existing images should be defined here
@@ -42296,7 +42297,7 @@ function getCharacterizedImagesLocalComputer() {
 	}
 
 	//Obtain all the PNG files contained within the source folder
-	var relativeImageFilePaths = __WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.find(characterizedImgPath, { files: true, matching: "*.png" });
+	var relativeImageFilePaths = __WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.find(characterizedImgFolderPath, { files: true, matching: "*.png" });
 
 	//Obtain the file names of each image with its corresponding index
 	var imageFileNames = relativeImageFilePaths.map((path, i) => {
@@ -42317,7 +42318,7 @@ function getCharacterizedImagesLocalComputer() {
 
 	//Append the source folder to each image file name to retrieve a new array of absolute paths
 	var sortedAbsoluteImagePaths = sortedArray.map(d => {
-		return characterizedImgPath + '\\' + d.fileName;
+		return characterizedImgFolderPath + '\\' + d.fileName;
 	});
 
 	return sortedAbsoluteImagePaths;
@@ -42352,18 +42353,9 @@ function getFileNameIndex(fileName) {
 	return numberCount === 0 || numberCount > 2 ? -1 : foundIndexValue;
 }
 
-/******************************************
- 	Inter-process communication listeners
-*******************************************/
-
-//These functions are defined for interaction with the Main Process
-
-//Executes when user has selected the image source folder
-ipc.on('selected-input-folder', (event, srcFolderPath) => {
-	//----- Obtaing the absolute path of every PNG image found in the given source folder  --------
-
+function getAndSortImages(srcPath) {
 	//Obtain all the PNG files contained within the source folder
-	var relativeImageFilePaths = __WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.find(srcFolderPath, { files: true, matching: "*.png" });
+	var relativeImageFilePaths = __WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.find(srcPath, { files: true, matching: "*.png" });
 
 	//Obtain the file names of each image with its corresponding index
 	var imageFileNames = relativeImageFilePaths.map((path, i) => {
@@ -42384,11 +42376,52 @@ ipc.on('selected-input-folder', (event, srcFolderPath) => {
 
 	//Append the source folder to each image file name to retrieve a new array of absolute paths
 	var sortedAbsoluteImagePaths = sortedArray.map(d => {
-		return srcFolderPath + '\\' + d.fileName;
+		return srcPath + '\\' + d.fileName;
 	});
+
+	return sortedAbsoluteImagePaths;
+}
+
+//Function erases all images or even other files given the specified path array
+function eraseLocalImages(pathArray) {
+	//Erase images one by one
+	__WEBPACK_IMPORTED_MODULE_4_lodash___default.a.each(pathArray, path => {
+		__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.remove(path);
+	});
+}
+
+/******************************************
+	Inter-process communication listeners
+*******************************************/
+
+//These functions are defined for interaction with the Main Process
+
+//Executes when user has selected the image source folder
+ipc.on('selected-input-folder', (event, srcFolderPath) => {
+
+	//----- Sort the images contained within the selected folder  --------
+
+	var sortedAbsoluteImagePaths = getAndSortImages(srcFolderPath);
 
 	//TODO >>>>>>>> VALIDATE IMAGES HERE!!! <<<<<<
 
+	//Validation cases:
+	//Any of the images in the stack is below 400px or above 1000px
+	//File name of one of the images does not contain a number
+	//File name of one of the images contains more than one individual number
+	//One of the images do not contain the same dimensions as the rest of the images in the stack
+
+	// for(var i = 0; i <= sortedAbsoluteImagePaths.length; i++){
+	// 	var img = <img src = {sortedAbsoluteImagePaths[i]}/>;
+
+	// 	if(img.naturalHeight < 400 || img.naturalWidth < 400){
+	// 		debugger; 
+	// 	} else if(img.naturalHeight > 1000 || img.naturalWidth > 1000){
+	// 		debugger;
+	// 	} else {
+	// 		debugger;
+	// 	}
+	// }
 
 	//Signal the ImageInputScreen component to display the 'Input Confirmation Dialog'
 	AppComponent.inputScreenChild.displayConfirmationModal(sortedAbsoluteImagePaths);
@@ -42404,7 +42437,20 @@ ipc.on('status-update', (event, statusMessage) => {
 ipc.on('analysis-complete', (event, ipmOutput) => {
 	//Save data sent by the IPM module. To be used in the Results Screen
 	// ipmOutput = data;
-	AppComponent.goResultsScreen(ipmOutput);
+	AppComponent.goResultsScreen(ipmOutput, false);
+
+	//Display the Results Screen
+
+	//TODO NOT SURE IF THIS BELONGS HERE
+	//Add 'Analysis' menu on app's menu bar
+	// ipc.send('add-analysis-menu');
+});
+
+//Executes when the IPA could not classify the stack of images appropiately
+ipc.on('analysis-error', (event, ipmOutput) => {
+	//Save data sent by the IPM module. To be used in the Results Screen
+	// ipmOutput = data;
+	AppComponent.goResultsScreen(ipmOutput, true);
 
 	//Display the Results Screen
 
@@ -55998,7 +56044,7 @@ class ImageInputScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] 
 			//Creating an object that corresponds to the format that was defined in the early stages of the project
 			const ipmInputObj = {
 				originalImages: selectedPaths,
-				characterizedImagesDest: this.props.appDataPath
+				appDataPath: this.props.appDataPath
 			};
 			console.log("DEBUG: Created ipmInputObj:", ipmInputObj);
 			this.props.onSelectedPaths(ipmInputObj); //Send input object back to the App component and also signal tostart execution process
@@ -68289,7 +68335,7 @@ class InProgressScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] 
 
 		//Define screen's state
 		this.state = {
-			statusMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+			statusMessage: "Initializing processing module..."
 		};
 	}
 
@@ -68437,7 +68483,7 @@ class ResultsScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 		//Define screen's state for holding results data, along with metadata for funcitonality purposes
 		this.state = { //TODO DOCUMENT THIS PROPERTIES
-			currentImageIdx: 2,
+			currentImageIdx: 0,
 			selectedLayerIdx: 0,
 			rcmStackImageCount: props.outputData.characterizedImages.length,
 			currentImageSrc: props.inputData.originalImages[0],
@@ -68505,14 +68551,7 @@ class ResultsScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		var newImageSrc = null;
 		if (imgViewState) {
 			//The characterized version of the image shall be displayed
-			var arrLength = this.state.ipmData.characterizedImages.length;
-			if (arrLength - 1 <= imgIdx) {
-				//TODO FOR DEBUG PURPOSES
-				newImageSrc = this.state.ipmData.characterizedImages[arrLength - 1]; //Just always show the last characterized image
-			} else {
-				//TODO This is the production code
-				newImageSrc = this.state.ipmData.characterizedImages[imgIdx];
-			}
+			newImageSrc = this.state.ipmData.characterizedImages[imgIdx];
 		} else {
 			//The original version of the image shall be displayed
 			newImageSrc = this.state.ipmData.originalImages[imgIdx];
@@ -68571,7 +68610,7 @@ class ResultsScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 					}, btnToggleClicked: () => {
 						this.toggleClicked();
 					} }),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__sc_results_visualization__["a" /* default */], { currentState: this.state, outputData: this.props.outputData, binClicked: layerIndex => {
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__sc_results_visualization__["a" /* default */], { currentState: this.state, isAnalysisError: this.props.isAnalysisError, outputData: this.props.outputData, binClicked: layerIndex => {
 						this.binClicked(layerIndex);
 					}, imageClicked: imgIndex => {
 						this.imageClicked(imgIndex);
@@ -68687,56 +68726,92 @@ const ImageView = props => {
 
 
 const VisualizationView = props => {
-		console.log('Debug VisualizationView: ', props); //TODO DEBUG
+	console.log('Debug VisualizationView: ', props); //TODO DEBUG
 
-		const ipmData = props.currentState.ipmData;
+	const ipmData = props.currentState.ipmData;
 
-		//Create the stack visualization list to be rendered on screen
-		var currentImageList = []; //TODO Remove if not neded
-		const currentLayerLabel = ipmData.layerData[props.currentState.selectedLayerIdx].LayerName;
-		const selectedLayerInfoObj = ipmData.layerData[props.currentState.selectedLayerIdx];
-		const rangeMinVal = selectedLayerInfoObj.LayerRange[0] - 1; //subtract by 1 so we consider index starting at 0
-		const rangeMaxVal = selectedLayerInfoObj.LayerRange[1] - 1; //subtract by 1 so we consider index starting at 0
-		console.log('debug [rangeMinVal, rangeMaxVal] : ', rangeMinVal, rangeMaxVal);
+	//Create the stack visualization list to be rendered on screen
+	var currentImageList = []; //TODO Remove if not neded
+	const currentLayerLabel = !props.isAnalysisError ? ipmData.layerData[props.currentState.selectedLayerIdx].LayerName : "RCM Image Stack";
+	const selectedLayerInfoObj = ipmData.layerData[props.currentState.selectedLayerIdx];
+	const rangeMinVal = selectedLayerInfoObj.LayerRange[0] - 1; //subtract by 1 so we consider index starting at 0
+	const rangeMaxVal = selectedLayerInfoObj.LayerRange[1] - 1; //subtract by 1 so we consider index starting at 0
+	console.log('debug [rangeMinVal, rangeMaxVal] : ', rangeMinVal, rangeMaxVal);
 
-		//Create the list of images that correspond to the selected layer
+	//Create the list of images that correspond to the selected layer
+	if (!props.isAnalysisError) {
 		for (var i = rangeMinVal; i <= rangeMaxVal; i++) {
-				const fileName = ipmData.originalImages[i].split('\\').pop();
-				const imageIdx = i; //For some reason, is important to save the index value in a separate var if we want the DOM element to preserve this value
-				currentImageList.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["f" /* ListGroupItem */],
-						{ key: "imgListItm_" + i, onClick: event => {
-										props.imageClicked(imageIdx);
-								} },
-						fileName
-				));
+			const fileName = ipmData.originalImages[i].split('\\').pop();
+			const imageIdx = i; //For some reason, is important to save the index value in a separate var if we want the DOM element to preserve this value
+			currentImageList.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["f" /* ListGroupItem */],
+				{ key: "imgListItm_" + i, onClick: event => {
+						props.imageClicked(imageIdx);
+					} },
+				fileName
+			));
 		}
+	} else {
+		//The IPA could't classify in this case...
+		//Create a list of all images in the stack
+		currentImageList = ipmData.originalImages.map((d, i) => {
+			const fileName = ipmData.originalImages[i].split('\\').pop();
+			const imageIdx = i; //For some reason, is important to save the index value in a separate var if we want the DOM element to preserve this value
+			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["f" /* ListGroupItem */],
+				{ key: "imgListItm_" + i, onClick: event => {
+						props.imageClicked(imageIdx);
+					} },
+				fileName
+			);
+		});
+	}
 
-		//Render the DOM elements to the screen
-		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				'div',
-				{ className: [__WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.resultsWindow, __WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.visualizationView].join(' ') },
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'div',
-						{ className: [__WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.vizItem, __WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.vizBox].join(' ') },
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__StackVisualization_js__["a" /* default */], { currentState: props.currentState, size: [300, 500], binClicked: layerIndex => {
-										props.binClicked(layerIndex);
-								} })
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						'div',
-						{ className: [__WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.vizItem, __WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.vizList].join(' ') },
-						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-								__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["h" /* Panel */],
-								{ header: currentLayerLabel },
-								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-										__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["e" /* ListGroup */],
-										null,
-										currentImageList
-								)
-						)
-				)
+	//Set-up data visualization
+	var vizView = null;
+
+	if (!props.isAnalysisError) {
+		vizView = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__StackVisualization_js__["a" /* default */], { currentState: props.currentState, size: [300, 500], binClicked: layerIndex => {
+				props.binClicked(layerIndex);
+			} });
+	} else {
+		vizView = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+			'div',
+			{ className: 'text-center' },
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'p',
+				null,
+				'The image processing algorithm could not classify the stack of images appropiately.'
+			)
 		);
+	}
+
+	//Set-up style based on the results status  of the analysis
+	var vizStyle = !props.isAnalysisError ? [__WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.vizItem, __WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.vizBox].join(' ') : [__WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.vizItem, __WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.vizBox, __WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.centerContent, __WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.vizErrorMessage].join(' ');
+
+	//Render the DOM elements to the screen
+	return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+		'div',
+		{ className: [__WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.resultsWindow, __WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.visualizationView].join(' ') },
+		__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+			'div',
+			{ className: vizStyle },
+			vizView
+		),
+		__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+			'div',
+			{ className: [__WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.vizItem, __WEBPACK_IMPORTED_MODULE_4__styles_sc_results_main_css___default.a.vizList].join(' ') },
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["h" /* Panel */],
+				{ header: currentLayerLabel },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["e" /* ListGroup */],
+					null,
+					currentImageList
+				)
+			)
+		)
+	);
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (VisualizationView);

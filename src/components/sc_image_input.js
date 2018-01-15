@@ -86,7 +86,7 @@ class ImageInputScreen extends Component {
 			//Creating an object that corresponds to the format that was defined in the early stages of the project
 			const ipmInputObj = {
 				originalImages: selectedPaths,
-				characterizedImagesDest: this.props.appDataPath,
+				appDataPath: this.props.appDataPath,
 			}
 			console.log("DEBUG: Created ipmInputObj:", ipmInputObj);
 			this.props.onSelectedPaths(ipmInputObj);					//Send input object back to the App component and also signal tostart execution process

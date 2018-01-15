@@ -29,24 +29,45 @@ const VisualizationView = (props) => {
 		
 		//Create the stack visualization list to be rendered on screen
 		var currentImageList = []; //TODO Remove if not neded
-		const currentLayerLabel = ipmData.layerData[props.currentState.selectedLayerIdx].LayerName;
+		const currentLayerLabel = !props.isAnalysisError ? ipmData.layerData[props.currentState.selectedLayerIdx].LayerName : "RCM Image Stack";
 		const selectedLayerInfoObj = ipmData.layerData[props.currentState.selectedLayerIdx];
 		const rangeMinVal = selectedLayerInfoObj.LayerRange[0] - 1; 		//subtract by 1 so we consider index starting at 0
 		const rangeMaxVal = selectedLayerInfoObj.LayerRange[1] - 1; 		//subtract by 1 so we consider index starting at 0
 		console.log('debug [rangeMinVal, rangeMaxVal] : ', rangeMinVal, rangeMaxVal);  
 
 		//Create the list of images that correspond to the selected layer
-		for(var i = rangeMinVal; i <= rangeMaxVal; i++ ){
-			const fileName = ipmData.originalImages[i].split('\\').pop();
-			const imageIdx = i; 	//For some reason, is important to save the index value in a separate var if we want the DOM element to preserve this value
-			currentImageList.push(<ListGroupItem key={"imgListItm_" + i} onClick={ (event) => { props.imageClicked(imageIdx);  } }>{fileName}</ListGroupItem>)
+		if(!props.isAnalysisError){
+			for(var i = rangeMinVal; i <= rangeMaxVal; i++ ){
+				const fileName = ipmData.originalImages[i].split('\\').pop();
+				const imageIdx = i; 	//For some reason, is important to save the index value in a separate var if we want the DOM element to preserve this value
+				currentImageList.push(<ListGroupItem key={"imgListItm_" + i} onClick={ (event) => { props.imageClicked(imageIdx);  } }>{fileName}</ListGroupItem>)
+			}
+		} else {	//The IPA could't classify in this case...
+			//Create a list of all images in the stack
+			currentImageList = ipmData.originalImages.map((d, i) => { 
+				const fileName = ipmData.originalImages[i].split('\\').pop();
+				const imageIdx = i; 	//For some reason, is important to save the index value in a separate var if we want the DOM element to preserve this value
+				return (<ListGroupItem key={"imgListItm_" + i} onClick={ (event) => { props.imageClicked(imageIdx);  } }>{fileName}</ListGroupItem>);
+			});
 		}
+
+		//Set-up data visualization
+		var vizView = null;
+
+		if(!props.isAnalysisError){
+			vizView = <StackVisualization currentState = { props.currentState } size={ [300, 500]} binClicked= { (layerIndex) => { props.binClicked(layerIndex)} } />;
+		} else {
+			vizView = <div className="text-center"><p>The image processing algorithm could not classify the stack of images appropiately.</p></div>;
+		}
+
+		//Set-up style based on the results status  of the analysis
+		var vizStyle = !props.isAnalysisError ? [styles.vizItem, styles.vizBox].join(' ') : [styles.vizItem, styles.vizBox, styles.centerContent, styles.vizErrorMessage].join(' ');
 
 		//Render the DOM elements to the screen
 		return (
 			<div className={[styles.resultsWindow, styles.visualizationView].join(' ')}>
-					<div className={[styles.vizItem, styles.vizBox].join(' ')}>
-					 <StackVisualization currentState = { props.currentState } size={ [300, 500]} binClicked= { (layerIndex) => { props.binClicked(layerIndex)} } />
+					<div className={vizStyle}>
+					 {vizView}
 					</div>
 					<div className={[styles.vizItem, styles.vizList].join(' ')}>
 					    <Panel header={currentLayerLabel}>

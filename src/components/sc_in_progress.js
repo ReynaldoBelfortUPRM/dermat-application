@@ -31,7 +31,7 @@ class InProgressScreen extends Component {
 		
 		//Define screen's state
 		this.state = {
-			statusMessage: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+			statusMessage: "Initializing processing module...",
 		}
 	}
 
