@@ -15,6 +15,7 @@
 
 //Require necessary libraries and classes
 const {app, BrowserWindow, globalShortcut, Menu} = require('electron');
+const jetpack = require('fs-jetpack');
 
 /****************************************
  	Related to DermAT software installer
@@ -49,6 +50,9 @@ app.on('ready', createWindows);
 
 // Quit application when all windows are closed.
 app.on('window-all-closed', () => {
+	//Erase characterized images produced by the IPA
+	eraseLocalImages();
+
 	if (process.platform !== 'darwin') {
 		app.quit();
 	}
@@ -154,8 +158,8 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 		  console.log('Program ended normally');
 		});
 
+		console.log("DEBUG: Image Processing Algorithm has started! IPM input object: "); //TODO
 		// console.log("DEBUG: Image Processing Algorithm has started! IPM input object: ", ipmInputData); //TODO
-		console.log("DEBUG: Image Processing Algorithm has started! IPM input object: ", ipmInputData); //TODO
 	}
 
 });
@@ -292,7 +296,7 @@ function createWindows(){  	//Function called by the application. 'on-ready' eve
 
 function displayAppInfo(){
 	console.log("DEBUG - App has been loaded.\n");
-	console.log("-----------Reynaldo's Example App-----------");
+	console.log("-------DermAT Application Information-------");
 	console.log("Application path: ", app.getAppPath());
 	console.log("Home path: ", app.getPath('home'));
 	console.log("App data path: ", app.getPath('appData'));
@@ -333,6 +337,16 @@ function createMainWindow(){
 		win = null; 
 	});
 	
+}
+
+//Function erases all characterized images produced by the IPA
+function eraseLocalImages(){
+	var characterizedImagesPath = app.getPath('appData') + "\\" + app.getName() + "\\characterized-images";
+	var relativeImageFilePaths = jetpack.find(characterizedImagesPath, {files: true, matching: "*.png" } );
+	//Erase images one by one
+	relativeImageFilePaths.forEach( (path) =>{
+		jetpack.remove(path);
+	});
 }
 
 

@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "9b7019dfa07576eb1d02"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "80e379904c8105a24db3"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -39934,7 +39934,7 @@ if(true) {
 // University of Puerto Rico - Mayagüez
 
 
-/* harmony default export */ __webpack_exports__["a"] = ({
+/* unused harmony default export */ var _unused_webpack_default_export = ({
     "characterizedImages": ["C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized1.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized2.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized3.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized4.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized5.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized6.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized7.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized8.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized9.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized10.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized11.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized12.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized13.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized14.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized15.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized16.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized17.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized18.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized19.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized20.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized21.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized22.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized23.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized24.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized25.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized26.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized27.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized28.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized29.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized30.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized31.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized32.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized33.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized34.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized35.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized36.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized37.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized38.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized39.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized40.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized41.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized42.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized43.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized44.png", "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks\\Testing_Stage\\CharacterizedImageSamples\\Characterized45.png"],
     "LayersInfo": [{
         "LayerID": "1",
@@ -42100,11 +42100,8 @@ const { dialog, app } = window.require('electron').remote; //Importing rest of n
 
 //TODO Maybe this should be saved in the react component
 //Get App Data information
-var roamingPath = app.getPath('appData'); //Will look something like this: C:\Users\reyna\AppData\Roaming
-var appDataFolderPath = roamingPath + "\\" + app.getName();
-
-var ipmOutput = null;
-var ipmInput = null;
+const appDataFolderPath = app.getPath('appData') + "\\" + app.getName();
+const characterizedImgFolderPath = appDataFolderPath + "\\characterized-images";
 
 /*********************
  	MSI Installer
@@ -42129,7 +42126,7 @@ var ipmInput = null;
 // await msiCreator.compile();
 
 /*********************
- 	App Component
+	App Component
 **********************/
 
 class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
@@ -42137,19 +42134,21 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		super(props);
 
 		//TODO DEBUG PURPOSES - Obtain the characterized images stored in this computer
-		__WEBPACK_IMPORTED_MODULE_9__components_dummyData_ipmOutputDummyData_js__["a" /* default */].characterizedImages = getCharacterizedImagesLocalComputer();
+		// ipmOutputDummy.characterizedImages = getCharacterizedImagesLocalComputer();
 
 		this.state = {
 			currentScreenIdx: 0,
 			isResulsDataExported: false, //Will save wether results data was saved to the user at any given moment
 			ipmInputData: null,
-			ipmOutputData: __WEBPACK_IMPORTED_MODULE_9__components_dummyData_ipmOutputDummyData_js__["a" /* default */],
+			ipmOutputData: null,
 			isIPAError: false
 		};
 	}
 
 	goImageInputSreen(openFileDilog) {
 		if (openFileDilog) {
+			//Erase the produced characterized images we no longer need
+			eraseLocalImages(this.state.ipmOutputData.characterizedImages);
 			//Render the Image Input Screen and open 'Open Dialog'
 			this.setState({ currentScreenIdx: 0, isResulsDataExported: false });
 			this.inputScreenChild.btnBrowseClick();
@@ -42171,8 +42170,11 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 
 	goResultsScreen(ipmOutputData, isIPAError) {
+		//Retrieve the produced characterized images stored on the local machine
+		ipmOutputData.characterizedImages = getAndSortImages(characterizedImgFolderPath);
+
 		//Image Processing Algorithm has finished. Show ResultsScreen
-		this.setState({ currentScreenIdx: 2, ipmOutputData: ipmOutputData, isIPAError });
+		this.setState({ currentScreenIdx: 2, ipmOutputData, isIPAError });
 	}
 
 	executeIpm(ipmInputObj) {
@@ -42213,7 +42215,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 }
 
 /*************************
- 	App Component Utils
+	App Component Utils
 **************************/
 
 //Exports images and metadata from the stored IPM output info into .PNG and .txt (CSV) files at the specified folder destination
@@ -42251,15 +42253,12 @@ function exportIPMOutputData(folderDestPath) {
 	//Create new path where characterized images will be placed
 	var imgExportFolderPath = mainTargetDir.path() + '\\characterized-images';
 
-	//Get app's internal folder where characterized images are stored
-	// var characterizedImagesSrc = "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\3 Final Report\\Alejandro's Tasks (1)\\Testing_Stage\\CharacterizedImageSamples";
-
 	//TODO VERIFY HERE IF THERE ARE EXISTING IMAGES IN THE EXPORT FOLDER THAT MAY BE REPLACED
 	//Error case: what happens if user have to different folders with exported data and 
 	//the app replaces data on one of these folders (by user mistake)?
 
 	//Copy all and only the PNG files contained on the source folder into the export folder
-	__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(characterizedImgPath, imgExportFolderPath, { matching: '*.png',
+	__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(characterizedImgFolderPath, imgExportFolderPath, { matching: '*.png',
 		overwrite: (srcInspectData, destInspectData) => {
 			//This function executes when the image already exist in destination folder
 			//Criteria to replace/overwrite existing images should be defined here
@@ -42284,11 +42283,10 @@ function getCharacterizedImagesLocalComputer() {
 	Object(__WEBPACK_IMPORTED_MODULE_10__debug_debugTools_js__["a" /* default */])("about to store charerized images in Roaming folder");
 
 	//Copy all and only the PNG files contained on the source folder into the export folder
-	var characterizedImgPath = appDataFolderPath + "\\characterized-images";
-	if (!__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.exists(characterizedImgPath)) {
+	if (!__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.exists(characterizedImgFolderPath)) {
 		//If does not exists
 
-		__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(app.getAppPath() + "\\assets\\characterized-images", characterizedImgPath, { matching: '*.png',
+		__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(app.getAppPath() + "\\assets\\characterized-images", characterizedImgFolderPath, { matching: '*.png',
 			overwrite: (srcInspectData, destInspectData) => {
 				//This function executes when the image already exist in destination folder
 				//Criteria to replace/overwrite existing images should be defined here
@@ -42299,7 +42297,7 @@ function getCharacterizedImagesLocalComputer() {
 	}
 
 	//Obtain all the PNG files contained within the source folder
-	var relativeImageFilePaths = __WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.find(characterizedImgPath, { files: true, matching: "*.png" });
+	var relativeImageFilePaths = __WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.find(characterizedImgFolderPath, { files: true, matching: "*.png" });
 
 	//Obtain the file names of each image with its corresponding index
 	var imageFileNames = relativeImageFilePaths.map((path, i) => {
@@ -42320,7 +42318,7 @@ function getCharacterizedImagesLocalComputer() {
 
 	//Append the source folder to each image file name to retrieve a new array of absolute paths
 	var sortedAbsoluteImagePaths = sortedArray.map(d => {
-		return characterizedImgPath + '\\' + d.fileName;
+		return characterizedImgFolderPath + '\\' + d.fileName;
 	});
 
 	return sortedAbsoluteImagePaths;
@@ -42355,18 +42353,9 @@ function getFileNameIndex(fileName) {
 	return numberCount === 0 || numberCount > 2 ? -1 : foundIndexValue;
 }
 
-/******************************************
- 	Inter-process communication listeners
-*******************************************/
-
-//These functions are defined for interaction with the Main Process
-
-//Executes when user has selected the image source folder
-ipc.on('selected-input-folder', (event, srcFolderPath) => {
-	//----- Obtaing the absolute path of every PNG image found in the given source folder  --------
-
+function getAndSortImages(srcPath) {
 	//Obtain all the PNG files contained within the source folder
-	var relativeImageFilePaths = __WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.find(srcFolderPath, { files: true, matching: "*.png" });
+	var relativeImageFilePaths = __WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.find(srcPath, { files: true, matching: "*.png" });
 
 	//Obtain the file names of each image with its corresponding index
 	var imageFileNames = relativeImageFilePaths.map((path, i) => {
@@ -42387,11 +42376,52 @@ ipc.on('selected-input-folder', (event, srcFolderPath) => {
 
 	//Append the source folder to each image file name to retrieve a new array of absolute paths
 	var sortedAbsoluteImagePaths = sortedArray.map(d => {
-		return srcFolderPath + '\\' + d.fileName;
+		return srcPath + '\\' + d.fileName;
 	});
+
+	return sortedAbsoluteImagePaths;
+}
+
+//Function erases all images or even other files given the specified path array
+function eraseLocalImages(pathArray) {
+	//Erase images one by one
+	__WEBPACK_IMPORTED_MODULE_4_lodash___default.a.each(pathArray, path => {
+		__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.remove(path);
+	});
+}
+
+/******************************************
+	Inter-process communication listeners
+*******************************************/
+
+//These functions are defined for interaction with the Main Process
+
+//Executes when user has selected the image source folder
+ipc.on('selected-input-folder', (event, srcFolderPath) => {
+
+	//----- Sort the images contained within the selected folder  --------
+
+	var sortedAbsoluteImagePaths = getAndSortImages(srcFolderPath);
 
 	//TODO >>>>>>>> VALIDATE IMAGES HERE!!! <<<<<<
 
+	//Validation cases:
+	//Any of the images in the stack is below 400px or above 1000px
+	//File name of one of the images does not contain a number
+	//File name of one of the images contains more than one individual number
+	//One of the images do not contain the same dimensions as the rest of the images in the stack
+
+	// for(var i = 0; i <= sortedAbsoluteImagePaths.length; i++){
+	// 	var img = <img src = {sortedAbsoluteImagePaths[i]}/>;
+
+	// 	if(img.naturalHeight < 400 || img.naturalWidth < 400){
+	// 		debugger; 
+	// 	} else if(img.naturalHeight > 1000 || img.naturalWidth > 1000){
+	// 		debugger;
+	// 	} else {
+	// 		debugger;
+	// 	}
+	// }
 
 	//Signal the ImageInputScreen component to display the 'Input Confirmation Dialog'
 	AppComponent.inputScreenChild.displayConfirmationModal(sortedAbsoluteImagePaths);
@@ -68521,14 +68551,7 @@ class ResultsScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		var newImageSrc = null;
 		if (imgViewState) {
 			//The characterized version of the image shall be displayed
-			var arrLength = this.state.ipmData.characterizedImages.length;
-			if (arrLength - 1 <= imgIdx) {
-				//TODO FOR DEBUG PURPOSES
-				newImageSrc = this.state.ipmData.characterizedImages[arrLength - 1]; //Just always show the last characterized image
-			} else {
-				//TODO This is the production code
-				newImageSrc = this.state.ipmData.characterizedImages[imgIdx];
-			}
+			newImageSrc = this.state.ipmData.characterizedImages[imgIdx];
 		} else {
 			//The original version of the image shall be displayed
 			newImageSrc = this.state.ipmData.originalImages[imgIdx];

@@ -102,12 +102,7 @@ class ResultsScreen extends Component {
 	getNewCurrentImage(imgViewState, imgIdx){
 		var newImageSrc = null;
 		if(imgViewState){ 														//The characterized version of the image shall be displayed
-			var arrLength = this.state.ipmData.characterizedImages.length;
-			if(arrLength - 1 <= imgIdx){ //TODO FOR DEBUG PURPOSES
-				newImageSrc = this.state.ipmData.characterizedImages[arrLength - 1]; //Just always show the last characterized image
-			} else {	//TODO This is the production code
-				newImageSrc = this.state.ipmData.characterizedImages[imgIdx];																		
-			}
+			newImageSrc = this.state.ipmData.characterizedImages[imgIdx];																		
 		} else {																//The original version of the image shall be displayed
 			newImageSrc = this.state.ipmData.originalImages[imgIdx];									
 		}
