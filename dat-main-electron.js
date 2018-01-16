@@ -211,18 +211,7 @@ let menuBarTemplatePreAnalysis = [{
 			}
 		}
 	}]
-},{
-	label: 'Tools',
-	submenu: [{
-		label: 'DevTools',
-		accelerator:'Ctrl+Shift+I',
-		click: function (item, focusedWindow) {
-			if (focusedWindow) {
-				win.webContents.openDevTools();
-			}
-		}
-	}]
-}
+},
 ];
 
 //Used at the results screen
@@ -310,7 +299,15 @@ function displayAppInfo(){
 
 function createMainWindow(){
 	//Create a new windows with the corresponding screen specifications
-	win = new BrowserWindow({width: 1200, height: 600, minWidth: 1200, minHeight: 600, resizable: false, show: false});
+	win = new BrowserWindow({
+		width: 1200, 
+		height: 600, 
+		minWidth: 1200, 
+		minHeight: 600, 
+		resizable: false, 
+		show: false,
+		icon: __dirname + "\\assets\\resources\\dermat-icon.ico"
+	});
 
 	//Load HTML file to render ReactJS app
 	win.loadURL(url.format(
