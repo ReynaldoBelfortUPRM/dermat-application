@@ -1,4 +1,4 @@
-import RCM_LayerSeparation_FinalModules
+import RCM_LayerSeparation_FinalModulesV3
 
 import os
 import time
@@ -93,21 +93,21 @@ def main():
     sys.stdout.flush()
 
     # # Initializes MATLAB runtime
-    matlabRuntime = RCM_LayerSeparation_FinalModules.initialize()
+    matlabRuntime = RCM_LayerSeparation_FinalModulesV3.initialize()
 
-    classifiedLayers = matlabRuntime.LayerSeparation(ImageArrayPath)
+    classifiedLayers = matlabRuntime.LayerSeparation(ImageArrayPath,outputImagesSavePath)
 
-    message["data"] = "Step 3: Storing characterized images..."
+    # message["data"] = "Step 3: Storing characterized images..."
+    # print json.dumps(message)
+    # sys.stdout.flush()
+
+    # x = matlabRuntime.CharacterizeImages(outputImagesSavePath)
+
+    message["data"] = "Step 3: Validating results..."
     print json.dumps(message)
     sys.stdout.flush()
 
-    matlabRuntime.CharacterizeImages(classifiedLayers[1],outputImagesSavePath)
-
-    message["data"] = "Step 4: Validating results..."
-    print json.dumps(message)
-    sys.stdout.flush()
-
-    ipmOutput = matlabRuntime.Validation(classifiedLayers[0])
+    ipmOutput = matlabRuntime.ValidationCharacterize(classifiedLayers,outputImagesSavePath)
 
     # ipmOutput = matlabRuntime.RCM_LayerSeparation_Final(ImageArrayPath,outputImagesSavePath)
 
