@@ -98,7 +98,7 @@ const StackVisualization = (props) => {
 			const binWidth = 20;
 			const binHeight = yScaleStackBar(d.LayerRange[1]) - yScaleStackBar(d.LayerRange[0]);
 			const layerIDSubstring = d.LayerName + '_' + d.LayerID;
-			const thicknessValue = d.LayerThickness + ' µm';
+			const thicknessValue = d.LayerThickness + ' \u00B5' + 'm';
 
 			//Set-up bin's text information
 			var textStyles = [styles.stackThicknessText];

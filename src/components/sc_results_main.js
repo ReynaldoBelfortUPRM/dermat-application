@@ -149,7 +149,7 @@ class ResultsScreen extends Component {
 					<VisualizationView currentState = { this.state } isAnalysisError = { this.props.isAnalysisError } outputData={ this.props.outputData } binClicked={ (layerIndex) => { this.binClicked(layerIndex); } } imageClicked={ (imgIndex) => { this.imageClicked(imgIndex); } }/>
 				</div>
 				<div className={styles.containerTwo}>
-					<ImageMetricsView currentImg = { this.state.currentImageIdx + 1} totalImages = { this.state.ipmData.originalImages.length }/>
+					<ImageMetricsView isCharacterizedView = { this.state.isCharacterizedViewEnabled } currentImg = { this.state.currentImageIdx + 1} totalImages = { this.state.ipmData.originalImages.length }/>
 				</div>
 			</div>
 		);

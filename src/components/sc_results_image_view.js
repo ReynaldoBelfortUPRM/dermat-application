@@ -12,23 +12,38 @@
 
 //Import the necessart libraries and classes
 import React, {Component} from 'react';
-import { Image, Button, Glyphicon } from 'react-bootstrap';
+import { Image, Button, Glyphicon, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import ReactTooltip from 'react-tooltip';
 
 //Import styles
 import styles from '../styles/sc-results-main.css';
 
 const ImageView = (props) => {
 
+	//Set up tooltip messages
+	const tooltipToggle = (
+		<Tooltip id="tooltip-toggle">
+			Show/hide characterized image
+		</Tooltip>
+	);
+
+	const tooltipSave = (
+		<Tooltip id="tooltip-save">
+			Save characterized image
+		</Tooltip>
+	);
+
 	//Determine if the save button shall be displayed on screen depending on the image view state
-	var saveButton = props.isImageDownloadAllowed ? <Button className={[styles.buttonDownload].join(' ')} onClick={ () => { props.btnSaveClicked()} }><Glyphicon glyph="floppy-disk" /></Button> : null;
-	
+	var toggleButton = props.isCharacterizedView ? (<OverlayTrigger placement="right" overlay={tooltipToggle}><Button className={[styles.buttonSwitch].join(' ')} onClick={ () => { props.btnToggleClicked()} } active>MAP</Button></OverlayTrigger>) : (<OverlayTrigger placement="right" overlay={tooltipToggle}><Button className={[styles.buttonSwitch].join(' ')} onClick={ () => { props.btnToggleClicked()} }>MAP</Button></OverlayTrigger>);	
+	var saveButton = props.isImageDownloadAllowed ? (<OverlayTrigger placement="bottom" overlay={tooltipSave}><Button className={[styles.buttonDownload].join(' ')} onClick={ () => { props.btnSaveClicked()} }><Glyphicon glyph="floppy-disk" /></Button></OverlayTrigger>) : null;
+
 	//Render the DOM elements to the screen. The <img> DOM element is where the RCM image will be shown.
 	return (
 		<div className={[styles.resultsWindow, styles.imageView].join(' ')}>
 				<img className = {styles.imageElement} src={ props.imageSrc }/>	
-				<Button className={[styles.buttonSwitch].join(' ')} onClick={ () => { props.btnToggleClicked()} }><Glyphicon glyph="refresh" /></Button>
+				{toggleButton}
 				{saveButton}
-			</div>
+		</div>
 		);
 };
 

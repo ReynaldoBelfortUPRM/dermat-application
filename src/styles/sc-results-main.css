@@ -73,10 +73,11 @@
     width: 35px;
     height: 35px;
     padding: 6px 0;
-    font-size: 15px;
+    font-size: 12px;
     line-height: 1.42;
     border-style: 15px;
     text-align: center;
+    font-weight: bold;
 }
 
 .buttonDownload {
@@ -86,7 +87,7 @@
     width: 35px;
     height: 35px;
     padding: 6px 0;
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1.42;
     border-style: 15px;
     text-align: center;
@@ -142,7 +143,7 @@
   }
 
   .vizErrorMessage {
-    color: gray;
+    color: #b1b1b1;
     font-size: 20px;
   }
 
@@ -156,4 +157,8 @@
 .metricsStyle {
     font-weight: bold;
     margin-left: 40px;
+}
+
+.metricValueColor{
+    color: #1fe4b0;
 }

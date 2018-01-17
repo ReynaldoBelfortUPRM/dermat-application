@@ -104,10 +104,10 @@ class ImageInputScreen extends Component {
 			<div className={[styles.centerContent, styles.windowContainer, 'animation', 'fadeIn'].join(' ')}>
 	  			<Grid>
 	  				<Row>
-	  					<Col md={12} className="text-center ">Click 'Browse' to load a stack of RCM images for analysis</Col>
+	  					<Col md={12} className="text-center ">Click 'Browse' to load a stack (folder) of RCM images for analysis</Col>
 	  				</Row>
 	  				<Row>
-	  					<Col md={12}> <Button bsStyle="primary" bSize="large" className="center-block" onClick= { () => { this.btnBrowseClick(); } }> Browse </Button> </Col>
+	  					<Col md={12}> <Button bsStyle="primary" bSize="large" className={[styles.browseButton, "center-block" ].join(' ')} onClick= { () => { this.btnBrowseClick(); } }> Browse </Button> </Col>
 	  				</Row>
 	  			</Grid>
 

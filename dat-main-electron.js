@@ -4,10 +4,8 @@
 // Author: Reynaldo Belfort Pierrilus, Computer Engineering Undergraduate
 // University of Puerto Rico - Mayagüez
 
-//FIND ALL 'TODO' TAGS AND DELETE THEM IF NOT NEEDED
-
 //TODO - Task list
-			// We should catch all unexpected errors with try-catch cases
+	// We should catch all unexpected errors with try-catch cases
 
 //Terminology:
 //IPM - Image Processing Module
@@ -120,7 +118,7 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 		/************************
 		   Python definitions 
 		*************************/
-		// (TEST OUTPUT)
+
 		pyshell.on('message', function (message) {
 		  // received a message sent from the Python script (a simple "print" statement)
 		    console.log(message);
@@ -150,8 +148,7 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 		  console.log('Program ended normally');
 		});
 
-		console.log("DEBUG: Image Processing Algorithm has started! IPM input object: "); //TODO
-		// console.log("DEBUG: Image Processing Algorithm has started! IPM input object: ", ipmInputData); //TODO
+		console.log("DEBUG: Image Processing Algorithm has started! IPM input object: "); //TODO DEBUG
 	}
 
 });

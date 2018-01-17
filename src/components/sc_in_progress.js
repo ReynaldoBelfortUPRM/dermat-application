@@ -75,7 +75,7 @@ class InProgressScreen extends Component {
 						</Col>
 						<Col md={12} className={[styles.statusMessageFormat, "text-center"].join(' ')}>{this.state.statusMessage}</Col>
 
-						<Col md={12}><Button bsStyle="link" className="center-block" bsSize="large" onClick={ () => { this.cancelIpmExecution();} } >Cancel</Button></Col>
+						<Col md={12}><Button bsStyle="link" className={[styles.btnCancel,"center-block"]} bsSize="large" onClick={ () => { this.cancelIpmExecution();} } >Cancel</Button></Col>
 					</Row>
 				</Grid>
 			</div>

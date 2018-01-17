@@ -32,7 +32,7 @@
 }
 
 .statusMessageFormat {
-	color: gray;
+	color: #b1b1b1;
 	font-size: 20px;
 }
 
@@ -42,7 +42,19 @@
   height: 250px;
 }
 
-/*Progress Bar*/
+.browseButton {
+  width: 15%;
+  height: 37px;
+  font-size: 55%;
+  font-weight: bold;
+  margin-top: 5px;
+} 
+
+/*In Progress screen specific*/
+.btnCancel{
+  color: #10b68a;
+}
+
 /* Progress Bar */
 .progress {
   left:35%;
@@ -60,10 +72,10 @@
     background-color: inherit;
     top: 0;
     bottom: 0;
-    background-color: #2583a6; /*moving bar color */
+    background-color: rgb(64, 170, 147); /*moving bar color */
     transition: width .3s linear; }
   .progress .indeterminate {
-    background-color: #2583a6; } /*moving bar color */
+    background-color: rgb(64, 170, 147); } /*moving bar color */
     .progress .indeterminate:before {
       content: '';
       position: absolute;

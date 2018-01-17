@@ -264,7 +264,7 @@ function getAndSortImages(srcImageFolderPath){
 	//Obtain the file names of each image with its corresponding index
 	var imageFileNames = relativeImageFilePaths.map((path, i) => {
 		var fileName = jetpack.inspect(path).name;
-		var fileIndex = getFileNameIndex(fileName);
+		var fileIndex = getFileNameIndex(fileName.slice(0,-4));
 		//Validate if the file name has index
 		if(fileIndex < 0){
 			console.warn('DEBUG: FILENAME INDEX ERROR! For file: ', jetpack.inspect(path).name );
@@ -459,6 +459,14 @@ ipc.on('save-destination-retrieved', (event, fileDest) => {
 			return true; 	//Overwrite file
 		}
 	});
+
+	//Inform user that the characterized image has been succesfully saved
+	dialog.showMessageBox({
+		type: 'info',
+		title: 'Successfull save',
+		message: "The characterized image have been successfully saved.",
+		buttons: ['Ok']
+	  });
 	debug('Function to save the filed has been called (async)!');	//TODO
 });
 
