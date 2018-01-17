@@ -14,11 +14,8 @@
 //Import necessary libraries
 import React, { Component } from 'react';
 import {Grid, Row, Col, Button, Modal, ListGroup, ListGroupItem} from 'react-bootstrap';
-
 //Import Electron required electron functions
 const ipc = window.require('electron').ipcRenderer;
-//TODO REMOVE IF NOT NEEDED
-// const { app } = window.require('electron').remote;
 
 //Import styles
 import styles from '../styles/sc-imageinput-progress.css';
@@ -39,9 +36,8 @@ class ImageInputScreen extends Component {
 			imageNamesList: [],
 			imageCount: 0,
 		}
-
-		//Add 'Analysis' menu on app's menu bar
-		ipc.send('remove-analysis-menu');   			//TODO Not sure if this belongs here
+		//Remove 'Analysis' menu on app's menu bar if its there
+		ipc.send('remove-analysis-menu');  
 	}
 
 	/****************************************
@@ -73,22 +69,20 @@ class ImageInputScreen extends Component {
 		});
 
 		//Update the state of this component so we can re-trigger render() so that the modal will now be displayed
-		this.setState({ selectedPaths, showModal: true, imageNamesList, imageCount: imageNamesList.length }); //The same as this.setState({ selectedPaths: selectedPaths });
+		this.setState({ selectedPaths, showModal: true, imageNamesList, imageCount: imageNamesList.length });
 		//TODO DEBUG 
 		console.log('DEBUG: Modal Displayed. Filepaths are... ', selectedPaths);
 	}
 
 	//Signals the Main Process via IPC to execute the IPA.
 	signalIpmExecution(selectedPaths) {
-
-		//TODO VALIDATE FILE PATH FIRST!!!
 		if(selectedPaths){ 
 			//Creating an object that corresponds to the format that was defined in the early stages of the project
 			const ipmInputObj = {
 				originalImages: selectedPaths,
 				appDataPath: this.props.appDataPath,
 			}
-			console.log("DEBUG: Created ipmInputObj:", ipmInputObj);
+			console.log("DEBUG: Created ipmInputObj:", ipmInputObj);	//TODO DEBUG
 			this.props.onSelectedPaths(ipmInputObj);					//Send input object back to the App component and also signal tostart execution process
 			this.setState({ showModal: false });						//Hide the modal
 		}
@@ -96,8 +90,8 @@ class ImageInputScreen extends Component {
 
 	//------- Event handler for 'Browse' button ---------
 	btnBrowseClick (){
-		debug("Browse button clicked"); //TODO debug
-
+		debug("Browse button clicked"); 	//TODO debug
+		
 		//Signal main process to open OS's file dialog
 		ipc.send('open-file-dialog');
 	}

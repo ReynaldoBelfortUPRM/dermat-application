@@ -5,19 +5,11 @@
 */
 
 .results_mainContainer{
-    /*background-color: grey;*/
     padding: 0;
     box-sizing: border-box;
-    /*flex-wrap: wrap;*/
-   /* width:1200px;
-    height:600px;*/
-    /*height:100%;*/
 }
 
 .resultsWindow {
-    /*border: 1px solid #fff; for debugging purooses*/
-   /* width: 1200px;*/
-    /*height: 600px;*/
     height: 95vh;
     flex: 1;
 }
@@ -36,13 +28,11 @@
 
 /*Navitagion View*/
 .navigationView{
-    /*background-color: red;*/
     width: 35px;
     flex: initial;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    /*flex: .05;*/
 }   
 
 .buttonNav{
@@ -58,12 +48,9 @@
     margin-top: 20%;    
 }
 
-
 /*Image View*/
 .imageView{
     position: relative;
-    /*background-color: green;*/
-    /*background-color: #0a5423;*/ /*Dark green for DEBUG purposes*/
     padding: 1px;
     margin-right: 10px;
 
@@ -115,7 +102,6 @@
 
 /*Visualization view*/
 .visualizationView{
-    /*background-color: orange;*/
     background-color: #4b4e51; /*Gray*/
     display: flex;
     flex-direction: row;
@@ -133,14 +119,12 @@
 }
 
 .vizBox {
-    /*background-color:  #663300;*/
     background-color:  #4b4e51;
     border-radius: 5px;
     margin-right: 5px;
 }
 
 .vizList {
-    /*background-color: purple;*/
     border-style: solid;
     border-width: 0 0 0 2px;
     border-color: white;
@@ -163,11 +147,7 @@
   }
 
 /*Image Metrics View*/
-
 .imageMetricsView{
-    /*border: 1px solid #fff;*/ /*for debugging purooses*/
-    /*background-color: yellow;*/
-    /*height: 25px;*/
     color: white;
     height: 5vh;
     flex: 1;

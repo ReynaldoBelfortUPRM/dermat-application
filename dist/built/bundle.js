@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "dffcb5c5bf18b03d0efd"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "bf97d8939a073c37d2c1"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -42171,7 +42171,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //IPA - Image Processing Algorithm
 
 /* TODO Task List
-	- COMENTAR TODO EL CÓDIGO, EXPLICANDO LAS FUNCIONES DE CADA COSA.
 	- Poner primera letra de propiedades de dummyData lower case e.g. 'layersInfo'
 	- Change folder names on application file structure
 	- FIX padding issue on results view, so that borders can be seen appropiately
@@ -42183,26 +42182,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	- Perform Unit Testing
 */
 
-//Meta: Ver las imagenes originales que inserte de unstack de Input Screen -> Results screen.
-//Meta 2: Que me cargue imagenes caracterizadas (dommy data) independiente de cualquier stack ogirinal que ponga.
-
 //Import libraries
 
 
  //For file management
 
 
-// import fastSize from 'fast-image-size';
-// import Jimp from 'jimp';
 var sizeOf = __webpack_require__(400);
-// import sortPaths from 'sort-paths';
-// import pathSorter from 'path-sort';
 const ipc = window.require('electron').ipcRenderer; //Electron functions for interaction with Main Process	
 const { dialog, app } = window.require('electron').remote; //Importing rest of necessary Electron libraries
-
-//Import styles
-// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-// import styles from '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 //Import major components
 
@@ -42252,9 +42240,6 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	constructor(props) {
 		super(props);
 
-		//TODO DEBUG PURPOSES - Obtain the characterized images stored in this computer
-		// ipmOutputDummy.characterizedImages = getCharacterizedImagesLocalComputer();
-
 		this.state = {
 			currentScreenIdx: 0,
 			isResulsDataExported: false, //Will save wether results data was saved to the user at any given moment
@@ -42278,10 +42263,11 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 
 	goInProgressScreen() {
+		//Display the progress screen
 		this.setState({ currentScreenIdx: 1 });
-		// setTimeout(() => { this.goResultsScreen();}, 3000); 		//TODO THIS CODE IS NOT FOR PRODUCTION	DEBUG
 	}
 
+	//Mark whether the user has saved the analysis results
 	setResultDataExported(isDataExported) {
 		if (isDataExported) {
 			this.setState({ isResulsDataExported: true });
@@ -42324,10 +42310,12 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				break;
 		}
 
-		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-			'div',
-			null,
-			currentScreen
+		return (//Render the corresponding screen to the user
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				null,
+				currentScreen
+			)
 		);
 	}
 
@@ -42339,7 +42327,6 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 //Exports images and metadata from the stored IPM output info into .PNG and .txt (CSV) files at the specified folder destination
 function exportIPMOutputData(folderDestPath) {
-	//TEST FOR ASYNC OPERATIONS TAHT MIGHT AFFECT The SAVING PROCESS TODO
 
 	//Create a new var contaning proper format for the papaparse library
 	var formattedIpmOutput = AppComponent.state.ipmOutputData.LayersInfo.map((layerObj, i) => {
@@ -42367,14 +42354,10 @@ function exportIPMOutputData(folderDestPath) {
 	var mainTargetDir = __WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.dir(folderDestPath);
 
 	//Store text file on the selected diretory
-	mainTargetDir.file('stack-analysis-results.txt', { content: csvData });
+	mainTargetDir.file('stack-analysis-results.csv', { content: csvData });
 
 	//Create new path where characterized images will be placed
 	var imgExportFolderPath = mainTargetDir.path() + '\\characterized-images';
-
-	//TODO VERIFY HERE IF THERE ARE EXISTING IMAGES IN THE EXPORT FOLDER THAT MAY BE REPLACED
-	//Error case: what happens if user have to different folders with exported data and 
-	//the app replaces data on one of these folders (by user mistake)?
 
 	//Copy all and only the PNG files contained on the source folder into the export folder
 	__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.copy(characterizedImgFolderPath, imgExportFolderPath, { matching: '*.png',
@@ -42386,7 +42369,6 @@ function exportIPMOutputData(folderDestPath) {
 			return true;
 		} });
 
-	//TODO Test: What happens if an error occurs when copying a file???
 	//Inform user that information has been succesfully exported
 	dialog.showMessageBox({
 		type: 'info',

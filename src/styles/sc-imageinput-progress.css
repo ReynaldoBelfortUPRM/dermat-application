@@ -4,10 +4,6 @@
  University of Puerto Rico - Mayagüez
 */
 
-/*TODO:
-- Remove the css properties that we don't need
-*/
-
 .windowContainer{
 	background-color: #4b4e51;
 	color: white;
@@ -45,8 +41,6 @@
   overflow-y: scroll;
   height: 250px;
 }
-
-
 
 /*Progress Bar*/
 /* Progress Bar */

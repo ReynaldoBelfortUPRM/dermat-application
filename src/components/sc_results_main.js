@@ -4,10 +4,6 @@
 // Author: Reynaldo Belfort Pierrilus, Computer Engineering Undergraduate
 // University of Puerto Rico - Mayagüez
 
-
-//TODO Task list
-		//Make sure download button gets removed when viewing original image
-
 //Terminology:
 //IPM - Image Processing Module
 //IPA - Image Processing Algorithm
@@ -28,18 +24,17 @@ import styles from '../styles/sc-results-main.css';
 //TODO Import debug tools
 import debug from '../debug/debugTools.js';
 
-
 //Define the Results screen
 class ResultsScreen extends Component {
 	constructor(props) {
 		super(props)
 
 		//Define screen's state for holding results data, along with metadata for funcitonality purposes
-		this.state = {											  //TODO DOCUMENT THIS PROPERTIES
-			currentImageIdx: 0,
-			selectedLayerIdx: 0,
-			rcmStackImageCount: props.outputData.characterizedImages.length,
-			currentImageSrc: props.inputData.originalImages[0],
+		this.state = {									
+			currentImageIdx: 0,							//Current image being displayed on screen
+			selectedLayerIdx: 0,						//Current selected layer
+			rcmStackImageCount: props.outputData.characterizedImages.length,	//Holds the total number of images in the input stack
+			currentImageSrc: props.inputData.originalImages[0],					//Current image's local machine path
 			isCharacterizedViewEnabled: false,
 			ipmData: {
 				originalImages: props.inputData.originalImages,
@@ -49,7 +44,7 @@ class ResultsScreen extends Component {
 		}
 
 		//Add 'Analysis' menu on app's menu bar
-		ipc.send('add-analysis-menu');						//TODO Not sure if this belongs here
+		ipc.send('add-analysis-menu');
 	}
 
 	/****************************************
@@ -137,7 +132,7 @@ class ResultsScreen extends Component {
 
 	//Re-render the screen according to the images that was toggled
 	toggleClicked(){
-		console.log('DEBUG: Toggle signal received!!'); //TODO Debugging purposes
+		console.log('DEBUG: Toggle signal received!!'); //TODO DEBUG 
 		var isCharacterizedView_newState = this.state.isCharacterizedViewEnabled ? false : true;  	//Establish the new view state of the image based on the current state. 
 																									//Doing it this way avoids unexpected 
 		var newImageSrc = this.getNewCurrentImage(isCharacterizedView_newState, this.state.currentImageIdx); 			//Retrieve the new current image to be displayed on screen
