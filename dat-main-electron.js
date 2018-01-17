@@ -38,8 +38,11 @@ const dialog = require('electron').dialog;
 
 
 //Python related vars
+var http = require('http');
 var PythonShell = require('python-shell');
 var pyshell = null;
+var serverPort = 8080;
+var dermatServer = null;
 
 //Define application window
 let win;
@@ -65,6 +68,8 @@ app.on('window-all-closed', () => {
 app.on('browser-window-focus', (event, window) => {
 	console.log('APP-DEBUG: focused window ID:' + window.id); 
 });
+
+
 
 //Remove if not needed TODO
 // app.on('will-quit', function () {
@@ -172,9 +177,24 @@ ipc.on('cancel-execution', (event) => {
 
 	//HERE WE SIGNAL THE IMAGE PROCESSING ALGORITHM TO STOP ALGORITHM EXECUTION
 	
-	// const statusMsg = "This is a dummy message that was sent form the Main Process!!";
-	// event.sender.send('status-update', statusMsg);
-	pyshell.end();
+	//Kill option
+	// console.log(`Spawned child pid: ${pyshell.childProcess.pid}`);
+    // pyshell.childProcess.kill(-pyshell.pid);
+
+
+	console.log(serverPort);
+
+	dermatServer = http.createServer(function (req, res) {
+		res.write('end'); //write a response to the client
+  		res.end(); //end the response
+	}).listen(serverPort);
+
+
+	setTimeout(() => {
+		dermatServer.close(); //the server object listens on port 8080
+		//SIGNAL RENDERER HERE THAT PYTHON HAS CLOSED.
+	}, 5000);
+
 	console.log("DEBUG: CANCEL SIGNAL SENT!!" );
 });
 
