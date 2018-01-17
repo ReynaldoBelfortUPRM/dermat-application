@@ -1,4 +1,4 @@
-import RCM_LayerSeparation_Final
+import RCM_LayerSeparation_FinalModulesV3
 
 import os
 import time
@@ -93,20 +93,23 @@ def main():
     sys.stdout.flush()
 
     # # Initializes MATLAB runtime
-    matlabRuntime = RCM_LayerSeparation_Final.initialize()
-    # message["data"] = "Runtime Initialized"
+    matlabRuntime = RCM_LayerSeparation_FinalModulesV3.initialize()
+
+    classifiedLayers = matlabRuntime.LayerSeparation(ImageArrayPath,outputImagesSavePath)
+
+    # message["data"] = "Step 3: Storing characterized images..."
     # print json.dumps(message)
     # sys.stdout.flush()
 
-    # # Input: Matrix of pixel values,
-    # #        Path to folder where texton library and models are stored,
-    # #        Path to folder where characterized images will be stored
-    # # Output: Vector containing the classification of each image in the stack
+    # x = matlabRuntime.CharacterizeImages(outputImagesSavePath)
 
-    ipmOutput = matlabRuntime.RCM_LayerSeparation_Final(ImageArrayPath,outputImagesSavePath)
-    # message["data"] = "Images Classified"
-    # print json.dumps(message)
-    # sys.stdout.flush()
+    message["data"] = "Step 3: Validating results..."
+    print json.dumps(message)
+    sys.stdout.flush()
+
+    ipmOutput = matlabRuntime.ValidationCharacterize(classifiedLayers,outputImagesSavePath)
+
+    # ipmOutput = matlabRuntime.RCM_LayerSeparation_Final(ImageArrayPath,outputImagesSavePath)
 
     # # Terminate MATLAB runtime
     matlabRuntime.terminate()
@@ -124,19 +127,7 @@ def main():
     thickness5 = ipmOutput[4][2] - ipmOutput[4][1] + 1 
     # ----------------------------Output management-----------------------------
     ipmOutputJSON = {
-    "characterizedImages": [
-        outputImagesSavePath + "\\Characterized1.png",
-        outputImagesSavePath + "\\Characterized2.png",
-        outputImagesSavePath + "\\Characterized3.png",
-        outputImagesSavePath + "\\Characterized4.png",
-        outputImagesSavePath + "\\Characterized5.png",
-        outputImagesSavePath + "\\Characterized6.png",
-        outputImagesSavePath + "\\Characterized7.png",
-        outputImagesSavePath + "\\Characterized8.png",
-        outputImagesSavePath + "\\Characterized9.png",
-        outputImagesSavePath + "\\Characterized10.png",
-        outputImagesSavePath + "\\Characterized11.png"
-    ],
+    
         "LayersInfo": [
             {
                 "LayerID":1,
@@ -171,12 +162,20 @@ def main():
 
         ]
     }
+
+    if ipmOutput[0][0]+ipmOutput[1][0]+ipmOutput[2][0]+ipmOutput[3][0]+ipmOutput[4][0] == 0:
+        message["messageType"] = "error"
+        message["data"] = ipmOutputJSON
+        print json.dumps(message)
+        sys.stdout.flush()
+
 # Returns the JSON output to Electron in a single string
 # (TEST OUTPUT)
-    message["messageType"] = "results"
-    message["data"] = ipmOutputJSON
-    print json.dumps(message)
-    sys.stdout.flush()
+    else:
+        message["messageType"] = "results"
+        message["data"] = ipmOutputJSON
+        print json.dumps(message)
+        sys.stdout.flush()
   
    
     # Write JSON string to file

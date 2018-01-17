@@ -34,6 +34,9 @@ import ReactDOM from 'react-dom';
 import jetpack from 'fs-jetpack'; 								//For file management
 import Papa from 'papaparse';
 import _ from 'lodash';
+// import fastSize from 'fast-image-size';
+// import Jimp from 'jimp';
+var sizeOf = require('image-size');
 // import sortPaths from 'sort-paths';
 // import pathSorter from 'path-sort';
 const ipc = window.require('electron').ipcRenderer;			//Electron functions for interaction with Main Process	
@@ -54,6 +57,7 @@ import ipmOutputDummy from './components/dummyData/ipmOutputDummyData.js';
 
 //TODO Import debug tools
 import debug from './debug/debugTools.js';
+import { relative } from 'path';
 
 //TODO Maybe this should be saved in the react component
 //Get App Data information
@@ -294,15 +298,21 @@ function getFileNameIndex(fileName){
 			foundIndexValue = parseAttempt;
 			numberCount++;
 		}
-	} )
+	});
 
-	//If there are either 0 numbers or more than 1 numbers in the file name, it's an error. Return -1 in that case. Otherwise return the index found.
-	return (numberCount === 0 || numberCount > 2) ? -1 : foundIndexValue;		
+	//If there are either 0 numbers or more than 1 numbers in the file name, it's an error. Return coresponding negative value.
+	if(numberCount === 0){ 			//There is not an identifiable index
+		return -1;
+	} else if(numberCount > 2){		//There are more than one identifiable index
+		return -2;
+	}
+
+	return foundIndexValue;
 }
 
-function getAndSortImages(srcPath){
+function getAndSortImages(srcImageFolderPath){
 	//Obtain all the PNG files contained within the source folder
-	var relativeImageFilePaths = jetpack.find(srcPath, {files: true, matching: "*.png" } );	
+	var relativeImageFilePaths = jetpack.find(srcImageFolderPath, {files: true, matching: "*.png" } );	
 	
 	//Obtain the file names of each image with its corresponding index
 	var imageFileNames = relativeImageFilePaths.map((path, i) => {
@@ -321,7 +331,7 @@ function getAndSortImages(srcPath){
 
 	//Append the source folder to each image file name to retrieve a new array of absolute paths
 	var sortedAbsoluteImagePaths = sortedArray.map( (d) => {
-		return srcPath + '\\' + d.fileName;
+		return srcImageFolderPath + '\\' + d.fileName;
 	});
 
 	return sortedAbsoluteImagePaths;
@@ -344,32 +354,153 @@ function eraseLocalImages(pathArray){
 //Executes when user has selected the image source folder
 ipc.on('selected-input-folder', (event, srcFolderPath) => {
 
-	//----- Sort the images contained within the selected folder  --------
+	var isInputInvalid = false;	
 
-	var sortedAbsoluteImagePaths = getAndSortImages(srcFolderPath);
-
+	// var sortedAbsoluteImagePaths = getAndSortImages(srcFolderPath);
 	//TODO >>>>>>>> VALIDATE IMAGES HERE!!! <<<<<<
+	
+	//Obtain all the PNG files contained within the source folder
+	var relativeImageFilePaths = jetpack.find(srcFolderPath, {files: true, matching: "*.png" } );
+	
+					//--------------Validation case-------------
+					//Stack of images between 30 and 100 images
+	if(relativeImageFilePaths.length < 30 || relativeImageFilePaths.length > 100){
+		//Error, too few or too many images in the stack
+		dialog.showMessageBox({
+			type: 'error',
+			title: 'Invalid input',
+			message: "Please select a stack with no less than 30 images or no more than 100 images.",
+		  });
+		//Signal main process to open OS's file dialog
+		ipc.send('open-file-dialog');
+		return; 	//Stop here
+	}
+	
+	debugger;
 
-	//Validation cases:
-	//Any of the images in the stack is below 400px or above 1000px
-	//File name of one of the images does not contain a number
-	//File name of one of the images contains more than one individual number
-	//One of the images do not contain the same dimensions as the rest of the images in the stack
+	//Obtain the file names of each image with its corresponding index
+	var imageFileNames = relativeImageFilePaths.map((path, i) => {
+		var fileName = jetpack.inspect(path).name;
+		var fileIndex = !isInputInvalid ? getFileNameIndex(fileName.slice(0,-4)) : 0;  //Remove file extension before proceeding to retrieve index
+		//Validate if the file name has index
+		if(fileIndex === -1 ){ //No index on file name
+				//--------------Validation case-------------
+				//File name of one of the images does not contain a number
+			console.warn('DEBUG: FILENAME INDEX ERROR! For file: ', jetpack.inspect(path).name );
+			isInputInvalid = true;
+			dialog.showMessageBox({
+				type: 'error',
+				title: 'Invalid input',
+				message: "One of the images in the stack contains no identifiable index in its file name. Please leave a single index separated by _ (e.g. 9_RCM_Dark or RCM_9_Dark). ",
+			});
+		}
+		else if(fileIndex === -2 ){ //More than one index on file name
+			//--------------Validation case-------------
+			//File name of one of the images contains more than one individual number
+			console.warn('DEBUG: FILENAME INDEX ERROR! For file: ', jetpack.inspect(path).name );
+			isInputInvalid = true;
+			dialog.showMessageBox({
+				type: 'error',
+				title: 'Invalid input',
+				message: "One of the images in the stack contains more than one identifiable index in its file name. Please leave a single index separated by _ (e.g. 9_RCM_Dark or RCM_9_Dark).",
+			});
+		}
+		//Return a new object with 'fileName' and 'fileIndex' properties
+		return {fileName: fileName, fileIndex: fileIndex};
+	});
 
-	// for(var i = 0; i <= sortedAbsoluteImagePaths.length; i++){
-	// 	var img = <img src = {sortedAbsoluteImagePaths[i]}/>;
+	//Validation
+	if(isInputInvalid){
+		//Signal main process to open OS's file dialog
+		ipc.send('open-file-dialog');
+		return; 	//Stop here
+	}
 
-	// 	if(img.naturalHeight < 400 || img.naturalWidth < 400){
-	// 		debugger; 
-	// 	} else if(img.naturalHeight > 1000 || img.naturalWidth > 1000){
-	// 		debugger;
-	// 	} else {
-	// 		debugger;
-	// 	}
-	// }
+	//----- Sort the images contained within the selected folder  --------	
+
+	//Sort array based on the fileIndex property
+	var sortedArray = _.sortBy(imageFileNames, [function(target) {return target.fileIndex; }])
+
+	//Append the source folder to each image file name to retrieve a new array of absolute paths
+	var sortedAbsoluteImagePaths = sortedArray.map( (d) => {
+		return srcFolderPath + '\\' + d.fileName;
+	});
+
+	// debugger;
+	
+	// var imageMetadata = [];
+
+	// _.forEach(sortedAbsoluteImagePaths, (path) =>{
+	// 	//Load all images with the purpose of retrieving width and height information
+	// 	Jimp.read(path, function (err, image) { //TODO Excepions should be handled here
+	// 		imageMetadata.push({ width: image.bitmap.width, height: image.bitmap.height });
+	// 	});
+	// });
+
+	// //Hold this function until all images have been loaded
+	// while(imageMetadata.length < relativeImageFilePaths.length) {};
+
+	var stackHeight = null;
+	var stackWidth = null;
+	for(var i = 0; i < sortedAbsoluteImagePaths.length; i++){
+
+		var dimensions = sizeOf(sortedAbsoluteImagePaths[i]);
+		// var dimensions = imageMetadata[i];
+		// var dimensions = fastSize(sortedAbsoluteImagePaths[i]);
+
+		//Intitialize stack dimensions if needed
+		stackHeight = stackHeight == null ? dimensions.height : stackHeight;
+		stackWidth = stackWidth == null ? dimensions.width : stackWidth;
+
+				//-----------------------Validation case----------------------
+				//Any of the images in the stack is below 400px or above 1000px
+		if(dimensions.width < 400 || dimensions.height < 400){
+
+			dialog.showMessageBox({
+				type: 'error',
+				title: 'Invalid input',
+				message: "One of the images on the selected folder has a width or height less than 400px which is the minimum. Please insert an image with both dimensions equal or greater than 400px.",
+			});
+
+			isInputInvalid = true;
+			break;
+
+		} else if(dimensions.width > 1000 || dimensions.height > 1000){ 
+
+			dialog.showMessageBox({
+				type: 'error',
+				title: 'Invalid input',
+				message: "One of the images on the selected folder has a width or height more than 1000px which is the maximum. Please insert an image with both dimensions equal or less than 1000px.",
+			});
+			
+			isInputInvalid = true;
+			break;
+				
+					//-----------------Validation case-------------------
+					//One of the images do not contain the same  
+					//dimensions as the rest of the images in the stack
+		} else if(stackHeight != dimensions.height || stackWidth != dimensions.width){
+			//Then one of the images have different dimensions than the rest of the images
+
+			dialog.showMessageBox({
+				type: 'error',
+				title: 'Invalid input',
+				message: "All images in a given stack must have the same dimensions. Please select a stack where all its images have the same dimensions.",
+			});
+			
+			isInputInvalid = true;
+			break;
+		}
+	}
 
 	//Signal the ImageInputScreen component to display the 'Input Confirmation Dialog'
-	AppComponent.inputScreenChild.displayConfirmationModal(sortedAbsoluteImagePaths);
+	if(!isInputInvalid){
+		AppComponent.inputScreenChild.displayConfirmationModal(sortedAbsoluteImagePaths);
+	}
+	// else{
+		// //Signal main process to open OS's file dialog
+		// ipc.send('open-file-dialog');
+	// } //	TODO eRASE CODE IF NOT NEEDED
 });
 
 //Executes everytime there is a new massege to be recieved form the IPM

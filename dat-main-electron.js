@@ -15,7 +15,6 @@
 
 //Require necessary libraries and classes
 const {app, BrowserWindow, globalShortcut, Menu} = require('electron');
-const jetpack = require('fs-jetpack');
 
 /****************************************
  	Related to DermAT software installer
@@ -26,13 +25,17 @@ if (handleSquirrelEvent(app)) {
     return;
 }
 
+//---------------Rest of the required libraries and variables-------------
+const jetpack = require('fs-jetpack');
 const path = require('path');
 const url = require('url');
-require('electron-debug')({enabled: true});
+require('electron-debug')({enabled: true});					//TODO Remove for final application release
+const appDataPath = app.getPath('appData') + "\\" + app.getName();
 
 //For interaction with the Renderer process
 const ipc = require('electron').ipcMain;
 const dialog = require('electron').dialog;
+
 
 //Python related vars
 var PythonShell = require('python-shell');
@@ -122,7 +125,7 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 
 	if(ipmInputData){
 		//HERE WE EXECUTE THE IMAGE PROCESSING ALGORITHM
-		pyshell = new PythonShell('test_script.py');
+		pyshell = new PythonShell(appDataPath + '\\test_script.py');
 		pyshell.send(JSON.stringify(ipmInputData));
 
 		/************************
@@ -208,18 +211,7 @@ let menuBarTemplatePreAnalysis = [{
 			}
 		}
 	}]
-},{
-	label: 'Tools',
-	submenu: [{
-		label: 'DevTools',
-		accelerator:'Ctrl+Shift+I',
-		click: function (item, focusedWindow) {
-			if (focusedWindow) {
-				win.webContents.openDevTools();
-			}
-		}
-	}]
-}
+},
 ];
 
 //Used at the results screen
@@ -307,7 +299,15 @@ function displayAppInfo(){
 
 function createMainWindow(){
 	//Create a new windows with the corresponding screen specifications
-	win = new BrowserWindow({width: 1200, height: 600, minWidth: 1200, minHeight: 600, resizable: false, show: false});
+	win = new BrowserWindow({
+		width: 1200, 
+		height: 600, 
+		minWidth: 1200, 
+		minHeight: 600, 
+		resizable: false, 
+		show: false,
+		icon: __dirname + "\\assets\\resources\\dermat-logo-icon.ico"
+	});
 
 	//Load HTML file to render ReactJS app
 	win.loadURL(url.format(
@@ -341,7 +341,7 @@ function createMainWindow(){
 
 //Function erases all characterized images produced by the IPA
 function eraseLocalImages(){
-	var characterizedImagesPath = app.getPath('appData') + "\\" + app.getName() + "\\characterized-images";
+	var characterizedImagesPath = appDataPath + "\\characterized-images";
 	var relativeImageFilePaths = jetpack.find(characterizedImagesPath, {files: true, matching: "*.png" } );
 	//Erase images one by one
 	relativeImageFilePaths.forEach( (path) =>{
