@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "6e14108c8798bb683c27"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "fb6d22afb0752bd1d8d7"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -69372,6 +69372,7 @@ class ResultsScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 const ImageView = props => {
 
+	//Set up tooltip messages
 	const tooltipToggle = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 		__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["k" /* Tooltip */],
 		{ id: 'tooltip-toggle' },
@@ -69387,7 +69388,7 @@ const ImageView = props => {
 	//Determine if the save button shall be displayed on screen depending on the image view state
 	var toggleButton = props.isCharacterizedView ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 		__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["h" /* OverlayTrigger */],
-		{ placement: 'left', overlay: tooltipToggle },
+		{ placement: 'right', overlay: tooltipToggle },
 		__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["a" /* Button */],
 			{ className: [__WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.buttonSwitch].join(' '), onClick: () => {
@@ -69397,7 +69398,7 @@ const ImageView = props => {
 		)
 	) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 		__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["h" /* OverlayTrigger */],
-		{ placement: 'left', overlay: tooltipToggle },
+		{ placement: 'right', overlay: tooltipToggle },
 		__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["a" /* Button */],
 			{ className: [__WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.buttonSwitch].join(' '), onClick: () => {
@@ -69417,9 +69418,6 @@ const ImageView = props => {
 			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_bootstrap__["c" /* Glyphicon */], { glyph: 'floppy-disk' })
 		)
 	) : null;
-
-	// var saveButton = props.isImageDownloadAllowed ? <Button className={[styles.buttonDownload].join(' ')} onClick={ () => { props.btnSaveClicked()} }><Glyphicon glyph="floppy-disk" /></Button> : null;
-	// var toggleButton = props.isCharacterizedView ? <Button className={[styles.buttonSwitch].join(' ')} onClick={ () => { props.btnToggleClicked()} } active>MAP</Button> : <Button className={[styles.buttonSwitch].join(' ')} onClick={ () => { props.btnToggleClicked()} }>MAP</Button>
 
 	//Render the DOM elements to the screen. The <img> DOM element is where the RCM image will be shown.
 	return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
