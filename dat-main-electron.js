@@ -162,21 +162,21 @@ ipc.on('cancel-execution', (event) => {
 	
 	//Kill option
 	// console.log(`Spawned child pid: ${pyshell.childProcess.pid}`);
-    // pyshell.childProcess.kill(-pyshell.pid);
+    pyshell.childProcess.kill(-pyshell.pid);
 
 
-	console.log(serverPort);
+	// console.log(serverPort);
 
-	dermatServer = http.createServer(function (req, res) {
-		res.write('end'); //write a response to the client
-  		res.end(); //end the response
-	}).listen(serverPort);
+	// dermatServer = http.createServer(function (req, res) {
+	// 	res.write('end'); //write a response to the client
+ //  		res.end(); //end the response
+	// }).listen(serverPort);
 
 
-	setTimeout(() => {
-		dermatServer.close(); //the server object listens on port 8080
-		//SIGNAL RENDERER HERE THAT PYTHON HAS CLOSED.
-	}, 5000);
+	// setTimeout(() => {
+	// 	dermatServer.close(); //the server object listens on port 8080
+	// 	//SIGNAL RENDERER HERE THAT PYTHON HAS CLOSED.
+	// }, 5000);
 
 	console.log("DEBUG: CANCEL SIGNAL SENT!!" );
 });

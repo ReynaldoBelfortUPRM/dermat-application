@@ -22,17 +22,26 @@ def read_in():
 def check_cancel():
     try:
         local_filename, headers = urllib.urlretrieve('http://localhost:8080/')
+        # print "Success retrieve"
+        # sys.stdout.flush()
+        html = open(local_filename)    
+        endMessage = html.read()
+        html.close()
+        if endMessage == 'end':
+            try:
+                matlabRuntime.terminate()  
+                # print "Success terminate"
+                # sys.stdout.flush()          
+            except AttributeError:
+                # print "Fail terminate"
+                # sys.stdout.flush()
+                exit()
+                return None
     except IOError:
+        # print "Fail retrieve"
+        # sys.stdout.flush()
         return None
-    html = open(local_filename)    
-    endMessage = html.read()
-    html.close()
-    if endMessage == 'end':
-        sys.exit()
-        try:
-            matlabRuntime.terminate()
-        except NameError:
-            return None
+        
         
 def runMatlabRuntime(arrayPath,savePath):
     message = {
@@ -73,11 +82,6 @@ def main():
 
 # Get our data as an array from read_in()
     ipmInput = read_in()
-# Print ipmInput in json format 
-    # pprint(ipmInput)
-
-    file = open(ipmInput['originalImages'][0])
-    # print file
 
 # Open image to extract properties
     image = Image.open(ipmInput['originalImages'][0])
@@ -103,7 +107,7 @@ def main():
         for j in range(0, size[1]):
             for k in range(0, size[0]):
                 data[j][k][i] = image[j][k]
-        check_cancel()
+
     
     # Path where to output images
     outputImagesSavePath = ipmInput['appDataPath'] + '\characterized-images'
@@ -123,15 +127,17 @@ def main():
     pool = ThreadPool(processes=1)
     async_result = pool.apply_async(runMatlabRuntime, (ImageArrayPath, outputImagesSavePath)) # tuple of args for foo
 
-    notDone = True
-    while notDone == True:
-        time.sleep(0.25)
-        try:
-            ipmOutput =  async_result.get()
-            notDone = False
-        except NameError:
-            check_cancel()
-        
+    # notDone = True
+    # while notDone == True:
+    #     time.sleep(0.25)
+    #     try:
+    #         ipmOutput =  async_result.get()
+    #         notDone = False
+    #     except NameError:
+    #         check_cancel()
+    
+    ipmOutput =  async_result.get()
+
     thickness1 = ipmOutput[0][2] - ipmOutput[0][1] + 1
     thickness2 = ipmOutput[1][2] - ipmOutput[1][1] + 1
     thickness3 = ipmOutput[2][2] - ipmOutput[2][1] + 1
