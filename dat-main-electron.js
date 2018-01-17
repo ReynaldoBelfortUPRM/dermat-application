@@ -306,7 +306,7 @@ function createMainWindow(){
 		minHeight: 600, 
 		resizable: false, 
 		show: false,
-		icon: __dirname + "\\assets\\resources\\dermat-icon.ico"
+		icon: __dirname + "\\assets\\resources\\dermat-logo-icon.ico"
 	});
 
 	//Load HTML file to render ReactJS app

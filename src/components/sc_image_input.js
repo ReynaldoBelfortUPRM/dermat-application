@@ -107,7 +107,7 @@ class ImageInputScreen extends Component {
 
 		return (
 
-			<div className={[styles.centerContent, styles.windowContainer].join(' ')}>
+			<div className={[styles.centerContent, styles.windowContainer, 'animation', 'fadeIn'].join(' ')}>
 	  			<Grid>
 	  				<Row>
 	  					<Col md={12} className="text-center ">Click 'Browse' to load a stack of RCM images for analysis</Col>
