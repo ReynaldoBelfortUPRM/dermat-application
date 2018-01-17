@@ -27,7 +27,7 @@ if (handleSquirrelEvent(app)) {
 const jetpack = require('fs-jetpack');
 const path = require('path');
 const url = require('url');
-require('electron-debug')({enabled: true});		//TODO DEBUG
+require('electron-debug')({enabled: false});		//TODO DEBUG
 const appDataPath = app.getPath('appData') + "\\" + app.getName();
 
 //For interaction with the Renderer process
