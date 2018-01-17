@@ -5,19 +5,11 @@
 */
 
 .results_mainContainer{
-    /*background-color: grey;*/
     padding: 0;
     box-sizing: border-box;
-    /*flex-wrap: wrap;*/
-   /* width:1200px;
-    height:600px;*/
-    /*height:100%;*/
 }
 
 .resultsWindow {
-    /*border: 1px solid #fff; for debugging purooses*/
-   /* width: 1200px;*/
-    /*height: 600px;*/
     height: 95vh;
     flex: 1;
 }
@@ -36,13 +28,11 @@
 
 /*Navitagion View*/
 .navigationView{
-    /*background-color: red;*/
     width: 35px;
     flex: initial;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    /*flex: .05;*/
 }   
 
 .buttonNav{
@@ -58,12 +48,9 @@
     margin-top: 20%;    
 }
 
-
 /*Image View*/
 .imageView{
     position: relative;
-    /*background-color: green;*/
-    /*background-color: #0a5423;*/ /*Dark green for DEBUG purposes*/
     padding: 1px;
     margin-right: 10px;
 
@@ -86,10 +73,11 @@
     width: 35px;
     height: 35px;
     padding: 6px 0;
-    font-size: 15px;
+    font-size: 12px;
     line-height: 1.42;
     border-style: 15px;
     text-align: center;
+    font-weight: bold;
 }
 
 .buttonDownload {
@@ -99,7 +87,7 @@
     width: 35px;
     height: 35px;
     padding: 6px 0;
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1.42;
     border-style: 15px;
     text-align: center;
@@ -115,7 +103,6 @@
 
 /*Visualization view*/
 .visualizationView{
-    /*background-color: orange;*/
     background-color: #4b4e51; /*Gray*/
     display: flex;
     flex-direction: row;
@@ -133,14 +120,12 @@
 }
 
 .vizBox {
-    /*background-color:  #663300;*/
     background-color:  #4b4e51;
     border-radius: 5px;
     margin-right: 5px;
 }
 
 .vizList {
-    /*background-color: purple;*/
     border-style: solid;
     border-width: 0 0 0 2px;
     border-color: white;
@@ -158,16 +143,12 @@
   }
 
   .vizErrorMessage {
-    color: gray;
+    color: #b1b1b1;
     font-size: 20px;
   }
 
 /*Image Metrics View*/
-
 .imageMetricsView{
-    /*border: 1px solid #fff;*/ /*for debugging purooses*/
-    /*background-color: yellow;*/
-    /*height: 25px;*/
     color: white;
     height: 5vh;
     flex: 1;
@@ -176,4 +157,8 @@
 .metricsStyle {
     font-weight: bold;
     margin-left: 40px;
+}
+
+.metricValueColor{
+    color: #1fe4b0;
 }

@@ -4,10 +4,8 @@
 // Author: Reynaldo Belfort Pierrilus, Computer Engineering Undergraduate
 // University of Puerto Rico - Mayagüez
 
-//FIND ALL 'TODO' TAGS AND DELETE THEM IF NOT NEEDED
-
 //TODO - Task list
-			// We should catch all unexpected errors with try-catch cases
+	// We should catch all unexpected errors with try-catch cases
 
 //Terminology:
 //IPM - Image Processing Module
@@ -29,7 +27,7 @@ if (handleSquirrelEvent(app)) {
 const jetpack = require('fs-jetpack');
 const path = require('path');
 const url = require('url');
-require('electron-debug')({enabled: true});					//TODO Remove for final application release
+require('electron-debug')({enabled: true});		//TODO DEBUG
 const appDataPath = app.getPath('appData') + "\\" + app.getName();
 
 //For interaction with the Renderer process
@@ -69,13 +67,6 @@ app.on('browser-window-focus', (event, window) => {
 	console.log('APP-DEBUG: focused window ID:' + window.id); 
 });
 
-
-
-//Remove if not needed TODO
-// app.on('will-quit', function () {
-// 	globalShortcut.unregisterAll();
-// });
-
 /******************************************
  	Inter-process communication listeners
 *******************************************/
@@ -83,14 +74,7 @@ app.on('browser-window-focus', (event, window) => {
 
 //Executes the command for opening the OS's OpenFile dialog. Returns back an array of paths selected by the user
 ipc.on('open-file-dialog', (event) => {
-
-	// const options = {
-	//     properties: ['openFile', 'multiSelections'],
-	//     filters: [
-	// 	    {name: 'RCM Images', extensions: ['png']},
-	// 	  ]
-	// };
-
+	//Configure Dialog box so that users can only select folders
 	const options = {
 		title: 'Open RCM images',
 	    properties: ['openDirectory'],
@@ -99,6 +83,7 @@ ipc.on('open-file-dialog', (event) => {
 	 dialog.showOpenDialog(options, 
 	  function (folderPaths) {
 		    if (folderPaths){
+				//Signal Renderer process that the folder has been selected
 		    	event.sender.send('selected-input-folder', folderPaths[0]);	
 		    }
 	  });
@@ -118,8 +103,8 @@ ipc.on('open-save-dialog', function (event) {
   dialog.showSaveDialog(options, function (fileDest) {
 	//Dialog has been closed at this point
   	if(fileDest) {
-  		//TODO Implement saving the image to local machine
-		console.log("DEBUG: Save destination retrieved. Signaling Renderer proc..");
+		//TODO DEBUG
+		// console.log("DEBUG: Save destination retrieved. Signaling Renderer proc..");
 		event.sender.send('save-destination-retrieved', fileDest);
   	}
   });
@@ -136,7 +121,7 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 		/************************
 		   Python definitions 
 		*************************/
-		// (TEST OUTPUT)
+
 		pyshell.on('message', function (message) {
 		  // received a message sent from the Python script (a simple "print" statement)
 		    console.log(message);
@@ -166,15 +151,13 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 		  console.log('Program ended normally');
 		});
 
-		console.log("DEBUG: Image Processing Algorithm has started! IPM input object: "); //TODO
-		// console.log("DEBUG: Image Processing Algorithm has started! IPM input object: ", ipmInputData); //TODO
+		console.log("DEBUG: Image Processing Algorithm has started! IPM input object: "); //TODO DEBUG
 	}
 
 });
 
 //Signals the IPM to cancel IPA execution
 ipc.on('cancel-execution', (event) => {
-
 	//HERE WE SIGNAL THE IMAGE PROCESSING ALGORITHM TO STOP ALGORITHM EXECUTION
 	
 	//Kill option
@@ -201,20 +184,19 @@ ipc.on('cancel-execution', (event) => {
 
 //Adds 'Analysis' menu option on app's menu bar
 ipc.on('add-analysis-menu', (event) => {
-	console.log('DEBUG: Added <Analysis> menu bar');
-	//Menu bar setup
+	console.log('DEBUG: Added <Analysis> menu bar');	//TODO DEBUG
+	//Add analysis menu into application
 	const menu = Menu.buildFromTemplate(menuBarTemplatePostAnalysis);
 	Menu.setApplicationMenu(menu);
 });
 
 //Removes 'Analysis' menu option on app's menu bar
 ipc.on('remove-analysis-menu', (event) => {
-	console.log('DEBUG: Added <Analysis> menu bar');
+	console.log('DEBUG: Added <Analysis> menu bar');	//TODO DEBUG
 	//Menu bar setup
 	const menu = Menu.buildFromTemplate(menuBarTemplatePreAnalysis);
 	Menu.setApplicationMenu(menu);
 });
-
 
 /************************
    Menu bar definitions 
@@ -298,10 +280,10 @@ let menuBarTemplatePostAnalysis = [{
 **************************************/
 
 function createWindows(){  	//Function called by the application. 'on-ready' event
-	displayAppInfo(); 		//Display applcation metadata information for debugging purposes TODO
+	displayAppInfo(); 		//Display applcation metadata information for debugging purposes TODO DEBUG
 	createMainWindow();		//Create and display applcation's main window
 
-	//Menu bar setup
+	//Set up application's menu bar
 	const menu = Menu.buildFromTemplate(menuBarTemplatePreAnalysis);
 	Menu.setApplicationMenu(menu);
 }
@@ -326,7 +308,7 @@ function createMainWindow(){
 		minHeight: 600, 
 		resizable: false, 
 		show: false,
-		icon: __dirname + "\\assets\\resources\\dermat-icon.ico"
+		icon: __dirname + "\\assets\\resources\\dermat-logo-icon.ico"
 	});
 
 	//Load HTML file to render ReactJS app
@@ -336,9 +318,6 @@ function createMainWindow(){
 			protocol:'file:',
 			slashes: true
 	}));
-
-	//TODO Open DevTools for this window. For debugging purposes
-	// win.webContents.openDevTools();
 
 	//--------------- Registration of  Window Events -------------
 

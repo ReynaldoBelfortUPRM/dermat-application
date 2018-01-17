@@ -8,7 +8,6 @@
 //IPM - Image Processing Module
 //IPA - Image Processing Algorithm
 
-
 //Import necessary libraries and classes
 import React, { Component} from 'react';
 import {Grid, Row, Col, Button} from 'react-bootstrap';
@@ -76,29 +75,12 @@ class InProgressScreen extends Component {
 						</Col>
 						<Col md={12} className={[styles.statusMessageFormat, "text-center"].join(' ')}>{this.state.statusMessage}</Col>
 
-						<Col md={12}><Button bsStyle="link" className="center-block" bsSize="large" onClick={ () => { this.cancelIpmExecution();} } >Cancel</Button></Col>
+						<Col md={12}><Button bsStyle="link" className={[styles.btnCancel,"center-block"]} bsSize="large" onClick={ () => { this.cancelIpmExecution();} } >Cancel</Button></Col>
 					</Row>
 				</Grid>
 			</div>
 		);
 	}
 }
-
-/******************************************
- 	Inter-process communication listeners
-*******************************************/
-
-//Signals the IPM to start execution of the IPA
-ipc.on('analysis-complete', (event, ipmOutputData) => {
-
-	if(ipmOutputData){ //If there is data
-		//We have recieved here the results from the execution of the IPA
-		console.log("DEBUG: IPA execution finished!!! IPM output object: ", ipmOutputData); //TODO
-
-		//Signal the application's App component that execution has finished so that transition to the 
-		//Results screen can be made. Send as argument the results data:
-	}
-
-});
 
 export default InProgressScreen;

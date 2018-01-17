@@ -12,7 +12,6 @@
 //IPA - Image Processing Algorithm
 
 /* TODO Task List
-	- COMENTAR TODO EL CÓDIGO, EXPLICANDO LAS FUNCIONES DE CADA COSA.
 	- Poner primera letra de propiedades de dummyData lower case e.g. 'layersInfo'
 	- Change folder names on application file structure
 	- FIX padding issue on results view, so that borders can be seen appropiately
@@ -24,67 +23,27 @@
 	- Perform Unit Testing
 */
 
-
-//Meta: Ver las imagenes originales que inserte de unstack de Input Screen -> Results screen.
-//Meta 2: Que me cargue imagenes caracterizadas (dommy data) independiente de cualquier stack ogirinal que ponga.
-
 //Import libraries
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import jetpack from 'fs-jetpack'; 								//For file management
 import Papa from 'papaparse';
 import _ from 'lodash';
-// import fastSize from 'fast-image-size';
-// import Jimp from 'jimp';
 var sizeOf = require('image-size');
-// import sortPaths from 'sort-paths';
-// import pathSorter from 'path-sort';
-const ipc = window.require('electron').ipcRenderer;			//Electron functions for interaction with Main Process	
+const ipc = window.require('electron').ipcRenderer;				//Electron functions for interaction with Main Process	
 const { dialog, app } = window.require('electron').remote;	//Importing rest of necessary Electron libraries
-
-//Import styles
-// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-// import styles from '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 //Import major components
 import ImageInputScreen from './components/sc_image_input';
 import InProgressScreen from './components/sc_in_progress';
 import ResultsScreen from './components/sc_results_main';
 
-//Import dummy data
-import ipmInputDummy from './components/dummyData/ipmInputDummyData.js';
-import ipmOutputDummy from './components/dummyData/ipmOutputDummyData.js';
-
 //TODO Import debug tools
 import debug from './debug/debugTools.js';
-import { relative } from 'path';
 
-//TODO Maybe this should be saved in the react component
 //Get App Data information
 const appDataFolderPath = app.getPath('appData') + "\\" + app.getName();
 const characterizedImgFolderPath = appDataFolderPath + "\\characterized-images";
-
-/*********************
- 	MSI Installer
-**********************/
-// import { MSICreator } from 'electron-wix-msi';
-
-// // Step 1: Instantiate the MSICreator
-// const msiCreator = new MSICreator({
-//   appDirectory: '.\\DermAT-win32-x64',
-//   description: 'Dermatologists Assistive Tool',
-//   exe: 'DermAT',
-//   name: 'DermAT',
-//   manufacturer: 'Harmonic Group',
-//   version: '1.0.0',
-//   outputDirectory: '.\\MSI Installer'
-// });
-
-// // Step 2: Create a .wxs template file
-// await msiCreator.create();
-
-// // Step 3: Compile the template to a .msi file
-// await msiCreator.compile();
 
 								/*********************
 									App Component
@@ -94,9 +53,6 @@ class App extends Component {
 	constructor(props){
 		super(props);
 
-		//TODO DEBUG PURPOSES - Obtain the characterized images stored in this computer
-		// ipmOutputDummy.characterizedImages = getCharacterizedImagesLocalComputer();
-		
 		this.state = {
 			currentScreenIdx: 0,
 			isResulsDataExported: false, 		//Will save wether results data was saved to the user at any given moment
@@ -120,10 +76,11 @@ class App extends Component {
 	}
 
 	goInProgressScreen(){
+		//Display the progress screen
 		this.setState({ currentScreenIdx: 1});	
-		// setTimeout(() => { this.goResultsScreen();}, 3000); 		//TODO THIS CODE IS NOT FOR PRODUCTION	DEBUG
 	}	
-
+	
+	//Mark whether the user has saved the analysis results
 	setResultDataExported(isDataExported){
 		if(isDataExported){
 			this.setState({ isResulsDataExported: true});	
@@ -139,8 +96,8 @@ class App extends Component {
 	}
 
 	executeIpm(ipmInputObj){
-		this.setState({ ipmInputData: ipmInputObj});				//Save the data	
-		ipc.send('execute-ipm', ipmInputObj);						//Signal main process to execute the IPM to analyze images
+		this.setState({ ipmInputData: ipmInputObj});			//Save the data	
+		ipc.send('execute-ipm', ipmInputObj);					//Signal main process to execute the IPM to analyze images
 		this.goInProgressScreen();
 	}
 
@@ -159,7 +116,7 @@ class App extends Component {
 				break;
 		}
 
-		return (
+		return (	//Render the corresponding screen to the user
 			<div>
 				{currentScreen}
 			</div>
@@ -174,7 +131,6 @@ class App extends Component {
 
 //Exports images and metadata from the stored IPM output info into .PNG and .txt (CSV) files at the specified folder destination
 function exportIPMOutputData(folderDestPath){
-	//TEST FOR ASYNC OPERATIONS TAHT MIGHT AFFECT The SAVING PROCESS TODO
 
 	//Create a new var contaning proper format for the papaparse library
 	var formattedIpmOutput = AppComponent.state.ipmOutputData.LayersInfo.map( (layerObj, i) => {
@@ -202,14 +158,10 @@ function exportIPMOutputData(folderDestPath){
 	var mainTargetDir = jetpack.dir(folderDestPath);
 
 	//Store text file on the selected diretory
-	mainTargetDir.file('stack-analysis-results.txt', { content: csvData });
+	mainTargetDir.file('stack-analysis-results.csv', { content: csvData });
 
 	//Create new path where characterized images will be placed
 	var imgExportFolderPath = mainTargetDir.path() + '\\characterized-images'; 	
-	
-	//TODO VERIFY HERE IF THERE ARE EXISTING IMAGES IN THE EXPORT FOLDER THAT MAY BE REPLACED
-			//Error case: what happens if user have to different folders with exported data and 
-			//the app replaces data on one of these folders (by user mistake)?
 
 	//Copy all and only the PNG files contained on the source folder into the export folder
 	jetpack.copy(characterizedImgFolderPath, imgExportFolderPath, { matching: '*.png', 
@@ -221,7 +173,6 @@ function exportIPMOutputData(folderDestPath){
 				return true;
 	} });
 
-	//TODO Test: What happens if an error occurs when copying a file???
 	//Inform user that information has been succesfully exported
 	dialog.showMessageBox({
 		type: 'info',
@@ -243,8 +194,6 @@ function getCharacterizedImagesLocalComputer(){
 		overwrite: (srcInspectData, destInspectData) => { 
 				//This function executes when the image already exist in destination folder
 				//Criteria to replace/overwrite existing images should be defined here
-				//TODO Verify if we have to define something here
-				//TODO We should warn the user here that a file will be replaced ("one or more files will be replaced")
 				return true;
 		} });
 	}
@@ -283,8 +232,6 @@ function getCharacterizedImagesLocalComputer(){
 **********************************************************************************/
 function getFileNameIndex(fileName){
 
-	//TODO VERIFY THIS CASE getFileNameIndex('_RCM_image'). This returns 0 value when it should returning -1.
-	
 	//Split name acording to the expected file name format 
 	var splittedFileNameValues = fileName.split('_');		
 	//Initialize vars	
@@ -317,7 +264,7 @@ function getAndSortImages(srcImageFolderPath){
 	//Obtain the file names of each image with its corresponding index
 	var imageFileNames = relativeImageFilePaths.map((path, i) => {
 		var fileName = jetpack.inspect(path).name;
-		var fileIndex = getFileNameIndex(fileName);
+		var fileIndex = getFileNameIndex(fileName.slice(0,-4));
 		//Validate if the file name has index
 		if(fileIndex < 0){
 			console.warn('DEBUG: FILENAME INDEX ERROR! For file: ', jetpack.inspect(path).name );
@@ -354,10 +301,7 @@ function eraseLocalImages(pathArray){
 //Executes when user has selected the image source folder
 ipc.on('selected-input-folder', (event, srcFolderPath) => {
 
-	var isInputInvalid = false;	
-
-	// var sortedAbsoluteImagePaths = getAndSortImages(srcFolderPath);
-	//TODO >>>>>>>> VALIDATE IMAGES HERE!!! <<<<<<
+	var isInputInvalid = false;		//Defined flag in case there are validation errors
 	
 	//Obtain all the PNG files contained within the source folder
 	var relativeImageFilePaths = jetpack.find(srcFolderPath, {files: true, matching: "*.png" } );
@@ -375,15 +319,14 @@ ipc.on('selected-input-folder', (event, srcFolderPath) => {
 		ipc.send('open-file-dialog');
 		return; 	//Stop here
 	}
-	
-	debugger;
 
 	//Obtain the file names of each image with its corresponding index
 	var imageFileNames = relativeImageFilePaths.map((path, i) => {
 		var fileName = jetpack.inspect(path).name;
 		var fileIndex = !isInputInvalid ? getFileNameIndex(fileName.slice(0,-4)) : 0;  //Remove file extension before proceeding to retrieve index
 		//Validate if the file name has index
-		if(fileIndex === -1 ){ //No index on file name
+		if(fileIndex === -1 ){ 			//No index on file name
+
 				//--------------Validation case-------------
 				//File name of one of the images does not contain a number
 			console.warn('DEBUG: FILENAME INDEX ERROR! For file: ', jetpack.inspect(path).name );
@@ -394,7 +337,7 @@ ipc.on('selected-input-folder', (event, srcFolderPath) => {
 				message: "One of the images in the stack contains no identifiable index in its file name. Please leave a single index separated by _ (e.g. 9_RCM_Dark or RCM_9_Dark). ",
 			});
 		}
-		else if(fileIndex === -2 ){ //More than one index on file name
+	else if(fileIndex === -2 ){ 		//More than one index on file name
 			//--------------Validation case-------------
 			//File name of one of the images contains more than one individual number
 			console.warn('DEBUG: FILENAME INDEX ERROR! For file: ', jetpack.inspect(path).name );
@@ -426,27 +369,12 @@ ipc.on('selected-input-folder', (event, srcFolderPath) => {
 		return srcFolderPath + '\\' + d.fileName;
 	});
 
-	// debugger;
-	
-	// var imageMetadata = [];
-
-	// _.forEach(sortedAbsoluteImagePaths, (path) =>{
-	// 	//Load all images with the purpose of retrieving width and height information
-	// 	Jimp.read(path, function (err, image) { //TODO Excepions should be handled here
-	// 		imageMetadata.push({ width: image.bitmap.width, height: image.bitmap.height });
-	// 	});
-	// });
-
-	// //Hold this function until all images have been loaded
-	// while(imageMetadata.length < relativeImageFilePaths.length) {};
-
 	var stackHeight = null;
 	var stackWidth = null;
 	for(var i = 0; i < sortedAbsoluteImagePaths.length; i++){
 
+		//Obtain image dimensions
 		var dimensions = sizeOf(sortedAbsoluteImagePaths[i]);
-		// var dimensions = imageMetadata[i];
-		// var dimensions = fastSize(sortedAbsoluteImagePaths[i]);
 
 		//Intitialize stack dimensions if needed
 		stackHeight = stackHeight == null ? dimensions.height : stackHeight;
@@ -497,10 +425,6 @@ ipc.on('selected-input-folder', (event, srcFolderPath) => {
 	if(!isInputInvalid){
 		AppComponent.inputScreenChild.displayConfirmationModal(sortedAbsoluteImagePaths);
 	}
-	// else{
-		// //Signal main process to open OS's file dialog
-		// ipc.send('open-file-dialog');
-	// } //	TODO eRASE CODE IF NOT NEEDED
 });
 
 //Executes everytime there is a new massege to be recieved form the IPM
@@ -511,28 +435,14 @@ ipc.on('status-update', (event, statusMessage) => {
 
 //Executes when the IPA finished its execution and result data was sent back to this Renderer proecss
 ipc.on('analysis-complete', (event, ipmOutput) => {
-	//Save data sent by the IPM module. To be used in the Results Screen
-	// ipmOutput = data;
+	//Display the Results Screen	
 	AppComponent.goResultsScreen(ipmOutput, false);
-
-	//Display the Results Screen
-	
-	//TODO NOT SURE IF THIS BELONGS HERE
-	//Add 'Analysis' menu on app's menu bar
-	// ipc.send('add-analysis-menu');
 });
 
 //Executes when the IPA could not classify the stack of images appropiately
 ipc.on('analysis-error', (event, ipmOutput) => {
-	//Save data sent by the IPM module. To be used in the Results Screen
-	// ipmOutput = data;
+	//Display the Results Screen, also rasing the error flag
 	AppComponent.goResultsScreen(ipmOutput, true);
-
-	//Display the Results Screen
-	
-	//TODO NOT SURE IF THIS BELONGS HERE
-	//Add 'Analysis' menu on app's menu bar
-	// ipc.send('add-analysis-menu');
 });
 
 //Executes when user has selected a destination to save a characterized image
@@ -543,17 +453,21 @@ ipc.on('save-destination-retrieved', (event, fileDest) => {
 	jetpack.copy(AppComponent.resultsScreenChild.state.currentImageSrc, fileDest, { 
 		overwrite: (srcInspectData, destInspectData) => {
 			//This function will run whenever there is a conflict when copying the image file
-			// to the destination (such as 'the destination file already exists'). 
-			//We decide here if file is to be replaced or not. Ask user.		<---- TODO
-			 
-			return true; 	//Overwrite for now
+			// to the destination (such as 'the destination file already exists').
+			//Criteria for deciding whether file shall be replaced or not should be defined here.
+
+			return true; 	//Overwrite file
 		}
 	});
-	//TODO Another way that might work. Watning: Errors handling should be considered here
-	// fs.createReadStream(AppComponent.resultsScreenChild.state.currentImageSrc).pipe(fs.createWriteStream(fileDest));
 
-	debug('Function to save the filed has been called (async)!');
-	//TODO We should catch an error here if something unexpected hapens. 'Internal error application.' 
+	//Inform user that the characterized image has been succesfully saved
+	dialog.showMessageBox({
+		type: 'info',
+		title: 'Successfull save',
+		message: "The characterized image have been successfully saved.",
+		buttons: ['Ok']
+	  });
+	debug('Function to save the filed has been called (async)!');	//TODO
 });
 
 //Executes when a new image analysis has been requested
@@ -598,8 +512,6 @@ ipc.on('perform-new-analysis', (event, message) => {
 			  }
 		  });
 	} else{
-		//Delete all application data produced by the app (characterized images & IPM metadata) 	TODO
-
 		//Change screen back to Image Input screen and open the 'Open Dialog'
 		AppComponent.goImageInputSreen(true);
 	}

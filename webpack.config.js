@@ -3,7 +3,6 @@ var webpack = require('webpack');
 module.exports = {
   entry: {
   app: ['webpack/hot/dev-server', './src/entry.js'],    //Application source file (ReactJS app) goes here
-  // app: './src/entry.js'
 },
 
 output: {
