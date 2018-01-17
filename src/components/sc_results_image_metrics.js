@@ -21,7 +21,9 @@ const ImageMetricsView = (props) => {
 	return (
 	//Return DOM elements to be rendered on screen
 		<div className={styles.imageMetricsView}>
-			<div className={styles.metricsStyle}> Image {props.currentImg} of {props.totalImages} | Depth: {props.currentImg} µm</div>
+			<div className={styles.metricsStyle}> 
+				Image <span className={styles.metricValueColor}>{props.currentImg}</span> of {props.totalImages} | Depth: <span className={styles.metricValueColor}>{props.currentImg}</span> µm
+			</div>
 		</div>
 	);
 }
