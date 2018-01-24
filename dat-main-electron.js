@@ -12,7 +12,7 @@
 //IPA - Image Processing Algorithm
 
 //Require necessary libraries and classes
-const {app, BrowserWindow, globalShortcut, Menu} = require('electron');
+const app = require('electron').app;
 
 /****************************************
  	Related to DermAT software installer
@@ -24,6 +24,7 @@ if (handleSquirrelEvent(app)) {
 }
 
 //---------------Rest of the required libraries and variables-------------
+const {BrowserWindow, globalShortcut, Menu} = require('electron');
 const jetpack = require('fs-jetpack');
 const path = require('path');
 const url = require('url');
@@ -306,7 +307,7 @@ function createMainWindow(){
 		height: 600, 
 		minWidth: 1200, 
 		minHeight: 600, 
-		resizable: false, 
+		resizable: true, 
 		show: false,
 		icon: __dirname + "\\assets\\resources\\dermat-logo-icon.ico"
 	});

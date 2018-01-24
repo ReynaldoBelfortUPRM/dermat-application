@@ -11,18 +11,6 @@
 //IPM - Image Processing Module
 //IPA - Image Processing Algorithm
 
-/* TODO Task List
-	- Poner primera letra de propiedades de dummyData lower case e.g. 'layersInfo'
-	- Change folder names on application file structure
-	- FIX padding issue on results view, so that borders can be seen appropiately
-	- Figure out a way to load local .css files
-	- Figure out a way to incorporate webpack into electron
-	- Save 'npm list --depth=0' problems.
-	- Properly arrange application's package.json
-	- Change 'FilePaths' property of ipmOutputData var to 'characterizedImages'
-	- Perform Unit Testing
-*/
-
 //Import libraries
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';

@@ -1,9 +1,9 @@
 {
-  "name": "dermat-application",
+  "name": "dermat_application",
   "version": "1.0.0",
   "main": "dat-main-electron.js",
   "productName": "DermAT",
-  "description": "A tool to assist dermatologists and researchers in RCM images of skin.",
+  "description": "A tool to assist dermatologists and researchers in RCM images of the skin.",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "7.1.1",

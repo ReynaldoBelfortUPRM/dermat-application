@@ -2,7 +2,7 @@
 // University of Puerto Rico - Mayagüez
 
 export default  {
-    "FilePaths": [
+    "originalImages": [
        "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\RCM_Data\\Training_Testing\\Testing\\Dark9_RCMpng_Test\\Dark9_1_RCM.png",
         "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\RCM_Data\\Training_Testing\\Testing\\Dark9_RCMpng_Test\\Dark9_3_RCM.png",
         "C:\\Users\\reyna\\Google Drive\\UPRM\\Capstone Project\\- Project - Dermatologists Assistive Tool (DermAT) - Prof. Heidy\\RCM_Data\\Training_Testing\\Testing\\Dark9_RCMpng_Test\\Dark9_2_RCM.png",

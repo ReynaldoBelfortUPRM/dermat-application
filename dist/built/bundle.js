@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "fb6d22afb0752bd1d8d7"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5e0836ced4347c05b02b"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -42050,18 +42050,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //IPM - Image Processing Module
 //IPA - Image Processing Algorithm
 
-/* TODO Task List
-	- Poner primera letra de propiedades de dummyData lower case e.g. 'layersInfo'
-	- Change folder names on application file structure
-	- FIX padding issue on results view, so that borders can be seen appropiately
-	- Figure out a way to load local .css files
-	- Figure out a way to incorporate webpack into electron
-	- Save 'npm list --depth=0' problems.
-	- Properly arrange application's package.json
-	- Change 'FilePaths' property of ipmOutputData var to 'characterizedImages'
-	- Perform Unit Testing
-*/
-
 //Import libraries
 
 
@@ -70905,7 +70893,7 @@ const VisualizationView = props => {
 	}
 
 	//Set-up style based on the results status  of the analysis
-	var vizStyle = !props.isAnalysisError ? [__WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.vizItem, __WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.vizBox].join(' ') : [__WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.vizItem, __WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.vizBox, __WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.centerContent, __WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.vizErrorMessage].join(' ');
+	var vizStyle = !props.isAnalysisError ? [__WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.centerContent, __WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.vizItem, __WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.vizBox].join(' ') : [__WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.centerContent, __WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.vizItem, __WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.vizBox, __WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.centerContent, __WEBPACK_IMPORTED_MODULE_3__styles_sc_results_main_css___default.a.vizErrorMessage].join(' ');
 
 	//Render the DOM elements to the screen
 	return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
