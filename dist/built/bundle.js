@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "5e0836ced4347c05b02b"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "76153c836d417919c610"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -681,7 +681,7 @@
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire(689)(__webpack_require__.s = 689);
+/******/ 	return hotCreateRequire(690)(__webpack_require__.s = 690);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -42037,6 +42037,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_sc_in_progress__ = __webpack_require__(558);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_sc_results_main__ = __webpack_require__(559);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__debug_debugTools_js__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__test_script_py__ = __webpack_require__(688);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__test_script_py___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__test_script_py__);
 /******************************************
  		DermAT's ReactJS Main Applcation 
 *******************************************/
@@ -42068,9 +42070,12 @@ const { dialog, app } = window.require('electron').remote; //Importing rest of n
 //TODO Import debug tools
 
 
+
+
 //Get App Data information
 const appDataFolderPath = app.getPath('appData') + "\\" + app.getName();
 const characterizedImgFolderPath = appDataFolderPath + "\\characterized-images";
+const pyScriptFilePath = appDataFolderPath + '\\test_script.py';
 
 /*********************
 	App Component
@@ -42079,6 +42084,12 @@ const characterizedImgFolderPath = appDataFolderPath + "\\characterized-images";
 class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	constructor(props) {
 		super(props);
+
+		console.log("DEBUG: PYTHON SCRIPT: ", __WEBPACK_IMPORTED_MODULE_9__test_script_py___default.a);
+		if (!__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.exists(pyScriptFilePath)) {
+			__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.file(pyScriptFilePath, { content: __WEBPACK_IMPORTED_MODULE_9__test_script_py___default.a });
+		}
+		debugger;
 
 		this.state = {
 			currentScreenIdx: 0,
@@ -74811,6 +74822,12 @@ const ImageMetricsView = props => {
 /* 688 */
 /***/ (function(module, exports) {
 
+module.exports = "import LayerSeparation\r\nimport urllib\r\nimport os\r\nimport time\r\nimport sys\r\nimport json\r\nimport numpy as np\r\nimport scipy.io\r\nimport matplotlib.image as img\r\nfrom pprint import pprint\r\nfrom PIL import Image\r\nfrom multiprocessing.pool import ThreadPool\r\n\r\nmatlabRuntime = None\r\n\r\n# Read data from stdin\r\ndef read_in():\r\n    lines = sys.stdin.readlines()\r\n    # Since our input would only be having one line, parse our JSON data from that\r\n    return json.loads(lines[0])\r\n\r\ndef check_cancel():\r\n    try:\r\n        local_filename, headers = urllib.urlretrieve('http://localhost:8080/')\r\n        # print \"Success retrieve\"\r\n        # sys.stdout.flush()\r\n        html = open(local_filename)    \r\n        endMessage = html.read()\r\n        html.close()\r\n        if endMessage == 'end':\r\n            try:\r\n                matlabRuntime.terminate()  \r\n                # print \"Success terminate\"\r\n                # sys.stdout.flush()          \r\n            except AttributeError:\r\n                # print \"Fail terminate\"\r\n                # sys.stdout.flush()\r\n                exit()\r\n                return None\r\n    except IOError:\r\n        # print \"Fail retrieve\"\r\n        # sys.stdout.flush()\r\n        return None\r\n        \r\n        \r\ndef runMatlabRuntime(arrayPath,savePath):\r\n    message = {\r\n        \"messageType\": \"status\",\r\n        \"data\": \"Step 2: Classifying images...\"\r\n    }\r\n    print json.dumps(message)\r\n    sys.stdout.flush()\r\n\r\n    # Initializes MATLAB runtime\r\n    matlabRuntime = LayerSeparation.initialize()\r\n\r\n    classified = matlabRuntime.LayerSeparation(arrayPath,savePath)\r\n\r\n    message[\"data\"] = \"Step 3: Validating results...\"\r\n    print json.dumps(message)\r\n    sys.stdout.flush()\r\n\r\n    ipmOutputMatlab = matlabRuntime.ValidationCharacterize(classified,savePath)\r\n\r\n    matlabRuntime.terminate()\r\n\r\n    return ipmOutputMatlab\r\n\r\n\r\ndef main():\r\n    # Start timing\r\n    t0 = time.time()\r\n\r\n    # Input: Filepath array original images is\r\n    # Output: Matrix containing pixel values of all the images in the stack\r\n    message = {\r\n        \"messageType\": \"status\",\r\n        \"data\": \"Step 1: Preparing images...\"\r\n    }\r\n    print json.dumps(message)\r\n    sys.stdout.flush()\r\n\r\n# Get our data as an array from read_in()\r\n    ipmInput = read_in()\r\n\r\n# Open image to extract properties\r\n    image = Image.open(ipmInput['originalImages'][0])\r\n    # image.show()\r\n\r\n# Extracts size tuple of the image\r\n    size = image.size\r\n    # print image.size\r\n\r\n# Extracts amount of elements in the JSON array\r\n    elementCount = len(ipmInput['originalImages'])\r\n    # print elementCount\r\n\r\n# Preallocate space for the data\r\n    data = np.empty((size[1],size[0],elementCount),dtype=np.uint8)\r\n      \r\n# Add pixel data into zero array\r\n    for i in range(0, elementCount):\r\n        image = img.imread(ipmInput['originalImages'][i])\r\n        image = image*255\r\n\r\n        # Copies image pixels into data array\r\n        for j in range(0, size[1]):\r\n            for k in range(0, size[0]):\r\n                data[j][k][i] = image[j][k]\r\n\r\n    \r\n    # Path where to output images\r\n    outputImagesSavePath = ipmInput['appDataPath'] + '\\characterized-images'\r\n    # Path to access stored and load image matrix\r\n    ImageArrayPath = ipmInput['appDataPath']\r\n\r\n    # If output folder does not exist, create it\r\n    if not os.path.exists(outputImagesSavePath):\r\n        os.makedirs(outputImagesSavePath)\r\n\r\n    # Saves image matrix in .mat file to be accessed by the runtime\r\n    scipy.io.savemat(ImageArrayPath + '\\ImageArray.mat', {'imageData': data})\r\n    \r\n    # ----------------------------Runtime management-----------------------------\r\n    \r\n\r\n    pool = ThreadPool(processes=1)\r\n    async_result = pool.apply_async(runMatlabRuntime, (ImageArrayPath, outputImagesSavePath)) # tuple of args for foo\r\n\r\n    # notDone = True\r\n    # while notDone == True:\r\n    #     time.sleep(0.25)\r\n    #     try:\r\n    #         ipmOutput =  async_result.get()\r\n    #         notDone = False\r\n    #     except NameError:\r\n    #         check_cancel()\r\n    \r\n    ipmOutput =  async_result.get()\r\n\r\n    thickness1 = ipmOutput[0][2] - ipmOutput[0][1] + 1\r\n    thickness2 = ipmOutput[1][2] - ipmOutput[1][1] + 1\r\n    thickness3 = ipmOutput[2][2] - ipmOutput[2][1] + 1\r\n    thickness4 = ipmOutput[3][2] - ipmOutput[3][1] + 1\r\n    thickness5 = ipmOutput[4][2] - ipmOutput[4][1] + 1 \r\n    # ----------------------------Output management-----------------------------\r\n    ipmOutputJSON = {\r\n    \r\n        \"LayersInfo\": [\r\n            {\r\n                \"LayerID\":1,\r\n                \"LayerName\":\"Stratum Corneum\",\r\n                \"LayerThickness\":thickness1,\r\n                \"LayerRange\":[ipmOutput[0][1],ipmOutput[0][2]]\r\n            },\r\n            {\r\n                \"LayerID\":2,\r\n                \"LayerName\":\"Stratum Granulosum\",\r\n                \"LayerThickness\":thickness2,\r\n                \"LayerRange\":[ipmOutput[1][1],ipmOutput[1][2]]\r\n            },\r\n            {\r\n                \"LayerID\":3,\r\n                \"LayerName\":\"Stratum Spinosum\",\r\n                \"LayerThickness\":thickness3,\r\n                \"LayerRange\":[ipmOutput[2][1],ipmOutput[2][2]]\r\n            },\r\n            {\r\n                \"LayerID\":4,\r\n                \"LayerName\":\"Stratum Basale\",\r\n                \"LayerThickness\":thickness4,\r\n                \"LayerRange\":[ipmOutput[3][1],ipmOutput[3][2]]\r\n            },\r\n            {\r\n                \"LayerID\":5,\r\n                \"LayerName\":\"Dermis\",\r\n                \"LayerThickness\":thickness5,\r\n                \"LayerRange\":[ipmOutput[4][1],ipmOutput[4][2]]\r\n            },\r\n\r\n        ]\r\n    }\r\n\r\n    if ipmOutput[0][0]+ipmOutput[1][0]+ipmOutput[2][0]+ipmOutput[3][0]+ipmOutput[4][0] == 0:\r\n        message[\"messageType\"] = \"error\"\r\n        message[\"data\"] = ipmOutputJSON\r\n        print json.dumps(message)\r\n        sys.stdout.flush()\r\n\r\n# Returns the JSON output to Electron in a single string\r\n# (TEST OUTPUT)\r\n    else:\r\n        message[\"messageType\"] = \"results\"\r\n        message[\"data\"] = ipmOutputJSON\r\n        print json.dumps(message)\r\n        sys.stdout.flush()\r\n  \r\n\r\n# Start process\r\nmain()\r\n"
+
+/***/ }),
+/* 689 */
+/***/ (function(module, exports) {
+
 var logLevel = "info";
 
 function dummy() {}
@@ -74858,15 +74875,15 @@ module.exports.setLogLevel = function(level) {
 
 
 /***/ }),
-/* 689 */
+/* 690 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(690);
+__webpack_require__(691);
 module.exports = __webpack_require__(310);
 
 
 /***/ }),
-/* 690 */
+/* 691 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -74879,7 +74896,7 @@ if(true) {
 	var upToDate = function upToDate() {
 		return lastHash.indexOf(__webpack_require__.h()) >= 0;
 	};
-	var log = __webpack_require__(688);
+	var log = __webpack_require__(689);
 	var check = function check() {
 		module.hot.check(true).then(function(updatedModules) {
 			if(!updatedModules) {
@@ -74893,7 +74910,7 @@ if(true) {
 				check();
 			}
 
-			__webpack_require__(691)(updatedModules, updatedModules);
+			__webpack_require__(692)(updatedModules, updatedModules);
 
 			if(upToDate()) {
 				log("info", "[HMR] App is up to date.");
@@ -74910,7 +74927,7 @@ if(true) {
 			}
 		});
 	};
-	var hotEmitter = __webpack_require__(692);
+	var hotEmitter = __webpack_require__(693);
 	hotEmitter.on("webpackHotUpdate", function(currentHash) {
 		lastHash = currentHash;
 		if(!upToDate() && module.hot.status() === "idle") {
@@ -74925,7 +74942,7 @@ if(true) {
 
 
 /***/ }),
-/* 691 */
+/* 692 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -74936,7 +74953,7 @@ module.exports = function(updatedModules, renewedModules) {
 	var unacceptedModules = updatedModules.filter(function(moduleId) {
 		return renewedModules && renewedModules.indexOf(moduleId) < 0;
 	});
-	var log = __webpack_require__(688);
+	var log = __webpack_require__(689);
 
 	if(unacceptedModules.length > 0) {
 		log("warning", "[HMR] The following modules couldn't be hot updated: (They would need a full reload!)");
@@ -74969,7 +74986,7 @@ module.exports = function(updatedModules, renewedModules) {
 
 
 /***/ }),
-/* 692 */
+/* 693 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var EventEmitter = __webpack_require__(309);

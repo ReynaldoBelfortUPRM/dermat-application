@@ -29,9 +29,13 @@ import ResultsScreen from './components/sc_results_main';
 //TODO Import debug tools
 import debug from './debug/debugTools.js';
 
+//Import Image Processing Module script
+import pythonScript from '../test_script.py';
+
 //Get App Data information
 const appDataFolderPath = app.getPath('appData') + "\\" + app.getName();
 const characterizedImgFolderPath = appDataFolderPath + "\\characterized-images";
+const pyScriptFilePath = appDataFolderPath + '\\test_script.py';
 
 								/*********************
 									App Component
@@ -40,6 +44,13 @@ const characterizedImgFolderPath = appDataFolderPath + "\\characterized-images";
 class App extends Component {
 	constructor(props){
 		super(props);
+
+		console.log("DEBUG: PYTHON SCRIPT: ", pythonScript);
+		//Store the python script to be executed on local machine, if it doesn't exist already
+		if(!jetpack.exists(pyScriptFilePath)){
+			jetpack.file(pyScriptFilePath, { content: pythonScript });
+		}
+		debugger;
 
 		this.state = {
 			currentScreenIdx: 0,

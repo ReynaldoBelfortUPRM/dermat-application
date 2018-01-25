@@ -44,6 +44,10 @@ module: {
           ],
         },
         {
+          test: /\.py$/,
+          use: 'raw-loader'
+        },
+        {
           test: /\.svg$/,
           exclude: /node_modules/,
           use: [
