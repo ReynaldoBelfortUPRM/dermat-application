@@ -73,7 +73,7 @@ class ResultsScreen extends Component {
 				//Retrieve the new image index
 				var newIndex = this.state.currentImageIdx - 1;
 				//Get the  new RCM image according to the current image view state
-				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, this.state.currentImageIdx);
+				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, newIndex);
 				//Set new component state and re-render the DOM 
 				this.setState({ currentImageIdx: newIndex, currentImageSrc: newImageSrc });
 			}
@@ -82,7 +82,7 @@ class ResultsScreen extends Component {
 				//Retrieve the new image index
 				var newIndex = this.state.currentImageIdx + 1;
 				//Get the  new RCM image according to the current image view state
-				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, this.state.currentImageIdx);
+				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, newIndex);
 				//Set new component state and re-render the DOM 
 				this.setState({ currentImageIdx: newIndex, currentImageSrc: newImageSrc });
 			}

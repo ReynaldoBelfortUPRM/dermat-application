@@ -1,5 +1,5 @@
-import RCM_LayerSeparation_FinalModulesV3
-
+import LayerSeparation
+import urllib
 import os
 import time
 import sys
@@ -9,6 +9,9 @@ import scipy.io
 import matplotlib.image as img
 from pprint import pprint
 from PIL import Image
+from multiprocessing.pool import ThreadPool
+
+matlabRuntime = None
 
 # Read data from stdin
 def read_in():
@@ -16,11 +19,57 @@ def read_in():
     # Since our input would only be having one line, parse our JSON data from that
     return json.loads(lines[0])
 
+def check_cancel():
+    try:
+        local_filename, headers = urllib.urlretrieve('http://localhost:8080/')
+        # print "Success retrieve"
+        # sys.stdout.flush()
+        html = open(local_filename)    
+        endMessage = html.read()
+        html.close()
+        if endMessage == 'end':
+            try:
+                matlabRuntime.terminate()  
+                # print "Success terminate"
+                # sys.stdout.flush()          
+            except AttributeError:
+                # print "Fail terminate"
+                # sys.stdout.flush()
+                exit()
+                return None
+    except IOError:
+        # print "Fail retrieve"
+        # sys.stdout.flush()
+        return None
+        
+        
+def runMatlabRuntime(arrayPath,savePath):
+    message = {
+        "messageType": "status",
+        "data": "Step 2: Classifying images..."
+    }
+    print json.dumps(message)
+    sys.stdout.flush()
+
+    # Initializes MATLAB runtime
+    matlabRuntime = LayerSeparation.initialize()
+
+    classified = matlabRuntime.LayerSeparation(arrayPath,savePath)
+
+    message["data"] = "Step 3: Validating results..."
+    print json.dumps(message)
+    sys.stdout.flush()
+
+    ipmOutputMatlab = matlabRuntime.ValidationCharacterize(classified,savePath)
+
+    matlabRuntime.terminate()
+
+    return ipmOutputMatlab
+
+
 def main():
     # Start timing
     t0 = time.time()
-
-# -----------------------------Input management-----------------------------
 
     # Input: Filepath array original images is
     # Output: Matrix containing pixel values of all the images in the stack
@@ -33,11 +82,6 @@ def main():
 
 # Get our data as an array from read_in()
     ipmInput = read_in()
-# Print ipmInput in json format 
-    # pprint(ipmInput)
-
-    file = open(ipmInput['originalImages'][0])
-    # print file
 
 # Open image to extract properties
     image = Image.open(ipmInput['originalImages'][0])
@@ -64,11 +108,12 @@ def main():
             for k in range(0, size[0]):
                 data[j][k][i] = image[j][k]
 
+    
     # Path where to output images
     outputImagesSavePath = ipmInput['appDataPath'] + '\characterized-images'
     # Path to access stored and load image matrix
     ImageArrayPath = ipmInput['appDataPath']
-    # print ImageArrayPath
+
     # If output folder does not exist, create it
     if not os.path.exists(outputImagesSavePath):
         os.makedirs(outputImagesSavePath)
@@ -76,50 +121,23 @@ def main():
     # Saves image matrix in .mat file to be accessed by the runtime
     scipy.io.savemat(ImageArrayPath + '\ImageArray.mat', {'imageData': data})
     
-    # message["data"] = "Step 2: Data saved..."
-    # print json.dumps(message)
-    # sys.stdout.flush()  
-
-    # t1 = time.time()
-    # total = t1 - t0
-    # message["data"] = 'Total time: ' + repr(total) + ' seconds'
-    # print json.dumps(message)
-    # sys.stdout.flush()  
-    # t0 = t1
-
     # ----------------------------Runtime management-----------------------------
-    message["data"] = "Step 2: Classifying images..."
-    print json.dumps(message)
-    sys.stdout.flush()
-
-    # # Initializes MATLAB runtime
-    matlabRuntime = RCM_LayerSeparation_FinalModulesV3.initialize()
-
-    classifiedLayers = matlabRuntime.LayerSeparation(ImageArrayPath,outputImagesSavePath)
-
-    # message["data"] = "Step 3: Storing characterized images..."
-    # print json.dumps(message)
-    # sys.stdout.flush()
-
-    # x = matlabRuntime.CharacterizeImages(outputImagesSavePath)
-
-    message["data"] = "Step 3: Validating results..."
-    print json.dumps(message)
-    sys.stdout.flush()
-
-    ipmOutput = matlabRuntime.ValidationCharacterize(classifiedLayers,outputImagesSavePath)
-
-    # ipmOutput = matlabRuntime.RCM_LayerSeparation_Final(ImageArrayPath,outputImagesSavePath)
-
-    # # Terminate MATLAB runtime
-    matlabRuntime.terminate()
     
-    # t1 = time.time()
-    # total = t1 - t0
-    # message["data"] = 'Total time: ' + repr(total) + ' seconds'
-    # print json.dumps(message)
-    # sys.stdout.flush()  
-    # t0 = t1
+
+    pool = ThreadPool(processes=1)
+    async_result = pool.apply_async(runMatlabRuntime, (ImageArrayPath, outputImagesSavePath)) # tuple of args for foo
+
+    # notDone = True
+    # while notDone == True:
+    #     time.sleep(0.25)
+    #     try:
+    #         ipmOutput =  async_result.get()
+    #         notDone = False
+    #     except NameError:
+    #         check_cancel()
+    
+    ipmOutput =  async_result.get()
+
     thickness1 = ipmOutput[0][2] - ipmOutput[0][1] + 1
     thickness2 = ipmOutput[1][2] - ipmOutput[1][1] + 1
     thickness3 = ipmOutput[2][2] - ipmOutput[2][1] + 1
@@ -177,12 +195,6 @@ def main():
         print json.dumps(message)
         sys.stdout.flush()
   
-   
-    # Write JSON string to file
-    # with open("ipmOutput.json","w") as outfile:
-        # json.dump(ipmOutput, outfile, indent = 3)
-    # pprint(ipmOutput)
 
 # Start process
-# if __name__ == '__main__':
 main()

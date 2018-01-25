@@ -57,7 +57,7 @@ const VisualizationView = (props) => {
 		}
 
 		//Set-up style based on the results status  of the analysis
-		var vizStyle = !props.isAnalysisError ? [styles.vizItem, styles.vizBox].join(' ') : [styles.vizItem, styles.vizBox, styles.centerContent, styles.vizErrorMessage].join(' ');
+		var vizStyle = !props.isAnalysisError ? [styles.centerContent, styles.vizItem, styles.vizBox].join(' ') : [styles.centerContent, styles.vizItem, styles.vizBox, styles.centerContent, styles.vizErrorMessage].join(' ');
 
 		//Render the DOM elements to the screen
 		return (

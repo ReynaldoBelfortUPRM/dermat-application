@@ -11,18 +11,6 @@
 //IPM - Image Processing Module
 //IPA - Image Processing Algorithm
 
-/* TODO Task List
-	- Poner primera letra de propiedades de dummyData lower case e.g. 'layersInfo'
-	- Change folder names on application file structure
-	- FIX padding issue on results view, so that borders can be seen appropiately
-	- Figure out a way to load local .css files
-	- Figure out a way to incorporate webpack into electron
-	- Save 'npm list --depth=0' problems.
-	- Properly arrange application's package.json
-	- Change 'FilePaths' property of ipmOutputData var to 'characterizedImages'
-	- Perform Unit Testing
-*/
-
 //Import libraries
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
@@ -41,9 +29,13 @@ import ResultsScreen from './components/sc_results_main';
 //TODO Import debug tools
 import debug from './debug/debugTools.js';
 
+//Import Image Processing Module script
+import pythonScript from '../test_script.py';
+
 //Get App Data information
 const appDataFolderPath = app.getPath('appData') + "\\" + app.getName();
 const characterizedImgFolderPath = appDataFolderPath + "\\characterized-images";
+const pyScriptFilePath = appDataFolderPath + '\\test_script.py';
 
 								/*********************
 									App Component
@@ -52,6 +44,11 @@ const characterizedImgFolderPath = appDataFolderPath + "\\characterized-images";
 class App extends Component {
 	constructor(props){
 		super(props);
+
+		//Store the python script to be executed on local machine, if it doesn't exist already
+		if(!jetpack.exists(pyScriptFilePath)){
+			jetpack.file(pyScriptFilePath, { content: pythonScript });
+		}
 
 		this.state = {
 			currentScreenIdx: 0,

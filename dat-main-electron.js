@@ -12,7 +12,7 @@
 //IPA - Image Processing Algorithm
 
 //Require necessary libraries and classes
-const {app, BrowserWindow, globalShortcut, Menu} = require('electron');
+const app = require('electron').app;
 
 /****************************************
  	Related to DermAT software installer
@@ -24,10 +24,11 @@ if (handleSquirrelEvent(app)) {
 }
 
 //---------------Rest of the required libraries and variables-------------
+const {BrowserWindow, globalShortcut, Menu} = require('electron');
 const jetpack = require('fs-jetpack');
 const path = require('path');
 const url = require('url');
-require('electron-debug')({enabled: true});		//TODO DEBUG
+require('electron-debug')({enabled: false});		//TODO DEBUG
 const appDataPath = app.getPath('appData') + "\\" + app.getName();
 
 //For interaction with the Renderer process
@@ -36,8 +37,11 @@ const dialog = require('electron').dialog;
 
 
 //Python related vars
+var http = require('http');
 var PythonShell = require('python-shell');
 var pyshell = null;
+var serverPort = 8080;
+var dermatServer = null;
 
 //Define application window
 let win;
@@ -156,8 +160,26 @@ ipc.on('execute-ipm', (event, ipmInputData) => {
 //Signals the IPM to cancel IPA execution
 ipc.on('cancel-execution', (event) => {
 	//HERE WE SIGNAL THE IMAGE PROCESSING ALGORITHM TO STOP ALGORITHM EXECUTION
-	pyshell.end();
-	console.log("DEBUG: CANCEL SIGNAL SENT!!" ); 		//TODO DEBUG
+	
+	//Kill option
+	// console.log(`Spawned child pid: ${pyshell.childProcess.pid}`);
+    pyshell.childProcess.kill(-pyshell.pid);
+
+
+	// console.log(serverPort);
+
+	// dermatServer = http.createServer(function (req, res) {
+	// 	res.write('end'); //write a response to the client
+ //  		res.end(); //end the response
+	// }).listen(serverPort);
+
+
+	// setTimeout(() => {
+	// 	dermatServer.close(); //the server object listens on port 8080
+	// 	//SIGNAL RENDERER HERE THAT PYTHON HAS CLOSED.
+	// }, 5000);
+
+	console.log("DEBUG: CANCEL SIGNAL SENT!!" );
 });
 
 
@@ -285,7 +307,7 @@ function createMainWindow(){
 		height: 600, 
 		minWidth: 1200, 
 		minHeight: 600, 
-		resizable: false, 
+		resizable: true, 
 		show: false,
 		icon: __dirname + "\\assets\\resources\\dermat-logo-icon.ico"
 	});
@@ -368,8 +390,8 @@ function handleSquirrelEvent(application) {
             // Optionally do things such as:
             // - Add your .exe to the PATH
             // - Write to the registry for things like file associations and
-            //   explorer context menus
-
+			//   explorer context menus
+			
             // Install desktop and start menu shortcuts
             spawnUpdate(['--createShortcut', exeName]);
 
