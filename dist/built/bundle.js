@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "7980896aeca7376179cb"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "1dd6938e3a33fc563dfd"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -69235,7 +69235,7 @@ class ResultsScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				//Retrieve the new image index
 				var newIndex = this.state.currentImageIdx - 1;
 				//Get the  new RCM image according to the current image view state
-				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, this.state.currentImageIdx);
+				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, newIndex);
 				//Set new component state and re-render the DOM 
 				this.setState({ currentImageIdx: newIndex, currentImageSrc: newImageSrc });
 			}
@@ -69245,7 +69245,7 @@ class ResultsScreen extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				//Retrieve the new image index
 				var newIndex = this.state.currentImageIdx + 1;
 				//Get the  new RCM image according to the current image view state
-				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, this.state.currentImageIdx);
+				var newImageSrc = this.getNewCurrentImage(this.state.isCharacterizedViewEnabled, newIndex);
 				//Set new component state and re-render the DOM 
 				this.setState({ currentImageIdx: newIndex, currentImageSrc: newImageSrc });
 			}
