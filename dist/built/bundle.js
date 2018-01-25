@@ -20,7 +20,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "76153c836d417919c610"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "7980896aeca7376179cb"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -42070,6 +42070,7 @@ const { dialog, app } = window.require('electron').remote; //Importing rest of n
 //TODO Import debug tools
 
 
+//Import Image Processing Module script
 
 
 //Get App Data information
@@ -42085,11 +42086,10 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	constructor(props) {
 		super(props);
 
-		console.log("DEBUG: PYTHON SCRIPT: ", __WEBPACK_IMPORTED_MODULE_9__test_script_py___default.a);
+		//Store the python script to be executed on local machine, if it doesn't exist already
 		if (!__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.exists(pyScriptFilePath)) {
 			__WEBPACK_IMPORTED_MODULE_2_fs_jetpack___default.a.file(pyScriptFilePath, { content: __WEBPACK_IMPORTED_MODULE_9__test_script_py___default.a });
 		}
-		debugger;
 
 		this.state = {
 			currentScreenIdx: 0,

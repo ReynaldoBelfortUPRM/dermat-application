@@ -390,8 +390,8 @@ function handleSquirrelEvent(application) {
             // Optionally do things such as:
             // - Add your .exe to the PATH
             // - Write to the registry for things like file associations and
-            //   explorer context menus
-
+			//   explorer context menus
+			
             // Install desktop and start menu shortcuts
             spawnUpdate(['--createShortcut', exeName]);
 

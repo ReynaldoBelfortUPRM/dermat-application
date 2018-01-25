@@ -45,12 +45,10 @@ class App extends Component {
 	constructor(props){
 		super(props);
 
-		console.log("DEBUG: PYTHON SCRIPT: ", pythonScript);
 		//Store the python script to be executed on local machine, if it doesn't exist already
 		if(!jetpack.exists(pyScriptFilePath)){
 			jetpack.file(pyScriptFilePath, { content: pythonScript });
 		}
-		debugger;
 
 		this.state = {
 			currentScreenIdx: 0,
